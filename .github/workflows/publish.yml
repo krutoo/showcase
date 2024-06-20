@@ -18,6 +18,7 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm run build
+      - run: npm --no-git-tag-version version ${{ github.event.release.tag_name }}
 
   publish:
     needs: build
@@ -31,4 +32,4 @@ jobs:
       - run: npm ci
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
