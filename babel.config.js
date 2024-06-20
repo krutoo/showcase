@@ -1,3 +1,3 @@
 export default {
-  plugins: ['./.babel/plugin-node-module-resolution.js'],
+  plugins: ['./.babel/plugin-add-js-ext-to-css-modules-imports.js'],
 };
