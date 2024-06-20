@@ -122,11 +122,19 @@ Next step is configure your build tool...
 ```js
 // webpack.config.js or rspack.config.js
 
-// define config
 const storiesConfig = {
+  // where stories entrypoint will be emitted
   filename: './.generated/entries.js',
+
+  // glob patter for find all story modules
   storiesGlob: './stories/**/*.story.{mdx,tsx}',
+
+  // root dir of all story modules
   storiesRootDir: './stories/',
+
+  // how sources of modules will be imported (it is not required for Vite by default)
+  // but in Rspack it is required to disable other loaders by add leading "!"
+  rawImport: mod => ({ importPath: `!${mod.importPath}?raw` }),
 };
 
 // emit stories entrypoint
@@ -147,10 +155,24 @@ export default {
       '#found-stories': path.resolve(import.meta.dirname, storiesConfig.filename),
     },
   },
+  module: {
+    rules: [
+      // since above we set "rawImport" option we need this rule
+      // details: https://webpack.js.org/guides/asset-modules/#replacing-inline-loader-syntax
+      // details: https://www.rspack.dev/guide/features/asset-module#replacing-raw-loader-with-type-assetsource
+      {
+        resourceQuery: /raw/,
+        type: 'asset/source',
+      },
+
+      // ...your other rules
+    ],
+  },
   plugins: [
     // you need to emit "index.html" for showcase (for example by HtmlWebpackPlugin or HtmlRspackPlugin)
     // you also need to emit "sandbox.html" because ShowcaseApp is references it
   ],
+
   // ...your other config
 };
 ```
