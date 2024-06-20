@@ -66,7 +66,7 @@ import { SandboxApp } from '@krutoo/showcase/runtime-sandbox';
 import foundStories from '#found-stories';
 
 // render your current story to the root element
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById('root')).render(
   <SandboxApp stories={filterValidStories(foundStories).validStories} />,
 );
 ```
