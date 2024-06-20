@@ -3,23 +3,6 @@ import path from 'node:path';
 import rspack from '@rspack/core';
 import packageJson from './package.json';
 
-async function emitCssModuleExports(data: {
-  exports: Array<{ name: string; value: string }>;
-  resourcePath: string;
-}) {
-  const targetFilename = path.join('dist', path.relative('./src', `${data.resourcePath}.js`));
-
-  await fs.mkdir(path.dirname(targetFilename), { recursive: true });
-
-  const content = JSON.stringify(
-    Object.fromEntries(data.exports.map(item => [item.name, item.value])),
-    null,
-    2,
-  );
-
-  await fs.writeFile(targetFilename, `export default ${content};`);
-}
-
 export default {
   entry: {
     bundle: './src/runtime-showcase/index.ts',
@@ -94,3 +77,20 @@ export default {
     outputModule: true,
   },
 } satisfies rspack.Configuration;
+
+async function emitCssModuleExports(data: {
+  exports: Array<{ name: string; value: string }>;
+  resourcePath: string;
+}) {
+  const targetFilename = path.join('dist', path.relative('./src', `${data.resourcePath}.js`));
+
+  await fs.mkdir(path.dirname(targetFilename), { recursive: true });
+
+  const content = JSON.stringify(
+    Object.fromEntries(data.exports.map(item => [item.name, item.value])),
+    null,
+    2,
+  );
+
+  await fs.writeFile(targetFilename, `export default ${content};`);
+}
