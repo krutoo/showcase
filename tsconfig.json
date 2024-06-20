@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "skipLibCheck": true,
+    "paths": {
+      "#core": ["./src/core/index.ts"],
+      "#runtime": ["./src/runtime/index.ts"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

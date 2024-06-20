@@ -1,0 +1,37 @@
+.menuitem {
+  color: #222;
+  text-decoration: none;
+}
+
+.menuitem.toplevel + .menuitem.toplevel {
+  margin-top: 0.75rem;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  color: #000;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  padding-left: calc(var(--menu-level, 0) * 1.25rem);
+}
+
+.title.current {
+  background: #e5e5e5;
+}
+
+.title:not(.current):not(.toplevel):hover {
+  cursor: pointer;
+  background: #eee;
+}
+
+.title.toplevel {
+  font-weight: bold;
+}
+
+.icon {
+  width: 1rem;
+  height: 1rem;
+  opacity: 0.5;
+  margin-right: 0.25rem;
+}

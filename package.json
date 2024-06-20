@@ -1,0 +1,58 @@
+{
+  "name": "@krutoo/showcase",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Build tool agnostic Storybook alternative",
+  "author": "Dmitry Petrov",
+  "license": "Apache-2.0",
+  "scripts": {
+    "check": "tsc -p . --noEmit",
+    "fmt": "prettier . --write",
+    "build": "npm run build:clean && npm run build:js && npm run build:css",
+    "build:clean": "rimraf temp dist css",
+    "build:js": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json && npx babel dist --out-dir dist",
+    "build:css": "npx --node-options='--import=tsimp/import' rspack"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.24.7",
+    "@babel/core": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "@babel/preset-react": "^7.24.7",
+    "@babel/preset-typescript": "^7.24.7",
+    "@rspack/cli": "^0.7.4",
+    "@rspack/core": "^0.7.4",
+    "@types/node": "^20.14.5",
+    "@types/react": "^18.3.3",
+    "css-loader": "^7.1.2",
+    "prettier": "^3.3.2",
+    "rimraf": "^5.0.7",
+    "tsc-alias": "^1.8.10",
+    "tsimp": "^2.0.11",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@krutoo/utils": "^0.0.5",
+    "chokidar": "^3.6.0",
+    "classnames": "^2.5.1",
+    "fast-glob": "^3.3.2",
+    "react-icons": "^5.2.1",
+    "shiki": "^1.7.0",
+    "zod": "^3.23.8"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1"
+  },
+  "files": [
+    "dist",
+    "css",
+    "README.md"
+  ],
+  "exports": {
+    "./core": "./dist/core/index.js",
+    "./build": "./dist/build/index.js",
+    "./runtime": "./dist/runtime/index.js",
+    "./runtime-sandbox": "./dist/runtime-sandbox/index.js",
+    "./runtime-showcase": "./dist/runtime-showcase/index.js",
+    "./runtime-showcase/styles.css": "./css/showcase-styles.css"
+  }
+}
