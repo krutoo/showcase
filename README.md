@@ -91,7 +91,7 @@ my-component/
 └── primary.story.meta.json
 ```
 
-**Important**: not all parameters
+**Important**: some meta parameters available only in JSON files, for example `parameters.sources.extraSources`.
 
 Next step is creating two entrypoints - for "sandbox" and for "showcase".
 
