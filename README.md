@@ -6,7 +6,7 @@ It is build tool agnostic alternative of Storybook.
 
 Currently only React is supported.
 
-MDX also supported as a story module.
+MDX also supported as a story module (if your bundler is configured).
 
 ## Installation
 
@@ -43,6 +43,55 @@ export default function () {
   );
 }
 ```
+
+#### Meta data of _story module_
+
+Interface of meta data object:
+
+```ts
+interface StoryMeta {
+  /** Title of story module. Title will be shown in menu of documentation page */
+  title?: string;
+
+  /** Category is needed to group modules on the documentation page */
+  category?: string;
+
+  /** Parameters of building or/and displaying story */
+  parameters?: {
+    /**
+     * Layout of HTML page.
+     * Value "padded" is default and will added "1rem" padding to body.
+     * Value "fullscreen" will removes all paddings of body.
+     */
+    layout?: 'padded' | 'fullscreen';
+
+    /** Defines background of HTML page. */
+    backgrounds?: {
+      default: string;
+    };
+
+    /** Source code display config. False will disable display of sources in docs page */
+    sources?:
+      | boolean
+      | {
+          /** Available only in JSON-file. List of additional files for which you need to show the source code */
+          extraSources: string[];
+        };
+  };
+}
+```
+
+In JavaScript/TypeScript files you can just export `meta` with meta data.
+
+For any story module (jsx, tsx, mdx) you can provide meta by adding JSON-file next to the story module like this:
+
+```
+my-component/
+├── primary.story.tsx
+└── primary.story.meta.json
+```
+
+**Important**: not all parameters
 
 Next step is creating two entrypoints - for "sandbox" and for "showcase".
 
@@ -225,6 +274,7 @@ You also need to provide special option to `ShowcaseApp`:
 
 - Ability of localization
 - Search field of stories in menu
-- unit tests & e2e tests
-- working examples in repo (with Webpack, Rspack, Vite...)
+- Unit tests & e2e tests
+- Working examples in repo (with Webpack, Rspack, Vite...)
+- Ability to fully customize docs page UI
 - ...
