@@ -1,0 +1,13 @@
+.root {
+  box-sizing: border-box;
+  display: flex;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.menuIcon {
+  box-sizing: border-box;
+  display: block;
+  width: 2rem;
+  height: 2rem;
+}

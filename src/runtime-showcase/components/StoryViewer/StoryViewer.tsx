@@ -1,8 +1,9 @@
 import { type StoryModule } from '#core';
 import { useMemo, useState } from 'react';
-import { Link } from '../../components/Link';
-import { Plate, PlateBody, PlateHeader } from '../../components/Plate';
-import { CodeBlock } from '../../components/CodeBlock';
+import { Link } from '../Link';
+import { Plate, PlateBody, PlateHeader } from '../Plate';
+import { StorySources } from '../StorySources';
+import { StoryMdxViewer } from '../StoryMdxViewer';
 import classNames from 'classnames';
 import styles from './StoryViewer.m.css';
 
@@ -13,17 +14,17 @@ export interface StoryViewerProps {
 
 export function StoryViewer({ story, defineStoryUrl }: StoryViewerProps) {
   const sourcesEnabled = useMemo(
-    () => story?.meta?.parameters?.sources ?? story.lang === 'js',
+    () => Boolean(story?.meta?.parameters?.sources) || story.lang === 'js',
     [story],
   );
 
   const [sourcesOpen, setSourcesOpen] = useState(false);
 
-  if (story.lang === 'mdx') {
-    return <StoryMdxViewer story={story} defineStoryUrl={defineStoryUrl} />;
-  }
-
   const storyUrl = defineStoryUrl(story);
+
+  if (story.lang === 'mdx') {
+    return <StoryMdxViewer story={story} />;
+  }
 
   return (
     <div className={styles.root}>
@@ -34,7 +35,7 @@ export function StoryViewer({ story, defineStoryUrl }: StoryViewerProps) {
         <PlateHeader>
           <div className={styles.controls}>
             <Link href={storyUrl} target='_blank'>
-              В новой вкладке
+              Open in new tab
             </Link>
 
             {sourcesEnabled && (
@@ -45,7 +46,7 @@ export function StoryViewer({ story, defineStoryUrl }: StoryViewerProps) {
                   setSourcesOpen(a => !a);
                 }}
               >
-                {sourcesOpen ? 'Скрыть код' : 'Показать код'}
+                {sourcesOpen ? 'Hide source' : 'Show source'}
               </Link>
             )}
           </div>
@@ -62,23 +63,8 @@ export function StoryViewer({ story, defineStoryUrl }: StoryViewerProps) {
       </Plate>
 
       {story && sourcesEnabled && sourcesOpen && (
-        <CodeBlock className={styles.source} story={story} />
+        <StorySources className={styles.codeBlock} story={story} />
       )}
-    </div>
-  );
-}
-
-function StoryMdxViewer({ story }: StoryViewerProps) {
-  const Component: any = story.default;
-
-  return (
-    <div
-      className={classNames(
-        styles.mdx,
-        story.metaJson?.parameters?.layout !== 'fullscreen' && styles.layout,
-      )}
-    >
-      <Component />
     </div>
   );
 }

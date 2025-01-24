@@ -1,0 +1,15 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.title {
+  font-size: 1.5em;
+}
+
+.message {
+  font-size: 1em;
+}

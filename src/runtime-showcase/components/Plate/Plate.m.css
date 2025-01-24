@@ -1,21 +1,31 @@
 .plate {
-  border-radius: 8px;
-  background: #fff;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  border-radius: var(--showcase-ui-plate-border-radius, 8px);
+  background: var(--showcase-ui-plate-background, #fff);
+  box-shadow: var(--showcase-ui-plate-box-shadow, inset 0 0 0 1px #ddd);
 }
 
 .header {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   width: 100%;
   min-height: 3rem;
   padding: 0 1rem;
-  box-shadow: inset 0 -1px 0 0 #ddd;
+  border-radius: var(--showcase-ui-plate-header-border-radius, 8px 8px 0 0);
+  background: var(--showcase-ui-plate-header-background, none);
+  box-shadow: var(--showcase-ui-plate-header-box-shadow, inset 0 -1px 0 0 #ddd);
   flex-shrink: 0;
 }
 
 .body {
+  box-sizing: border-box;
   display: block;
   flex-grow: 1;
+  padding: var(--showcase-ui-plate-body-padding, 1rem);
+  border-radius: var(--showcase-ui-plate-body-border-radius, 0 0 8px 8px);
+  background: var(--showcase-ui-plate-body-background, none);
+  box-shadow: var(--showcase-ui-plate-body-box-shadow, none);
 }

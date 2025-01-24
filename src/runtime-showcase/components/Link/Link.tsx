@@ -3,18 +3,20 @@ import classNames from 'classnames';
 import styles from './Link.m.css';
 
 export type LinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
-  color?: 'unset' | 'black' | 'white';
+  color?: 'default' | 'unset' | 'black' | 'white';
 };
 
-export function Link({ color = 'black', children, className, ...restProps }: LinkProps) {
+export function Link({ color = 'default', children, className, ...restProps }: LinkProps) {
   const rootClassName = classNames(
+    styles.link,
+    color === 'default' && styles['color-default'],
     color === 'black' && styles['color-black'],
     color === 'white' && styles['color-white'],
     className,
   );
 
   return (
-    <a {...restProps} className={rootClassName}>
+    <a data-kind='Link' className={rootClassName} {...restProps}>
       {children}
     </a>
   );

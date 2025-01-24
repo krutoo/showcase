@@ -1,6 +1,3 @@
-import fs from 'node:fs';
-import path from 'node:path';
-
 export default function addJsExtToCssModulesImports() {
   return {
     visitor: {
@@ -25,7 +22,7 @@ export default function addJsExtToCssModulesImports() {
             return;
           }
 
-          if (!nodePath.node.source.value.endsWith('.m.css')) {
+          if (!nodePath.node.source.value.match(/(module|m)\.css$/i)) {
             return;
           }
 

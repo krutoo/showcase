@@ -1,19 +1,18 @@
 import { type StoryModule, StoryModuleSchema } from '#core';
 
 export function filterValidStories(stories: unknown[]) {
+  const validStories: StoryModule[] = [];
   const invalidStories: unknown[] = [];
 
-  const validStories = stories.reduce<StoryModule[]>((result, item) => {
+  for (const item of stories) {
     const parseResult = StoryModuleSchema.safeParse(item);
 
     if (parseResult.success) {
-      result.push(parseResult.data);
+      validStories.push(parseResult.data);
     } else {
       invalidStories.push(item);
     }
-
-    return result;
-  }, []);
+  }
 
   return { validStories, invalidStories };
 }

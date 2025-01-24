@@ -10,6 +10,7 @@ export interface EmitStoriesEntrypointConfig {
   /** Glob-паттерн для поиска story-модулей. */
   storiesGlob: string;
 
+  /** Template of import path for importing modules as string (raw source code). */
   rawImport?: (moduleData: { importPath: string }) => { importPath: string };
 }
 
