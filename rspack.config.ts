@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import rspack, { type Configuration } from '@rspack/core';
-import packageJson from './package.json';
+import packageJson from './package.json' with { type: 'json' };
 
 export default {
   entry: {
@@ -66,7 +66,7 @@ export default {
   },
   plugins: [
     new rspack.CssExtractRspackPlugin({
-      filename: path.resolve(process.cwd(), 'css/showcase-styles.css'),
+      filename: path.resolve(process.cwd(), 'css/showcase.css'),
     }),
   ],
   experiments: {

@@ -13,6 +13,5 @@
       "#core": ["./src/core/index.ts"],
       "#runtime": ["./src/runtime/index.ts"]
     }
-  },
-  "exclude": ["node_modules"]
+  }
 }

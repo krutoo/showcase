@@ -138,19 +138,19 @@ Create showcase entrypoint in your project, for example in `./src/showcase.jsx`:
 // React bootstrap code
 import { createRoot } from 'react-dom/client';
 
-// "stories entrypoint" (this is an alias, more on that later)
+// "stories entrypoint" (trough alias, more on that later)
 import foundStories from '#found-stories';
 
-// util for validate story-modules
+// util for validate found stories
 import { filterValidStories } from '@krutoo/showcase/runtime';
 
-// Standalone React component for showing documentation with all stories
+// standalone React component for showing documentation with all stories
 import { ShowcaseApp } from '@krutoo/showcase/runtime-showcase';
 
-// import styles bundle
-import '@krutoo/showcase/runtime-showcase/styles.css';
+// showcase app styles bundle
+import '@krutoo/showcase/showcase.css';
 
-// render documentation app to the root element
+// render documentation app wherever you want
 createRoot(document.getElementById('root')).render(
   <ShowcaseApp
     title='My UI Library'
