@@ -1,13 +1,16 @@
 import { type StoryModule } from '#core';
 import { useEffect, useState } from 'react';
-import { Plate, PlateHeader } from '../../components/Plate';
+import { Plate, PlateBody, PlateHeader } from '../Plate';
 import { HighlighterCore, getHighlighterCore } from 'shiki/core';
 import loadWasm from 'shiki/wasm';
 import themeGitHubLight from 'shiki/themes/github-light.mjs';
 import classNames from 'classnames';
-import styles from './CodeBlock.m.css';
+import styles from './StorySources.m.css';
 
-export function CodeBlock({ story, className }: { story: StoryModule } & { className?: string }) {
+export function StorySources({
+  story,
+  className,
+}: { story: StoryModule } & { className?: string }) {
   const [sourceIndex, setSourceIndex] = useState(-1);
   const [source, setSource] = useState(story.source);
 
@@ -17,7 +20,7 @@ export function CodeBlock({ story, className }: { story: StoryModule } & { class
   }, [story]);
 
   return (
-    <Plate className={className}>
+    <Plate className={classNames(styles.root, className)}>
       <PlateHeader>
         <div className={styles.tabs}>
           <div
@@ -27,7 +30,7 @@ export function CodeBlock({ story, className }: { story: StoryModule } & { class
               setSourceIndex(-1);
             }}
           >
-            Код
+            Source
           </div>
           {story.extraSources?.map((item, index) => (
             <div
@@ -43,14 +46,18 @@ export function CodeBlock({ story, className }: { story: StoryModule } & { class
           ))}
         </div>
       </PlateHeader>
-      <Code
-        lang={
-          sourceIndex === -1
-            ? 'tsx'
-            : story.extraSources[sourceIndex]?.title.match(/\.[0-9a-z]+$/i)?.[0]?.replace(/^\./, '')
-        }
-        source={source}
-      />
+      <PlateBody>
+        <Code
+          lang={
+            sourceIndex === -1
+              ? 'tsx'
+              : story.extraSources[sourceIndex]?.title
+                  .match(/\.[0-9a-z]+$/i)?.[0]
+                  ?.replace(/^\./, '')
+          }
+          source={source}
+        />
+      </PlateBody>
     </Plate>
   );
 }
@@ -74,11 +81,11 @@ export function Code({ lang, source }: { lang?: string; source: string }) {
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
-      setState('<p>Ошибка</p>');
+      setState('<p>Error</p>');
     }
   }, [highlighter, source]);
 
-  return <div className={styles.pre} dangerouslySetInnerHTML={{ __html: state }} />;
+  return <div className={styles.code} dangerouslySetInnerHTML={{ __html: state }} />;
 }
 
 function useHighlighter() {

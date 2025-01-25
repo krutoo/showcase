@@ -1,0 +1,1 @@
+export { StoryPlaceholder } from './StoryPlaceholder';

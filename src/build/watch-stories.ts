@@ -1,6 +1,6 @@
 import chokidar from 'chokidar';
 import { emitStoriesEntrypoint } from './emit-stories-entrypoint';
-import { debounce } from '#core';
+import { debounce } from '@krutoo/utils';
 import { EmitStoriesEntrypointConfig } from './types';
 
 export function watchStories(config: EmitStoriesEntrypointConfig) {
@@ -10,7 +10,7 @@ export function watchStories(config: EmitStoriesEntrypointConfig) {
 
   const onWatcherEvent = debounce(emitEntrypoint, 1000);
 
-  const watcher = chokidar.watch(config.storiesGlob, {
+  const watcher = chokidar.watch(config.storiesRootDir, {
     persistent: true,
   });
 

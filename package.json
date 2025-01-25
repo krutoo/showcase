@@ -5,6 +5,9 @@
   "description": "Build tool agnostic Storybook alternative",
   "author": "Dmitry Petrov",
   "license": "Apache-2.0",
+  "engines": {
+    "node": ">=16"
+  },
   "scripts": {
     "check": "tsc -p . --noEmit",
     "fmt": "prettier . --write",
@@ -14,33 +17,30 @@
     "build:css": "npx --node-options='--import=tsimp/import' rspack"
   },
   "devDependencies": {
-    "@babel/cli": "^7.24.7",
-    "@babel/core": "^7.24.7",
-    "@babel/preset-env": "^7.24.7",
-    "@babel/preset-react": "^7.24.7",
-    "@babel/preset-typescript": "^7.24.7",
-    "@rspack/cli": "^0.7.4",
-    "@rspack/core": "^0.7.4",
-    "@types/node": "^20.14.5",
-    "@types/react": "^18.3.3",
+    "@babel/cli": "^7.26.4",
+    "@babel/core": "^7.26.7",
+    "@rspack/cli": "^1.2.2",
+    "@rspack/core": "^1.2.2",
+    "@types/node": "^22.10.10",
+    "@types/react": "^18.3.18",
     "css-loader": "^7.1.2",
-    "prettier": "^3.3.2",
-    "rimraf": "^5.0.7",
+    "prettier": "^3.4.2",
+    "rimraf": "^6.0.1",
     "tsc-alias": "^1.8.10",
-    "tsimp": "^2.0.11",
-    "typescript": "^5.4.5"
+    "tsimp": "^2.0.12",
+    "typescript": "^5.7.3"
   },
   "dependencies": {
-    "@krutoo/utils": "^0.0.5",
-    "chokidar": "^3.6.0",
+    "@krutoo/utils": "^0.0.11",
+    "chokidar": "^4.0.3",
     "classnames": "^2.5.1",
-    "fast-glob": "^3.3.2",
-    "react-icons": "^5.2.1",
+    "fast-glob": "^3.3.3",
+    "react-icons": "^5.4.0",
     "shiki": "^1.7.0",
-    "zod": "^3.23.8"
+    "zod": "^3.24.1"
   },
   "peerDependencies": {
-    "react": "^18.3.1"
+    "react": "^18 || ^19"
   },
   "files": [
     "dist",

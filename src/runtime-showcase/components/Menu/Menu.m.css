@@ -1,37 +1,42 @@
 .menuitem {
+  box-sizing: border-box;
   color: #222;
   text-decoration: none;
 }
 
-.menuitem.toplevel + .menuitem.toplevel {
-  margin-top: 0.75rem;
-}
-
-.title {
+.menuitemTitle {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  color: #000;
   text-decoration: none;
   padding: 0.5rem 1rem;
-  padding-left: calc(var(--menu-level, 0) * 1.25rem);
+  color: var(--showcase-ui-menuitem-color, #000);
+  background: var(--showcase-ui-menuitem-background, none);
 }
 
-.title.current {
-  background: #e5e5e5;
-}
-
-.title:not(.current):not(.toplevel):hover {
+.menuitem:not(.active) > .menuitemTitle:hover {
   cursor: pointer;
-  background: #eee;
+  color: var(--showcase-ui-menuitem-color, #000);
+  background: var(--showcase-ui-menuitem-background, #eaebf1);
 }
 
-.title.toplevel {
-  font-weight: bold;
+.menuitem.active > .menuitemTitle {
+  color: var(--showcase-ui-menuitem-color, #000);
+  background: var(--showcase-ui-menuitem-background, #f2f3f6);
+}
+
+.bold {
+  font-weight: 600;
 }
 
 .icon {
+  box-sizing: border-box;
   width: 1rem;
   height: 1rem;
   opacity: 0.5;
   margin-right: 0.25rem;
+}
+
+.menuitem.open > .menuitemTitle > .icon {
+  transform: rotate(90deg);
 }

@@ -8,6 +8,12 @@ Currently only React is supported.
 
 MDX also supported as a story module (if your bundler is configured).
 
+### Key features
+
+- any bundle supported
+- ability to show extra source files for story
+- ability to fully customize showcase page and sandbox page
+
 ## Installation
 
 ```bash
@@ -132,14 +138,14 @@ Create showcase entrypoint in your project, for example in `./src/showcase.jsx`:
 // React bootstrap code
 import { createRoot } from 'react-dom/client';
 
+// "stories entrypoint" (this is an alias, more on that later)
+import foundStories from '#found-stories';
+
 // util for validate story-modules
 import { filterValidStories } from '@krutoo/showcase/runtime';
 
-// React component for showing documentation with all stories
+// Standalone React component for showing documentation with all stories
 import { ShowcaseApp } from '@krutoo/showcase/runtime-showcase';
-
-// "stories entrypoint" (this is an alias, more on that later)
-import foundStories from '#found-stories';
 
 // import styles bundle
 import '@krutoo/showcase/runtime-showcase/styles.css';
@@ -256,7 +262,7 @@ export default defineConfig(async () => {
     },
     resolve: {
       alias: {
-        '#found-stories': path.resolve(process.cwd(), '.generated/entries.js'),
+        '#found-stories': path.resolve(process.cwd(), storiesConfig.filename),
       },
     },
     plugins: [react()],

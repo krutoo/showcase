@@ -1,0 +1,14 @@
+.root {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-wrap: nowrap;
+}
+
+.logo {
+  box-sizing: border-box;
+  display: block;
+  max-height: var(--showcase-ui-header-height, 64px);
+  margin-right: 0.5rem;
+}

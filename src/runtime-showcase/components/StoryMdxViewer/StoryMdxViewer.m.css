@@ -1,0 +1,135 @@
+.mdx {
+  box-sizing: border-box;
+  background: #fff;
+  flex-grow: 1;
+}
+
+.layout {
+  width: 1280px;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem;
+}
+
+.mdx * {
+  box-sizing: border-box;
+}
+
+.mdx h1 {
+  display: block;
+  font-size: 2em;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+.mdx h2 {
+  display: block;
+  font-size: 1.5em;
+  margin-top: 0.83em;
+  margin-bottom: 0.83em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+.mdx h3 {
+  display: block;
+  font-size: 1.17em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+.mdx h4 {
+  display: block;
+  margin-top: 1.33em;
+  margin-bottom: 1.33em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+.mdx h5 {
+  display: block;
+  font-size: 0.83em;
+  margin-top: 1.67em;
+  margin-bottom: 1.67em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+.mdx h6 {
+  display: block;
+  font-size: 0.67em;
+  margin-top: 2.33em;
+  margin-bottom: 2.33em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+.mdx p {
+  display: block;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.mdx a:link {
+  color: (internal value);
+  text-decoration: underline;
+  cursor: auto;
+}
+
+.mdx pre {
+  display: flex;
+  font-family: monospace;
+  white-space: pre;
+  margin: 1em 0;
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 0.5rem;
+  box-shadow: inset 0 0 0 1px #ddd;
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.mdx code {
+  font-family: monospace;
+}
+
+.mdx pre > code {
+  display: block;
+  width: 0;
+  flex-grow: 1;
+}
+
+.mdx ul {
+  display: block;
+  list-style-type: disc;
+  list-style-position: inside;
+  margin-top: 1em;
+  margin-bottom: 1 em;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 1em;
+}
+
+.mdx ol {
+  display: block;
+  list-style-type: decimal;
+  list-style-position: inside;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 1em;
+}

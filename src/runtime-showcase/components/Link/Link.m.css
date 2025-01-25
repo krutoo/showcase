@@ -1,3 +1,17 @@
+.link {
+  box-sizing: border-box;
+}
+
+.color-default {
+  box-sizing: border-box;
+  color: var(--showcase-ui-link-color, #222);
+  text-decoration: var(--showcase-ui-link-text-decoration, none);
+}
+
+.color-default:hover {
+  color: var(--showcase-ui-link-color, #555);
+}
+
 .color-black {
   color: #222;
   text-decoration: none;

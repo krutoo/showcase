@@ -1,154 +1,81 @@
-import { useContext, useMemo, useState } from 'react';
-import { filterValidStories } from '#runtime';
-import { Link } from '../Link';
+import { useContext } from 'react';
 import { MenuItem } from '../Menu';
 import { StoryViewer } from '../StoryViewer';
 import { useMatchMedia } from '@krutoo/utils/react';
-import { IoMenu } from 'react-icons/io5';
-import { IoMdClose } from 'react-icons/io';
-import { RouterContext, useRouter } from '../../utils/router';
-import { AnyMenuNode, getMenuItems } from '../../utils/menu';
-import { StoryModule } from '#core';
+import { useLocation, useNavigate } from '../../shared/router';
+import { MenuModal } from '../MenuModal';
+import { Layout, Header, Main, Aside } from '../Layout';
+import { Logo } from '../Logo';
+import { HeaderLinks } from '../HeaderLinks';
+import {
+  ShowcaseContext,
+  useCurrentStory,
+  useMainMenu,
+  useMenuItems,
+} from '../../context/showcase';
 import styles from './App.m.css';
+import { StoryPlaceholder } from '../StoryPlaceholder';
+import { Menu } from '../Menu/Menu';
 
-export interface AppProps {
-  title?: string;
-  logoSrc?: string;
-  headerLinks?: Array<{ name: string; href: string }>;
-  stories: StoryModule[];
-  defineStoryUrl?: (story: StoryModule) => string;
-}
+export function App() {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-function defaultDefineStoryUrl(story: StoryModule) {
-  return `sandbox.html?path=${story.pathname}`;
-}
+  const { processedProps } = useContext(ShowcaseContext);
+  const { defineStoryUrl } = processedProps;
 
-export function App({
-  title,
-  logoSrc,
-  headerLinks = [],
-  stories,
-  defineStoryUrl = defaultDefineStoryUrl,
-}: AppProps) {
-  const menuItems = useMemo(() => getMenuItems(stories), [stories]);
-
-  const defaultPathname = useMemo(() => {
-    for (const item of menuItems) {
-      if (item.type === 'story') {
-        return item.story.pathname;
-      }
-    }
-    return '';
-  }, []);
-
-  const [pathname, setPathname] = useRouter({ defaultPathname });
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useMainMenu();
+  const menuItems = useMenuItems();
   const mobile = useMatchMedia('(max-width: 960px)');
-  const currentStory = useMemo(() => stories.find(s => s.pathname === pathname), [pathname]);
+  const currentStory = useCurrentStory();
 
   return (
-    <RouterContext.Provider value={{ pathname, redirect: setPathname }}>
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <div className={styles.title} onClick={() => setPathname(defaultPathname)}>
-            {logoSrc && <img className={styles.logo} src={logoSrc} alt='logo' />}
-            {title}
+    <Layout>
+      <Header>
+        <Logo />
+        <HeaderLinks />
+      </Header>
+
+      {!mobile && (
+        <Aside>
+          <div className={styles.menu}>
+            <Menu
+              items={menuItems}
+              getTitle={data => data.title}
+              getChildItems={data => (data.type === 'group' ? data.items : [])}
+              getHref={data => {
+                if (data.type !== 'story') {
+                  return undefined;
+                }
+
+                return defineStoryUrl(data.story);
+              }}
+              isActive={data => {
+                if (data.type !== 'story') {
+                  return false;
+                }
+
+                return data.story.pathname === location.pathname;
+              }}
+              onItemClick={(event, data) => {
+                if (data.type === 'story' && location.pathname !== data.story.pathname) {
+                  event.preventDefault();
+                  navigate(data.story.pathname);
+                } else if (data.type === 'story') {
+                  event.preventDefault();
+                }
+              }}
+            />
           </div>
+        </Aside>
+      )}
 
-          <div className={styles.links}>
-            {!mobile && (
-              <>
-                {headerLinks.map((item, index) => (
-                  <Link key={index} color='white' href={item.href} target='_blank'>
-                    {item.name}
-                  </Link>
-                ))}
-              </>
-            )}
+      <Main>
+        {!currentStory && <StoryPlaceholder />}
+        {currentStory && <StoryViewer story={currentStory} defineStoryUrl={defineStoryUrl} />}
+      </Main>
 
-            {mobile && <IoMenu className={styles['menu-icon']} onClick={() => setMenuOpen(true)} />}
-          </div>
-        </div>
-
-        {!mobile && (
-          <div className={styles.aside}>
-            <div className={styles.menu}>
-              {menuItems.map((item, index) => (
-                <MenuItem
-                  canToggle={false}
-                  defaultOpen
-                  key={index}
-                  data={item}
-                  isCurrent={data => data.type === 'story' && data.story.pathname === pathname}
-                  onStoryClick={data => {
-                    setPathname(data.story.pathname);
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className={styles.main}>
-          {!currentStory && <h1>404</h1>}
-          {currentStory && <StoryViewer story={currentStory} defineStoryUrl={defineStoryUrl} />}
-        </div>
-
-        {mobile && (
-          <ModalMenu open={menuOpen} onClose={() => setMenuOpen(false)} menuItems={menuItems} />
-        )}
-      </div>
-    </RouterContext.Provider>
-  );
-}
-
-function ModalMenu({
-  open,
-  onClose,
-  menuItems,
-  headerLinks = [],
-}: {
-  open?: boolean;
-  onClose?: VoidFunction;
-  headerLinks?: Array<{ name: string; href: string }>;
-  menuItems: AnyMenuNode[];
-}) {
-  const { pathname, redirect } = useContext(RouterContext);
-
-  if (!open) {
-    return null;
-  }
-
-  return (
-    <div className={styles['modal-menu']}>
-      <div className={styles['modal-menu-header']}>
-        <IoMdClose className={styles['modal-menu-close']} onClick={() => onClose?.()} />
-      </div>
-      <div className={styles['modal-menu-body']}>
-        <div className={styles['modal-menu-links']}>
-          {headerLinks.map((item, index) => (
-            <Link key={index} color='white' href={item.href} target='_blank'>
-              {item.name}
-            </Link>
-          ))}
-        </div>
-
-        <hr />
-
-        {menuItems.map((item, index) => (
-          <MenuItem
-            canToggle={false}
-            defaultOpen
-            key={index}
-            data={item}
-            isCurrent={data => data.type === 'story' && data.story.pathname === pathname}
-            onStoryClick={data => {
-              redirect(data.story.pathname);
-              onClose?.();
-            }}
-          />
-        ))}
-      </div>
-    </div>
+      {mobile && <MenuModal open={menuOpen} onClose={() => setMenuOpen(false)} />}
+    </Layout>
   );
 }

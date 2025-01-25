@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import rspack from '@rspack/core';
+import rspack, { type Configuration } from '@rspack/core';
 import packageJson from './package.json';
 
 export default {
@@ -19,9 +19,8 @@ export default {
   ),
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
-    alias: {
-      '#core$': path.resolve(import.meta.dirname, './src/core/index.ts'),
-      '#runtime$': path.resolve(import.meta.dirname, './src/runtime/index.ts'),
+    tsConfig: {
+      configFile: path.resolve(import.meta.dirname, './tsconfig.json'),
     },
   },
   module: {
@@ -44,7 +43,6 @@ export default {
             },
           },
         },
-        type: 'javascript/auto',
       },
       {
         test: /\.css$/i,
@@ -55,7 +53,7 @@ export default {
             options: {
               modules: {
                 auto: /\.(module|m)\.css$/i,
-                localIdentName: 'shwcs_[hash:7]',
+                localIdentName: 'showcase__[local]--[hash:4]',
                 exportLocalsConvention: 'as-is',
                 namedExport: false,
                 getJSON: emitCssModuleExports,
@@ -67,16 +65,15 @@ export default {
     ],
   },
   plugins: [
-    //
     new rspack.CssExtractRspackPlugin({
-      filename: path.resolve(process.cwd(), 'css', 'showcase-styles.css'),
+      filename: path.resolve(process.cwd(), 'css/showcase-styles.css'),
     }),
   ],
   experiments: {
     css: false,
     outputModule: true,
   },
-} satisfies rspack.Configuration;
+} satisfies Configuration;
 
 async function emitCssModuleExports(data: {
   exports: Array<{ name: string; value: string }>;

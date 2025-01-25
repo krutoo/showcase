@@ -1,12 +1,12 @@
-import { type HTMLAttributes } from 'react';
-import styles from './Plate.m.css';
+import type { HTMLAttributes } from 'react';
 import classNames from 'classnames';
+import styles from './Plate.m.css';
 
 export type PlateProps = HTMLAttributes<HTMLDivElement>;
 
 export function Plate({ children, className, ...restProps }: PlateProps) {
   return (
-    <div {...restProps} className={classNames(styles.plate, className)}>
+    <div data-kind='Plate' {...restProps} className={classNames(styles.plate, className)}>
       {children}
     </div>
   );
