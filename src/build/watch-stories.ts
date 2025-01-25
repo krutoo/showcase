@@ -10,7 +10,7 @@ export function watchStories(config: EmitStoriesEntrypointConfig) {
 
   const onWatcherEvent = debounce(emitEntrypoint, 1000);
 
-  const watcher = chokidar.watch(config.storiesGlob, {
+  const watcher = chokidar.watch(config.storiesRootDir, {
     persistent: true,
   });
 
