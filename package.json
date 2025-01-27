@@ -53,6 +53,7 @@
     "./runtime": "./dist/runtime/index.js",
     "./runtime-sandbox": "./dist/runtime-sandbox/index.js",
     "./runtime-showcase": "./dist/runtime-showcase/index.js",
-    "./runtime-showcase/styles.css": "./css/showcase-styles.css"
+    "./runtime-showcase/styles.css": "./css/showcase.css",
+    "./showcase.css": "./css/showcase.css"
   }
 }

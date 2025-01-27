@@ -17,12 +17,12 @@
 .menuitem:not(.active) > .menuitemTitle:hover {
   cursor: pointer;
   color: var(--showcase-ui-menuitem-color, #000);
-  background: var(--showcase-ui-menuitem-background, #eaebf1);
+  background: var(--showcase-ui-menuitem-background, #f2f3f6);
 }
 
 .menuitem.active > .menuitemTitle {
   color: var(--showcase-ui-menuitem-color, #000);
-  background: var(--showcase-ui-menuitem-background, #f2f3f6);
+  background: var(--showcase-ui-menuitem-background, #eaebf1);
 }
 
 .bold {
