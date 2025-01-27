@@ -13,5 +13,6 @@
       "#core": ["./src/core/index.ts"],
       "#runtime": ["./src/runtime/index.ts"]
     }
-  }
+  },
+  "exclude": ["examples"]
 }
