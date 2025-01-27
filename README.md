@@ -10,7 +10,7 @@ MDX also supported as a story module (if your bundler is configured).
 
 ### Key features
 
-- any bundle supported
+- any bundler supported
 - ability to show extra source files for story
 - ability to fully customize showcase page and sandbox page
 
