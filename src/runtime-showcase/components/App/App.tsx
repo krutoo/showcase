@@ -1,12 +1,13 @@
 import { useContext } from 'react';
-import { MenuItem } from '../Menu';
-import { StoryViewer } from '../StoryViewer';
 import { useMatchMedia } from '@krutoo/utils/react';
 import { useLocation, useNavigate } from '../../shared/router';
+import { StoryViewer } from '../StoryViewer';
 import { MenuModal } from '../MenuModal';
 import { Layout, Header, Main, Aside } from '../Layout';
 import { Logo } from '../Logo';
 import { HeaderLinks } from '../HeaderLinks';
+import { StoryPlaceholder } from '../StoryPlaceholder';
+import { Menu } from '../Menu/Menu';
 import {
   ShowcaseContext,
   useCurrentStory,
@@ -14,8 +15,6 @@ import {
   useMenuItems,
 } from '../../context/showcase';
 import styles from './App.m.css';
-import { StoryPlaceholder } from '../StoryPlaceholder';
-import { Menu } from '../Menu/Menu';
 
 export function App() {
   const navigate = useNavigate();
@@ -48,7 +47,8 @@ export function App() {
                   return undefined;
                 }
 
-                return defineStoryUrl(data.story);
+                // @todo use some util from router module
+                return `?path=${data.story.pathname}`;
               }}
               isActive={data => {
                 if (data.type !== 'story') {
