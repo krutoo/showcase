@@ -2,6 +2,7 @@ import { type StoryModule } from '#core';
 
 export interface MenuNode {
   type: string;
+  menuPriority?: number;
 }
 
 export interface StoryMenuNode extends MenuNode {
@@ -29,6 +30,7 @@ export function getMenuItems(stories: StoryModule[]): AnyMenuNode[] {
     type: 'story',
     title: story.meta?.title ?? story.metaJson?.title ?? story.pathname,
     category: story.meta?.category ?? story.metaJson?.category ?? '',
+    menuPriority: story.meta?.menuPriority,
     story,
   }));
 

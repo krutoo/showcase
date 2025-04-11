@@ -10,6 +10,7 @@ export type StoryModule = z.infer<typeof StoryModuleSchema>;
 export const StoryMetaSchema = z.object({
   title: z.string().optional(),
   category: z.string().optional(),
+  menuPriority: z.number().int().finite().optional(),
   parameters: z
     .object({
       layout: z.enum(['padded', 'fullscreen']).optional(),

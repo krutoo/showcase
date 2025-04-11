@@ -40,6 +40,9 @@ export function App() {
           <div className={styles.menu}>
             <Menu
               items={menuItems}
+              getItemOrder={item =>
+                typeof item.menuPriority === 'number' ? -item.menuPriority : 0
+              }
               getTitle={data => data.title}
               getChildItems={data => (data.type === 'group' ? data.items : [])}
               getHref={data => {

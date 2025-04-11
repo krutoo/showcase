@@ -62,6 +62,9 @@ interface StoryMeta {
   /** Category is needed to group modules on the documentation page */
   category?: string;
 
+  /** Affects position of link to story in menu, greater values makes links upper. */
+  menuPriority?: number;
+
   /** Parameters of building or/and displaying story */
   parameters?: {
     /**
