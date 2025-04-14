@@ -5,6 +5,7 @@ import {
   MouseEvent,
   ReactNode,
   useContext,
+  useMemo,
   useState,
   useSyncExternalStore,
 } from 'react';
@@ -22,6 +23,7 @@ export interface MenuProps<T> {
   getChildItems?: (item: T) => T[];
   isActive?: (item: T) => boolean;
   onItemClick?: (event: MouseEvent<HTMLElement>, data: T) => void;
+  getItemOrder?: (item: T) => number;
 }
 
 interface MenuItemContextValue {
@@ -44,10 +46,21 @@ export function Menu<T>({
   isActive,
   onItemClick,
   getChildItems,
+  getItemOrder,
 }: MenuProps<T>) {
+  const sortedItems = useMemo(() => {
+    const result = [...items];
+
+    if (getItemOrder) {
+      result.sort((a, b) => getItemOrder(a) - getItemOrder(b));
+    }
+
+    return result;
+  }, [items, getItemOrder]);
+
   return (
     <>
-      {items.map((item, index) => {
+      {sortedItems.map((item, index) => {
         const childItems = getChildItems?.(item) ?? [];
         const toplevel = depth === 0;
 
@@ -77,7 +90,14 @@ export function Menu<T>({
                 <Menu
                   depth={depth + 1}
                   items={childItems}
-                  {...{ getTitle, getHref, isActive: isActive, onItemClick, getChildItems }}
+                  {...{
+                    getTitle,
+                    getHref,
+                    isActive: isActive,
+                    onItemClick,
+                    getChildItems,
+                    getItemOrder: getItemOrder,
+                  }}
                 />
               </MenuItemBody>
             )}
