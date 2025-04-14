@@ -135,6 +135,8 @@
 
 .mdx blockquote {
   margin-left: 0;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
   padding-left: 1em;
   padding-right: 1em;
   border-left: 3px solid #ddd;
@@ -149,5 +151,7 @@
 }
 
 .mdx blockquote p {
+  margin-top: 0;
+  margin-bottom: 0;
   color: #666;
 }
