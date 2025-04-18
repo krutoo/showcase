@@ -53,6 +53,7 @@
 
 .body {
   display: flex;
+  flex-direction: column;
 }
 
 .iframe {
@@ -60,7 +61,6 @@
   border: 0;
   display: block;
   margin: 0;
-  width: 0;
   flex-grow: 1;
 }
 
