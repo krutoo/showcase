@@ -49,7 +49,7 @@ function groupMenuNodes(nodes: AnyMenuNode[]): AnyMenuNode[] {
     node.type === 'group'
       ? {
           ...node,
-          items: groupMenuNodes(node.items),
+          items: groupMenuNodes(node.items).sort(comparePriorityDesc),
         }
       : node,
   );
@@ -100,4 +100,8 @@ function groupStoriesByFirstSegment(state: AnyMenuNode[], node: AnyMenuNode): An
   }
 
   return state;
+}
+
+function comparePriorityDesc(a: AnyMenuNode, b: AnyMenuNode): number {
+  return (b.menuPriority ?? 0) - (a.menuPriority ?? 0);
 }
