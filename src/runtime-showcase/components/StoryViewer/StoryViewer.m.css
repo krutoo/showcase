@@ -51,12 +51,16 @@
   max-height: calc(75vh - var(--showcase-ui-header-height, 64px));
 }
 
+.body {
+  display: flex;
+}
+
 .iframe {
   box-sizing: border-box;
   border: 0;
   display: block;
-  width: 100%;
   margin: 0;
+  width: 0;
   flex-grow: 1;
 }
 

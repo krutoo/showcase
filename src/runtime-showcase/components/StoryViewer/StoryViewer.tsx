@@ -52,7 +52,7 @@ export function StoryViewer({ story, defineStoryUrl }: StoryViewerProps) {
           </div>
         </PlateHeader>
 
-        <PlateBody style={{ display: 'flex', flexDirection: 'column' }}>
+        <PlateBody className={styles.body}>
           <iframe
             // ВАЖНО: key нужен чтобы iframe не вызывал popstate у родительского документа
             key={story.pathname}
