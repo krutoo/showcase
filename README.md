@@ -65,6 +65,12 @@ interface StoryMeta {
   /** Affects position of link to story in menu, greater values makes links upper. */
   menuPriority?: number;
 
+  /**
+   * For menu item of story it means that it will not be shown in menu.
+   * For "Category root" it means that click will not be open it.
+   */
+  menuPriority?: number;
+
   /** Parameters of building or/and displaying story */
   parameters?: {
     /**
@@ -88,6 +94,19 @@ interface StoryMeta {
         };
   };
 }
+```
+
+#### Meta: How to create category root?
+
+In menu categories will be shown as headers of item groups.
+
+To make it header as link to category root you need to set name of story as empty string (`''`):
+
+```jsx
+export const meta = {
+  category: 'My category'
+  title: '',
+};
 ```
 
 In JavaScript/TypeScript files you can just export `meta` with meta data.

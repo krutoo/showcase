@@ -3,6 +3,7 @@ import { type StoryModule } from '#core';
 export interface MenuNode {
   type: string;
   menuPriority?: number;
+  menuHidden?: boolean;
 }
 
 export interface StoryMenuNode extends MenuNode {
@@ -16,6 +17,7 @@ export interface GroupMenuNode extends MenuNode {
   type: 'group';
   title: string;
   items: AnyMenuNode[];
+  story?: StoryModule;
 }
 
 export type AnyMenuNode = StoryMenuNode | GroupMenuNode;
@@ -31,10 +33,9 @@ export function getMenuItems(stories: StoryModule[]): AnyMenuNode[] {
     title: story.meta?.title ?? story.metaJson?.title ?? story.pathname,
     category: story.meta?.category ?? story.metaJson?.category ?? '',
     menuPriority: story.meta?.menuPriority,
+    menuHidden: story.meta?.menuHidden,
     story,
   }));
-
-  nodes.sort((a, b) => (a.category && b.category ? a.category.localeCompare(b.category) : 0));
 
   return groupMenuNodes(nodes);
 }
@@ -44,15 +45,22 @@ export function getMenuItems(stories: StoryModule[]): AnyMenuNode[] {
  * @inheritdoc
  */
 function groupMenuNodes(nodes: AnyMenuNode[]): AnyMenuNode[] {
+  const compare = (a: AnyMenuNode, b: AnyMenuNode) => {
+    return comparePriorityDesc(a, b) || compareCategoryDesc(a, b) || compareTitleDesc(a, b);
+  };
+
   // рекурсивно применяем группировку узлов по полю category
-  return nodes.reduce<AnyMenuNode[]>(groupStoriesByFirstSegment, []).map(node =>
-    node.type === 'group'
-      ? {
-          ...node,
-          items: groupMenuNodes(node.items).sort(comparePriorityDesc),
-        }
-      : node,
-  );
+  return nodes
+    .reduce<AnyMenuNode[]>(groupStoriesByFirstSegment, [])
+    .map(node =>
+      node.type === 'group'
+        ? {
+            ...node,
+            items: groupMenuNodes(node.items).sort(compare),
+          }
+        : node,
+    )
+    .sort(compare);
 }
 
 /**
@@ -92,14 +100,41 @@ function groupStoriesByFirstSegment(state: AnyMenuNode[], node: AnyMenuNode): An
     (item): item is GroupMenuNode => item.type === 'group' && item.title === groupName,
   );
 
-  // помещаем новый узел в новую или существующую группу
-  if (foundGroup) {
-    foundGroup.items.push(newNode);
-  } else {
-    state.push({ type: 'group', title: groupName, items: [newNode] });
+  const targetGroup = foundGroup ?? {
+    type: 'group',
+    title: groupName,
+    items: [],
+  };
+
+  // если не нашли существующую группу - добавляем вновь созданную в список
+  if (!foundGroup) {
+    state.push(targetGroup);
+  }
+
+  if (newNode.title === '') {
+    // если узел это "корень группы" - применяем его опции к группе
+    targetGroup.story = newNode.story;
+    targetGroup.menuPriority = newNode.menuPriority;
+  } else if (!newNode.menuHidden) {
+    // иначе просто добавляем его в группу если он не скрыт
+    targetGroup.items.push(newNode);
   }
 
   return state;
+}
+
+function compareCategoryDesc(a: AnyMenuNode, b: AnyMenuNode): number {
+  if (a.type === 'story' && b.type === 'story' && a.category && b.category) {
+    return a.category.localeCompare(b.category);
+  }
+  return 0;
+}
+
+function compareTitleDesc(a: AnyMenuNode, b: AnyMenuNode): number {
+  if (a.title && b.title) {
+    return a.title.localeCompare(b.title);
+  }
+  return 0;
 }
 
 function comparePriorityDesc(a: AnyMenuNode, b: AnyMenuNode): number {

@@ -51,18 +51,27 @@ export function App() {
                 return `?path=${data.story.pathname}`;
               }}
               isActive={data => {
-                if (data.type !== 'story') {
-                  return false;
-                }
-
-                return data.story.pathname === location.pathname;
+                return !!data.story && data.story?.pathname === location.pathname;
+              }}
+              isInteractive={data => {
+                return !!data.story && !data.story.meta?.menuHidden;
               }}
               onItemClick={(event, data) => {
-                if (data.type === 'story' && location.pathname !== data.story.pathname) {
+                if (data.type === 'story' && !data.menuHidden) {
                   event.preventDefault();
                   navigate(data.story.pathname);
-                } else if (data.type === 'story') {
+                  return;
+                }
+
+                if (data.type === 'group' && data.story && !data.story.meta?.menuHidden) {
                   event.preventDefault();
+                  navigate(data.story.pathname);
+                  return;
+                }
+
+                if (data.type === 'story') {
+                  event.preventDefault();
+                  return;
                 }
               }}
             />

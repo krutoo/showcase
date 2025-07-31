@@ -15,7 +15,7 @@
   background: var(--showcase-ui-menuitem-background, none);
 }
 
-.menuitem:not(.active) > .menuitemTitle:hover {
+.menuitem:not(.active) > .menuitemTitle.interactive:hover {
   cursor: pointer;
   color: var(--showcase-ui-menuitem-color, #000);
   background: var(--showcase-ui-menuitem-background, #f2f3f6);

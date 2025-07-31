@@ -11,6 +11,7 @@ export const StoryMetaSchema = z.object({
   title: z.string().optional(),
   category: z.string().optional(),
   menuPriority: z.number().int().finite().optional(),
+  menuHidden: z.boolean().optional(),
   parameters: z
     .object({
       layout: z.enum(['padded', 'fullscreen']).optional(),
