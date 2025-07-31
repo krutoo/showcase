@@ -22,6 +22,7 @@ export interface MenuProps<T> {
   getHref?: (item: T) => string | undefined;
   getChildItems?: (item: T) => T[];
   isActive?: (item: T) => boolean;
+  isInteractive?: (item: T) => boolean;
   onItemClick?: (event: MouseEvent<HTMLElement>, data: T) => void;
 }
 
@@ -43,6 +44,7 @@ export function Menu<T>({
   getTitle,
   getHref,
   isActive,
+  isInteractive,
   onItemClick,
   getChildItems,
 }: MenuProps<T>) {
@@ -68,6 +70,7 @@ export function Menu<T>({
                 paddingLeft: depth >= 2 ? `${1 + (depth - 1) * 1.25}rem` : `1rem`,
               }}
               className={toplevel ? styles.bold : undefined}
+              interactive={isInteractive?.(item)}
             >
               {!toplevel && childItems.length > 0 && <FaChevronRight className={styles.icon} />}
               {(getTitle ?? String)(item)}
@@ -139,16 +142,19 @@ export function MenuItem({
 }
 
 export function MenuItemTitle({
+  interactive = true,
   children,
   className,
   onClick,
   ...restProps
-}: AnchorHTMLAttributes<HTMLAnchorElement>) {
+}: AnchorHTMLAttributes<HTMLAnchorElement> & {
+  interactive?: boolean;
+}) {
   const { store, controlled } = useContext(MenuItemContext);
 
   return (
     <a
-      className={classNames(styles.menuitemTitle, className)}
+      className={classNames(styles.menuitemTitle, interactive && styles.interactive, className)}
       onClick={event => {
         onClick?.(event);
 

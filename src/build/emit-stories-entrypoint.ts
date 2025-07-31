@@ -23,8 +23,6 @@ export async function emitStoriesEntrypoint(config: EmitStoriesEntrypointConfig)
 
     // создаем файл точки входа
     .then(content => fs.writeFile(filename, content));
-
-  // console.log('Stories entrypoint emit: done');
 }
 
 function getPageDataFactory(config: EmitStoriesEntrypointConfig) {
