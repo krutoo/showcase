@@ -109,9 +109,9 @@ export const meta = {
 };
 ```
 
-In JavaScript/TypeScript files you can just export `meta` with meta data.
+In JavaScript/TypeScript (and also in MDX) files you can just export `meta` with meta data.
 
-For any story module (jsx, tsx, mdx) you can provide meta by adding JSON-file next to the story module like this:
+For any story module (jsx, tsx, md, mdx) you can provide meta by adding JSON-file next to the story module like this:
 
 ```
 my-component/
