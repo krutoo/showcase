@@ -69,7 +69,7 @@ interface StoryMeta {
    * For menu item of story it means that it will not be shown in menu.
    * For "Category root" it means that click will not be open it.
    */
-  menuPriority?: number;
+  menuHidden?: number;
 
   /** Parameters of building or/and displaying story */
   parameters?: {
@@ -109,9 +109,9 @@ export const meta = {
 };
 ```
 
-In JavaScript/TypeScript files you can just export `meta` with meta data.
+In JavaScript/TypeScript (and also in MDX) files you can just export `meta` with meta data.
 
-For any story module (jsx, tsx, mdx) you can provide meta by adding JSON-file next to the story module like this:
+For any story module (jsx, tsx, md, mdx) you can provide meta by adding JSON-file next to the story module like this:
 
 ```
 my-component/
@@ -119,7 +119,7 @@ my-component/
 └── primary.story.meta.json
 ```
 
-**Important**: some meta parameters available only in JSON files, for example `parameters.sources.extraSources`.
+**Important**: some meta parameters available only in JSON files, for example `parameters.sources extraSources`.
 
 Next step is creating two entrypoints - for "sandbox" and for "showcase".
 
@@ -175,6 +175,9 @@ import '@krutoo/showcase/showcase.css';
 // render documentation app wherever you want
 createRoot(document.getElementById('root')).render(
   <ShowcaseApp
+    // first we need to provide all found stories:
+    stories={filterValidStories(foundStories).validStories}
+    // you can also provide some details:
     title='My UI Library'
     logoSrc='public/my-logo.svg'
     headerLinks={[
@@ -187,7 +190,6 @@ createRoot(document.getElementById('root')).render(
         href: 'https://www.figma.com/my-design-guides',
       },
     ]}
-    stories={filterValidStories(foundStories).validStories}
   />,
 );
 ```
@@ -301,8 +303,7 @@ You also need to provide special option to `ShowcaseApp`:
 ## To Do
 
 - Ability of localization
-- Search field of stories in menu
+- ~~Search field of stories in menu~~
 - Unit tests & e2e tests
 - Working examples in repo (with Webpack, Rspack, Vite...)
 - Ability to fully customize docs page UI
-- ...
