@@ -119,7 +119,7 @@ my-component/
 └── primary.story.meta.json
 ```
 
-**Important**: some meta parameters available only in JSON files, for example `parameters.sources.extraSources`.
+**Important**: some meta parameters available only in JSON files, for example `parameters.sources extraSources`.
 
 Next step is creating two entrypoints - for "sandbox" and for "showcase".
 
@@ -175,6 +175,9 @@ import '@krutoo/showcase/showcase.css';
 // render documentation app wherever you want
 createRoot(document.getElementById('root')).render(
   <ShowcaseApp
+    // first we need to provide all found stories:
+    stories={filterValidStories(foundStories).validStories}
+    // you can also provide some details:
     title='My UI Library'
     logoSrc='public/my-logo.svg'
     headerLinks={[
@@ -187,7 +190,6 @@ createRoot(document.getElementById('root')).render(
         href: 'https://www.figma.com/my-design-guides',
       },
     ]}
-    stories={filterValidStories(foundStories).validStories}
   />,
 );
 ```
