@@ -5,7 +5,6 @@ import {
   MouseEvent,
   ReactNode,
   useContext,
-  useMemo,
   useState,
   useSyncExternalStore,
 } from 'react';
@@ -63,14 +62,14 @@ export function Menu<T>({
           >
             <MenuItemTitle
               href={getHref?.(item)}
-              onClick={event => {
-                onItemClick?.(event, item);
-              }}
+              interactive={isInteractive?.(item)}
+              className={toplevel && childItems.length > 0 ? styles.bold : undefined}
               style={{
                 paddingLeft: depth >= 2 ? `${1 + (depth - 1) * 1.25}rem` : `1rem`,
               }}
-              className={toplevel ? styles.bold : undefined}
-              interactive={isInteractive?.(item)}
+              onClick={event => {
+                onItemClick?.(event, item);
+              }}
             >
               {!toplevel && childItems.length > 0 && <FaChevronRight className={styles.icon} />}
               {(getTitle ?? String)(item)}

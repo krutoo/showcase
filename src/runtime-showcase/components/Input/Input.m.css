@@ -1,0 +1,19 @@
+input.input {
+  height: 2.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px #ddd;
+}
+
+input.input:focus {
+  box-shadow: inset 0 0 0 1px #323232;
+  outline: 1px solid #323232;
+}
+
+input.input::-webkit-search-decoration,
+input.input::-webkit-search-cancel-button,
+input.input::-webkit-search-results-button,
+input.input::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+}

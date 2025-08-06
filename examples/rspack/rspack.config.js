@@ -33,7 +33,6 @@ export default {
         exclude: /node_modules/,
         loader: 'builtin:swc-loader',
         options: {
-          sourceMap: true,
           jsc: {
             parser: {
               syntax: 'typescript',

@@ -10,6 +10,7 @@ export interface ShowcaseContextValue {
     headerLinks?: Array<{ name: string; href: string }>;
     stories: StoryModule[];
     defineStoryUrl: (story: StoryModule) => string;
+    storySearch: boolean;
   };
 
   menuOpen: boolean;
@@ -22,6 +23,7 @@ export const ShowcaseContext = createContext<ShowcaseContextValue>({
   processedProps: {
     stories: [],
     defineStoryUrl: () => '/',
+    storySearch: false,
   },
   menuOpen: false,
   toggleMenu() {},
@@ -61,4 +63,22 @@ export function useMainMenu(): [boolean, (open: boolean) => void] {
   const { menuOpen, toggleMenu } = useContext(ShowcaseContext);
 
   return useMemo(() => [menuOpen, toggleMenu], [menuOpen, toggleMenu]);
+}
+
+export function useStorySearchResult(query: string) {
+  const { processedProps } = useContext(ShowcaseContext);
+  const { stories } = processedProps;
+
+  return useMemo(() => {
+    if (!query) {
+      return stories;
+    }
+
+    return stories.filter(
+      ({ meta }) =>
+        !meta?.menuHidden &&
+        (meta?.title?.toLowerCase().includes(query.toLowerCase()) ||
+          meta?.category?.toLowerCase().includes(query.toLowerCase())),
+    );
+  }, [query, stories]);
 }

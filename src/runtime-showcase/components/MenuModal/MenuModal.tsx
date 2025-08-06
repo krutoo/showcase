@@ -1,8 +1,9 @@
 import { useLocation, useNavigate } from '../../shared/router';
 import { IoMdClose } from 'react-icons/io';
-import { Menu, MenuItem, MenuItemTitle } from '../Menu/Menu';
-import { useContext } from 'react';
-import { ShowcaseContext, useMenuItems } from '../../context/showcase';
+import { Menu, MenuItem, MenuItemTitle } from '../Menu';
+import { useContext, useEffect, useState } from 'react';
+import { ShowcaseContext, useMenuItems, useStorySearchResult } from '../../context/showcase';
+import { Input } from '../Input';
 import styles from './MenuModal.m.css';
 
 export interface MenuModalProps {
@@ -16,8 +17,15 @@ export function MenuModal({ open, onClose }: MenuModalProps) {
 
   const { processedProps } = useContext(ShowcaseContext);
   const { headerLinks, defineStoryUrl } = processedProps;
-
+  const [search, setSearch] = useState('');
+  const searchResultItems = useStorySearchResult(search);
   const menuItems = useMenuItems();
+
+  useEffect(() => {
+    if (!open) {
+      setSearch('');
+    }
+  }, [open]);
 
   if (!open) {
     return null;
@@ -37,45 +45,81 @@ export function MenuModal({ open, onClose }: MenuModalProps) {
           </MenuItem>
         ))}
 
-        <hr className={styles.hr} />
+        {processedProps.storySearch && (
+          <div className={styles.search}>
+            <Input
+              className={styles.searchField}
+              type='search'
+              placeholder='Search...'
+              value={search}
+              onChange={event => setSearch(event.target.value)}
+            />
+          </div>
+        )}
 
-        <Menu
-          items={menuItems}
-          getTitle={data => data.title}
-          getChildItems={data => (data.type === 'group' ? data.items : [])}
-          getHref={data => {
-            if (data.type !== 'story') {
-              return undefined;
-            }
+        {!processedProps.storySearch && <hr className={styles.hr} />}
 
-            return defineStoryUrl(data.story);
-          }}
-          isActive={data => {
-            return !!data.story && data.story?.pathname === location.pathname;
-          }}
-          isInteractive={data => {
-            return !!data.story && !data.story.meta?.menuHidden;
-          }}
-          onItemClick={(event, data) => {
-            if (data.type === 'story' && !data.menuHidden) {
-              event.preventDefault();
-              navigate(data.story.pathname);
-              onClose?.();
-              return;
-            }
+        {search.length === 0 && (
+          <Menu
+            items={menuItems}
+            getTitle={data => data.title}
+            getChildItems={data => (data.type === 'group' ? data.items : [])}
+            getHref={data => {
+              if (data.type !== 'story') {
+                return undefined;
+              }
 
-            if (data.type === 'group' && data.story && !data.story.meta?.menuHidden) {
-              event.preventDefault();
-              navigate(data.story.pathname);
-              return;
-            }
+              return defineStoryUrl(data.story);
+            }}
+            isActive={data => {
+              return !!data.story && data.story?.pathname === location.pathname;
+            }}
+            isInteractive={data => {
+              return !!data.story && !data.story.meta?.menuHidden;
+            }}
+            onItemClick={(event, data) => {
+              if (data.type === 'story' && !data.menuHidden) {
+                event.preventDefault();
+                navigate(data.story.pathname);
+                onClose?.();
+                return;
+              }
 
-            if (data.type === 'story') {
-              event.preventDefault();
-              return;
-            }
-          }}
-        />
+              if (data.type === 'group' && data.story && !data.story.meta?.menuHidden) {
+                event.preventDefault();
+                navigate(data.story.pathname);
+                return;
+              }
+
+              if (data.type === 'story') {
+                event.preventDefault();
+                return;
+              }
+            }}
+          />
+        )}
+
+        {search.length > 0 && (
+          <div className={styles.menu}>
+            <Menu
+              items={searchResultItems}
+              getTitle={data => {
+                return data.meta?.title || data.meta?.category;
+              }}
+              getHref={data => {
+                // @todo use some util from router module
+                return `?path=${data.pathname}`;
+              }}
+              isActive={data => {
+                return data.pathname === location.pathname;
+              }}
+              onItemClick={(event, data) => {
+                event.preventDefault();
+                navigate(data.pathname);
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

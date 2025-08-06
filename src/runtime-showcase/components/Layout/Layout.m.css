@@ -45,7 +45,6 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
   background: var(--showcase-ui-aside-background, #fff);
   color: var(--showcase-ui-aside-color, #111);
   box-shadow: var(--showcase-ui-aside-box-shadow, 1px 0 0 0 #ddd);
