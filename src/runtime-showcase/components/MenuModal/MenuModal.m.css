@@ -15,7 +15,7 @@
 .header {
   box-sizing: border-box;
   padding: 0 1rem;
-  height: 64px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -42,4 +42,14 @@
 .hr {
   display: block;
   height: 1rem;
+}
+
+.search {
+  display: flex;
+  padding: 0.5rem 1rem;
+}
+
+.searchField {
+  width: 0;
+  flex-grow: 1;
 }

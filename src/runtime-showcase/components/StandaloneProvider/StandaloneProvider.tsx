@@ -10,6 +10,9 @@ export interface StandaloneAppProps {
   headerLinks?: Array<{ name: string; href: string }>;
   stories: StoryModule[];
   defineStoryUrl?: (story: StoryModule) => string;
+
+  /** Enables search by stories in sidebar and mobile modal menu. */
+  storySearch?: boolean;
 }
 
 export interface StandaloneProviderProps extends StandaloneAppProps {
@@ -49,6 +52,7 @@ export function StandaloneProvider(props: StandaloneProviderProps) {
   const contextValue: ShowcaseContextValue = {
     processedProps: {
       ...props,
+      storySearch: !!props.storySearch,
       defineStoryUrl,
     },
 

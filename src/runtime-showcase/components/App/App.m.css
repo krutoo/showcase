@@ -1,6 +1,30 @@
+.aside {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.search {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  /* @todo убрать отрицательный отступ */
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+  display: flex;
+}
+
+input.searchField {
+  width: 0;
+  flex-grow: 1;
+}
+
+.search + .menu {
+  padding-top: 0.5rem;
+}
+
 .menu {
   box-sizing: border-box;
-  padding: 2rem 0;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   width: 100%;
   height: 100%;
   overflow: hidden;
