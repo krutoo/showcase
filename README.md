@@ -69,7 +69,7 @@ interface StoryMeta {
    * For menu item of story it means that it will not be shown in menu.
    * For "Category root" it means that click will not be open it.
    */
-  menuPriority?: number;
+  menuHidden?: number;
 
   /** Parameters of building or/and displaying story */
   parameters?: {
@@ -301,8 +301,7 @@ You also need to provide special option to `ShowcaseApp`:
 ## To Do
 
 - Ability of localization
-- Search field of stories in menu
+- ~~Search field of stories in menu~~
 - Unit tests & e2e tests
 - Working examples in repo (with Webpack, Rspack, Vite...)
 - Ability to fully customize docs page UI
-- ...
