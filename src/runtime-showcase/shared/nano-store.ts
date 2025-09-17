@@ -1,10 +1,10 @@
-export interface MicroStore<T> {
+export interface NanoStore<T> {
   getState(): T;
   setState(nextState: T | ((currentState: T) => T)): void;
   subscribe(listener: VoidFunction): VoidFunction;
 }
 
-export function createMicroStore<T>(initialState: T): MicroStore<T> {
+export function createNanoStore<T>(initialState: T): NanoStore<T> {
   const listeners = new Set<VoidFunction>();
 
   let state = initialState;
@@ -13,8 +13,11 @@ export function createMicroStore<T>(initialState: T): MicroStore<T> {
     setState(nextState) {
       const prevState = state;
 
-      state =
-        typeof nextState === 'function' ? (nextState as (currentState: T) => T)(state) : nextState;
+      if (typeof nextState === 'function') {
+        state = (nextState as (currentState: T) => T)(state);
+      } else {
+        state = nextState;
+      }
 
       if (prevState !== state) {
         for (const func of listeners) {

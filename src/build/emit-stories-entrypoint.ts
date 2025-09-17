@@ -4,28 +4,35 @@ import glob from 'fast-glob';
 import { StoryMetaSchema } from '#core';
 import { EntrypointTemplate } from './templates';
 import type { EmitStoriesEntrypointConfig, StoryModuleData } from './types';
+import { validateConfig } from './utils';
 
-export async function emitStoriesEntrypoint(config: EmitStoriesEntrypointConfig) {
-  const { filename, storiesGlob: pagesGlob } = config;
+/**
+ * Searches all story-modules and emits file that exports all as array.
+ * @param config
+ */
+export async function emitStoriesEntrypoint(config: EmitStoriesEntrypointConfig): Promise<void> {
+  const validConfig = validateConfig(config);
 
-  await glob(pagesGlob)
+  await glob(validConfig.storiesGlob)
     // проверяем что файлы найдены
     .then(filenames => (filenames.length > 0 ? filenames : Promise.reject('No stories found')))
 
     // формируем объект с данными файла
-    .then(filenames => Promise.all(filenames.map(getPageDataFactory(config))))
+    .then(filenames => Promise.all(filenames.map(getPageDataFactory(validConfig))))
 
     // формируем содержимое точки входа - импорт всех файлов
-    .then(entries => EntrypointTemplate(entries, config))
+    .then(entries => EntrypointTemplate(entries, validConfig))
 
     // создаем каталог для точки входа если его нет
-    .then(content => fs.mkdir(path.dirname(filename), { recursive: true }).then(() => content))
+    .then(content =>
+      fs.mkdir(path.dirname(validConfig.filename), { recursive: true }).then(() => content),
+    )
 
     // создаем файл точки входа
-    .then(content => fs.writeFile(filename, content));
+    .then(content => fs.writeFile(validConfig.filename, content));
 }
 
-function getPageDataFactory(config: EmitStoriesEntrypointConfig) {
+function getPageDataFactory(config: Required<EmitStoriesEntrypointConfig>) {
   return async (filename: string, index: number): Promise<StoryModuleData> => {
     return {
       filename,

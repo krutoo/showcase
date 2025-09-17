@@ -1,4 +1,4 @@
-import { type ElementType, useLayoutEffect, useMemo, useState } from 'react';
+import { type ElementType, ReactNode, useLayoutEffect, useMemo, useState } from 'react';
 import { type StoryModule } from '#core';
 
 export interface SandboxAppProps {
@@ -9,7 +9,7 @@ export interface SandboxAppProps {
 export function SandboxApp({
   stories,
   defineStoryPathname = defaultDefinePathname,
-}: SandboxAppProps) {
+}: SandboxAppProps): ReactNode {
   const [pathname, setPathname] = useState<string | null>(null);
   const currentStory = useMemo(() => stories.find(s => s.pathname === pathname), [pathname]);
 

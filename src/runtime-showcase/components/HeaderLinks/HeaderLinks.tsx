@@ -1,17 +1,20 @@
-import { useContext } from 'react';
+import { ReactNode, useContext } from 'react';
 import { ShowcaseContext } from '../../context/showcase';
 import { Link } from '../Link';
 import { useMatchMedia } from '@krutoo/utils/react';
 import { IoMenu } from 'react-icons/io5';
+import { ThemeToggle } from '../ThemeToggle';
 import styles from './HeaderLinks.m.css';
 
-export function HeaderLinks() {
+export function HeaderButtons(): ReactNode {
   const { processedProps, toggleMenu: toggleMenuModal } = useContext(ShowcaseContext);
-  const { headerLinks } = processedProps;
+  const { headerLinks, themes: themesEnabled } = processedProps;
   const mobile = useMatchMedia('(max-width: 960px)');
 
   return (
     <div className={styles.root}>
+      {themesEnabled && <ThemeToggle />}
+
       {!mobile && (
         <>
           {headerLinks?.map((item, index) => (

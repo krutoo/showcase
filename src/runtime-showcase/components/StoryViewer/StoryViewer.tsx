@@ -1,5 +1,5 @@
 import { type StoryModule } from '#core';
-import { useMemo, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 import { Link } from '../Link';
 import { Plate, PlateBody, PlateHeader } from '../Plate';
 import { StorySources } from '../StorySources';
@@ -12,7 +12,7 @@ export interface StoryViewerProps {
   defineStoryUrl: (story: StoryModule) => string;
 }
 
-export function StoryViewer({ story, defineStoryUrl }: StoryViewerProps) {
+export function StoryViewer({ story, defineStoryUrl }: StoryViewerProps): ReactNode {
   const sourcesEnabled = useMemo(
     () => Boolean(story?.meta?.parameters?.sources) || story.lang === 'js',
     [story],

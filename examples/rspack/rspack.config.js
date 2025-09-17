@@ -6,8 +6,6 @@ const storiesEntrypoint = './.generated/found-stories.js';
 
 await emitStoriesEntrypoint({
   filename: storiesEntrypoint,
-  storiesGlob: './stories/**/*.story.{mdx,ts,tsx}',
-  storiesRootDir: './stories/',
   rawImport: mod => ({ importPath: `!${mod.importPath}?raw` }),
 });
 
@@ -101,18 +99,17 @@ export default {
       chunks: ['sandbox'],
     }),
 
-    // public folder
+    // copy public folder
     new rspack.CopyRspackPlugin({
-      patterns: [
-        {
-          from: 'public',
-          to: 'public',
-        },
-      ],
+      patterns: [{ from: 'public', to: 'public' }],
     }),
   ],
   experiments: {
     css: false,
     outputModule: true,
+  },
+  devServer: {
+    hot: false,
+    liveReload: true,
   },
 };

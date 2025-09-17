@@ -22,13 +22,13 @@
 .menuitem:not(.active) > .menuitemTitle.interactive:hover,
 .menuitem:not(.active) > .menuitemTitle.interactive:focus-visible {
   cursor: pointer;
-  color: var(--showcase-ui-menuitem-color, #000);
-  background: var(--showcase-ui-menuitem-background, #f2f3f6);
+  color: var(--showcase-ui-menuitem-hover-color, #000);
+  background: var(--showcase-ui-menuitem-hover-background, #f2f3f6);
 }
 
 .menuitem.active > .menuitemTitle {
-  color: var(--showcase-ui-menuitem-color, #000);
-  background: var(--showcase-ui-menuitem-background, #eaebf1);
+  color: var(--showcase-ui-menuitem-active-color, #000);
+  background: var(--showcase-ui-menuitem-active-background, #eaebf1);
 }
 
 .bold {

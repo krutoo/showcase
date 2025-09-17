@@ -9,7 +9,7 @@ import {
   useSyncExternalStore,
 } from 'react';
 import { FaChevronRight } from 'react-icons/fa6';
-import { createMicroStore, MicroStore } from '../../shared/micro-store';
+import { createNanoStore, type NanoStore } from '../../shared/nano-store';
 import { useIsomorphicLayoutEffect } from '@krutoo/utils/react';
 import classNames from 'classnames';
 import styles from './Menu.m.css';
@@ -26,12 +26,12 @@ export interface MenuProps<T> {
 }
 
 interface MenuItemContextValue {
-  store: MicroStore<{ open: boolean }>;
+  store: NanoStore<{ open: boolean }>;
   controlled: boolean;
 }
 
 const MenuItemContext = createContext<MenuItemContextValue>({
-  store: createMicroStore<{ open: boolean }>({ open: true }),
+  store: createNanoStore<{ open: boolean }>({ open: true }),
   controlled: false,
 });
 
@@ -46,7 +46,7 @@ export function Menu<T>({
   isInteractive,
   onItemClick,
   getChildItems,
-}: MenuProps<T>) {
+}: MenuProps<T>): ReactNode {
   return (
     <>
       {items.map((item, index) => {
@@ -110,9 +110,9 @@ export function MenuItem({
   open?: boolean;
   defaultOpen?: boolean;
   onToggle?: (event: { open: boolean }) => void;
-}) {
+}): ReactNode {
   const [store] = useState(() =>
-    createMicroStore<{ open: boolean }>({
+    createNanoStore<{ open: boolean }>({
       open: openProp ?? defaultOpen ?? true,
     }),
   );
@@ -148,7 +148,7 @@ export function MenuItemTitle({
   ...restProps
 }: AnchorHTMLAttributes<HTMLAnchorElement> & {
   interactive?: boolean;
-}) {
+}): ReactNode {
   const { store, controlled } = useContext(MenuItemContext);
 
   return (
@@ -176,7 +176,7 @@ export function MenuItemBody({
   children,
   className,
   ...restProps
-}: HTMLAttributes<HTMLDivElement>) {
+}: HTMLAttributes<HTMLDivElement>): ReactNode {
   const { store } = useContext(MenuItemContext);
   const state = useSyncExternalStore(store.subscribe, store.getState);
 

@@ -1,6 +1,6 @@
 import { StoryModule } from '#core';
-import { createContext, useContext, useMemo } from 'react';
-import { getMenuItems } from '../utils/menu';
+import { Context, createContext, useContext, useMemo } from 'react';
+import { AnyMenuNode, getMenuItems } from '../utils/menu';
 import { useLocation } from '../shared/router';
 
 export interface ShowcaseContextValue {
@@ -11,6 +11,11 @@ export interface ShowcaseContextValue {
     stories: StoryModule[];
     defineStoryUrl: (story: StoryModule) => string;
     storySearch: boolean;
+    themes: {
+      enabled: boolean;
+      attributeTarget: 'rootElement' | 'documentElement';
+      defaults: boolean;
+    };
   };
 
   menuOpen: boolean;
@@ -19,11 +24,16 @@ export interface ShowcaseContextValue {
   defaultPathname: string;
 }
 
-export const ShowcaseContext = createContext<ShowcaseContextValue>({
+export const ShowcaseContext: Context<ShowcaseContextValue> = createContext<ShowcaseContextValue>({
   processedProps: {
     stories: [],
     defineStoryUrl: () => '/',
     storySearch: false,
+    themes: {
+      enabled: false,
+      attributeTarget: 'rootElement',
+      defaults: true,
+    },
   },
   menuOpen: false,
   toggleMenu() {},
@@ -52,7 +62,7 @@ export function useCurrentStory(): StoryModule | undefined {
   );
 }
 
-export function useMenuItems() {
+export function useMenuItems(): AnyMenuNode[] {
   const { processedProps } = useContext(ShowcaseContext);
   const { stories } = processedProps;
 
@@ -65,7 +75,7 @@ export function useMainMenu(): [boolean, (open: boolean) => void] {
   return useMemo(() => [menuOpen, toggleMenu], [menuOpen, toggleMenu]);
 }
 
-export function useStorySearchResult(query: string) {
+export function useStorySearchResult(query: string): StoryModule[] {
   const { processedProps } = useContext(ShowcaseContext);
   const { stories } = processedProps;
 

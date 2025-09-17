@@ -9,7 +9,7 @@
 }
 
 .color-default:hover {
-  color: var(--showcase-ui-link-color, #555);
+  color: var(--showcase-ui-link-hover-color, var(--showcase-ui-link-color, #555));
 }
 
 .color-black {

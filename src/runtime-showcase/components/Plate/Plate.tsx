@@ -1,10 +1,10 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import classNames from 'classnames';
 import styles from './Plate.m.css';
 
 export type PlateProps = HTMLAttributes<HTMLDivElement>;
 
-export function Plate({ children, className, ...restProps }: PlateProps) {
+export function Plate({ children, className, ...restProps }: PlateProps): ReactNode {
   return (
     <div data-kind='Plate' {...restProps} className={classNames(styles.plate, className)}>
       {children}
@@ -14,7 +14,7 @@ export function Plate({ children, className, ...restProps }: PlateProps) {
 
 export type PlateBodyProps = HTMLAttributes<HTMLDivElement>;
 
-export function PlateBody({ children, className, ...restProps }: PlateBodyProps) {
+export function PlateBody({ children, className, ...restProps }: PlateBodyProps): ReactNode {
   return (
     <div {...restProps} className={classNames(styles.body, className)}>
       {children}
@@ -24,7 +24,7 @@ export function PlateBody({ children, className, ...restProps }: PlateBodyProps)
 
 export type PlateHeaderProps = HTMLAttributes<HTMLDivElement>;
 
-export function PlateHeader({ children, className, ...restProps }: PlateHeaderProps) {
+export function PlateHeader({ children, className, ...restProps }: PlateHeaderProps): ReactNode {
   return (
     <div {...restProps} className={classNames(styles.header, className)}>
       {children}

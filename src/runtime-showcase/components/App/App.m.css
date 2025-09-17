@@ -1,3 +1,66 @@
+.default-theme-light {
+  --showcase-ui-background: #fff;
+  --showcase-ui-text-color: #222;
+}
+
+.default-theme-dark {
+  /* basics */
+  --showcase-ui-background: #1e2227;
+  --showcase-ui-text-color: #f0f0f0;
+
+  /* header */
+  --showcase-ui-header-background: var(--showcase-ui-background);
+  --showcase-ui-header-color: #f0f0f0;
+  --showcase-ui-header-box-shadow: 0 1px 0 0 #2c313a;
+
+  /* aside */
+  --showcase-ui-aside-background: var(--showcase-ui-background);
+  --showcase-ui-aside-color: #f0f0f0;
+  --showcase-ui-aside-box-shadow: 1px 0 0 0 #2c313a;
+
+  /* modal */
+  --showcase-ui-modal-background: var(--showcase-ui-background);
+  --showcase-ui-modal-color: var(--showcase-ui-text-color);
+
+  /* input */
+  --showcase-ui-input-color: #fff;
+  --showcase-ui-input-placeholder-color: #9cacbc;
+  --showcase-ui-input-background: #2e3440;
+  --showcase-ui-input-outline-color: #4b525c;
+  --showcase-ui-input-focus-outline-color: #9cacbc;
+
+  /* link */
+  --showcase-ui-link-color: #9cacbc;
+  --showcase-ui-link-hover-color: #fff;
+
+  /* menu */
+  --showcase-ui-menuitem-color: #abb2bf;
+  --showcase-ui-menuitem-background: transparent;
+  --showcase-ui-menuitem-hover-color: var(--showcase-ui-link-color);
+  --showcase-ui-menuitem-hover-background: #2c313a;
+  --showcase-ui-menuitem-active-color: var(--showcase-ui-link-color);
+  --showcase-ui-menuitem-active-background: #323842;
+
+  /* story */
+  --showcase-ui-story-viewer-background: #191b20;
+  --showcase-ui-plate-background: #1e2227;
+  --showcase-ui-plate-box-shadow: inset 0 0 0 1px #2c313a;
+  --showcase-ui-plate-header-box-shadow: inset 0 -1px 0 0 #2c313a;
+
+  /* mdx codeblock */
+  --showcase-ui-mdx-codeblock-background: #2e3440;
+  --showcase-ui-mdx-codeblock-box-shadow: inset 0 0 0 1px #4c566a;
+
+  /* mdx blockquote */
+  --showcase-ui-mdx-blockquote-color: #9cacbc;
+  --showcase-ui-mdx-blockquote-accent-color: #566176;
+}
+
+.root {
+  background: var(--showcase-ui-background, #fff);
+  color: var(--showcase-ui-text-color, #222);
+}
+
 .aside {
   padding-top: 1rem;
   padding-bottom: 1rem;

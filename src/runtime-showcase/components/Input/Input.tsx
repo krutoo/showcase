@@ -1,9 +1,9 @@
-import type { InputHTMLAttributes } from 'react';
+import type { InputHTMLAttributes, ReactNode } from 'react';
 import classNames from 'classnames';
 import styles from './Input.m.css';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
-export function Input({ className, ...restProps }: InputProps) {
+export function Input({ className, ...restProps }: InputProps): ReactNode {
   return <input className={classNames(styles.input, className)} {...restProps} />;
 }

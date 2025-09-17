@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import classNames from 'classnames';
 import styles from './Layout.m.css';
 
@@ -10,7 +10,7 @@ export interface AsideProps extends HTMLAttributes<HTMLElement> {}
 
 export interface MainProps extends HTMLAttributes<HTMLElement> {}
 
-export function Layout({ className, children, ...restProps }: LayoutProps) {
+export function Layout({ className, children, ...restProps }: LayoutProps): ReactNode {
   const rootClassName = classNames(styles.layout, className);
 
   return (
@@ -20,7 +20,7 @@ export function Layout({ className, children, ...restProps }: LayoutProps) {
   );
 }
 
-export function Header({ className, children, ...restProps }: HeaderProps) {
+export function Header({ className, children, ...restProps }: HeaderProps): ReactNode {
   const rootClassName = classNames(styles.header, className);
 
   return (
@@ -30,7 +30,7 @@ export function Header({ className, children, ...restProps }: HeaderProps) {
   );
 }
 
-export function Aside({ className, children, ...restProps }: HeaderProps) {
+export function Aside({ className, children, ...restProps }: HeaderProps): ReactNode {
   const rootClassName = classNames(styles.aside, className);
 
   return (
@@ -40,7 +40,7 @@ export function Aside({ className, children, ...restProps }: HeaderProps) {
   );
 }
 
-export function Main({ className, children, ...restProps }: MainProps) {
+export function Main({ className, children, ...restProps }: MainProps): ReactNode {
   const rootClassName = classNames(styles.main, className);
 
   return (

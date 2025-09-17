@@ -9,6 +9,7 @@
     "strict": true,
     "skipLibCheck": true,
     "isolatedModules": true,
+    "noUnusedLocals": true,
     "paths": {
       "#core": ["./src/core/index.ts"],
       "#runtime": ["./src/runtime/index.ts"]

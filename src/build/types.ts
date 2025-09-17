@@ -1,14 +1,14 @@
-import { type StoryMeta } from '../core/schemas.js';
+import type { StoryMeta } from '../core/schemas.js';
 
 export interface EmitStoriesEntrypointConfig {
-  /** Путь до точки входа - модуля, в котором будут импортированы все найденные story-модули. */
+  /** Entrypoint file emit destination. */
   filename: string;
 
-  /** Корневая папка в которой лежат все story-модули. */
-  storiesRootDir: string;
+  /** Root directory that contain all story modules. */
+  storiesRootDir?: string;
 
-  /** Glob-паттерн для поиска story-модулей. */
-  storiesGlob: string;
+  /** Glob-pattern to search story modules. */
+  storiesGlob?: string;
 
   /** Template of import path for importing modules as string (raw source code). */
   rawImport?: (moduleData: { importPath: string }) => { importPath: string };

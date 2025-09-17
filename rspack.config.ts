@@ -3,7 +3,24 @@ import path from 'node:path';
 import rspack, { type Configuration } from '@rspack/core';
 import packageJson from './package.json' with { type: 'json' };
 
-export default {
+async function emitCssModuleExports(data: {
+  exports: Array<{ name: string; value: string }>;
+  resourcePath: string;
+}) {
+  const targetFilename = path.join('dist', path.relative('./src', `${data.resourcePath}.js`));
+
+  await fs.mkdir(path.dirname(targetFilename), { recursive: true });
+
+  const content = JSON.stringify(
+    Object.fromEntries(data.exports.map(item => [item.name, item.value])),
+    null,
+    2,
+  );
+
+  await fs.writeFile(targetFilename, `export default ${content};`);
+}
+
+const config: Configuration = {
   entry: {
     bundle: './src/runtime-showcase/index.ts',
   },
@@ -73,21 +90,6 @@ export default {
     css: false,
     outputModule: true,
   },
-} satisfies Configuration;
+};
 
-async function emitCssModuleExports(data: {
-  exports: Array<{ name: string; value: string }>;
-  resourcePath: string;
-}) {
-  const targetFilename = path.join('dist', path.relative('./src', `${data.resourcePath}.js`));
-
-  await fs.mkdir(path.dirname(targetFilename), { recursive: true });
-
-  const content = JSON.stringify(
-    Object.fromEntries(data.exports.map(item => [item.name, item.value])),
-    null,
-    2,
-  );
-
-  await fs.writeFile(targetFilename, `export default ${content};`);
-}
+export default config;
