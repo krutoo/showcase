@@ -1,7 +1,8 @@
+import { ReactNode } from 'react';
 import { useStories } from '../../context/showcase';
 import styles from './StoryPlaceholder.m.css';
 
-export function StoryPlaceholder() {
+export function StoryPlaceholder(): ReactNode {
   const stories = useStories();
 
   return (
@@ -18,7 +19,7 @@ export function StoryPlaceholder() {
       {stories.length > 0 && (
         <>
           <h2 className={styles.title}>Story not found</h2>
-          <p className={styles.message}>Use menu to navigate through the available stories</p>
+          <p className={styles.message}>Use menu to navigate through available stories</p>
         </>
       )}
     </div>

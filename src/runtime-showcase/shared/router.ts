@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { Context, createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 export interface RouterLocation {
   readonly pathname: string;
@@ -40,6 +40,8 @@ export class QueryRouter implements Router {
       `${url.pathname}${url.search}${pathname ? `${url.search ? '&' : '?'}path=${pathname}` : ''}`,
     );
 
+    window.scrollTo(0, 0);
+
     this.updateLocation(pathname);
   }
 
@@ -67,7 +69,7 @@ export class QueryRouter implements Router {
   }
 }
 
-export const RouterContext = createContext<Router>({
+export const RouterContext: Context<Router> = createContext<Router>({
   getLocation: () => ({ pathname: '' }),
   navigate: () => {},
   subscribe: () => () => {},

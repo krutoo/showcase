@@ -3,12 +3,18 @@ input.input {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   border-radius: 6px;
-  box-shadow: inset 0 0 0 1px #ddd;
+  color: var(--showcase-ui-input-color, #222);
+  box-shadow: inset 0 0 0 1px var(--showcase-ui-input-outline-color, #ddd);
+  background: var(--showcase-ui-input-background, #fff);
+}
+
+inout.input::placeholder {
+  color: var(--showcase-ui-input-placeholder-color, #555);
 }
 
 input.input:focus {
-  box-shadow: inset 0 0 0 1px #323232;
-  outline: 1px solid #323232;
+  box-shadow: inset 0 0 0 1px var(--showcase-ui-input-focus-outline-color, #323232);
+  outline: 1px solid var(--showcase-ui-input-focus-outline-color, #323232);
 }
 
 input.input::-webkit-search-decoration,

@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from '../../shared/router';
 import { IoMdClose } from 'react-icons/io';
 import { Menu, MenuItem, MenuItemTitle } from '../Menu';
-import { useContext, useEffect, useState } from 'react';
+import { ReactNode, useContext, useEffect, useState } from 'react';
 import { ShowcaseContext, useMenuItems, useStorySearchResult } from '../../context/showcase';
 import { Input } from '../Input';
 import styles from './MenuModal.m.css';
@@ -11,7 +11,7 @@ export interface MenuModalProps {
   onClose?: VoidFunction;
 }
 
-export function MenuModal({ open, onClose }: MenuModalProps) {
+export function MenuModal({ open, onClose }: MenuModalProps): ReactNode {
   const location = useLocation();
   const navigate = useNavigate();
 

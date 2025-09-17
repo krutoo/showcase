@@ -1,16 +1,18 @@
 import { type StoryModule } from '#core';
-import { useEffect, useState } from 'react';
+import { ReactNode, useContext, useEffect, useState } from 'react';
 import { Plate, PlateBody, PlateHeader } from '../Plate';
 import { HighlighterCore, getHighlighterCore } from 'shiki/core';
+import { ThemeContext } from '../../context/theme';
 import loadWasm from 'shiki/wasm';
 import themeGitHubLight from 'shiki/themes/github-light.mjs';
+import themeOneDarkPro from 'shiki/themes/one-dark-pro.mjs';
 import classNames from 'classnames';
 import styles from './StorySources.m.css';
 
 export function StorySources({
   story,
   className,
-}: { story: StoryModule } & { className?: string }) {
+}: { story: StoryModule } & { className?: string }): ReactNode {
   const [sourceIndex, setSourceIndex] = useState(-1);
   const [source, setSource] = useState(story.source);
 
@@ -62,9 +64,10 @@ export function StorySources({
   );
 }
 
-export function Code({ lang, source }: { lang?: string; source: string }) {
+export function Code({ lang, source }: { lang?: string; source: string }): ReactNode {
+  const { theme } = useContext(ThemeContext);
   const highlighter = useHighlighter();
-  const [state, setState] = useState('');
+  const [parsed, setParsed] = useState<string | null>(null);
 
   useEffect(() => {
     if (!highlighter) {
@@ -74,18 +77,25 @@ export function Code({ lang, source }: { lang?: string; source: string }) {
     try {
       const html = highlighter.codeToHtml(source, {
         lang: lang ?? 'text',
-        theme: 'github-light',
+        theme: theme === 'dark' ? 'one-dark-pro' : 'github-light',
       });
 
-      setState(html);
+      setParsed(html);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);
-      setState('<p>Error</p>');
     }
   }, [highlighter, source]);
 
-  return <div className={styles.code} dangerouslySetInnerHTML={{ __html: state }} />;
+  if (!parsed) {
+    return (
+      <div className={styles.code}>
+        <pre>{source}</pre>
+      </div>
+    );
+  }
+
+  return <div className={styles.code} dangerouslySetInnerHTML={{ __html: parsed }} />;
 }
 
 function useHighlighter() {
@@ -102,6 +112,7 @@ function useHighlighter() {
       themes: [
         //
         themeGitHubLight,
+        themeOneDarkPro,
       ],
       loadWasm,
     })

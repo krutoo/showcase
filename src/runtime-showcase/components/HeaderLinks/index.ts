@@ -1,1 +1,1 @@
-export { HeaderLinks } from './HeaderLinks';
+export { HeaderButtons as HeaderLinks } from './HeaderLinks';

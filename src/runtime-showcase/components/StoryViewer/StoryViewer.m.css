@@ -1,7 +1,7 @@
 .root {
   box-sizing: border-box;
   padding: var(--showcase-ui-story-viewer-inner-gutter, 2rem);
-  background: #f9fafb;
+  background: var(--showcase-ui-story-viewer-background, #f9fafb);
   min-height: calc(100vh - var(--showcase-ui-header-height, 64px));
   display: flex;
   flex-direction: column;

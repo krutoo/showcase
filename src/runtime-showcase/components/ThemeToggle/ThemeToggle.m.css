@@ -1,0 +1,31 @@
+.root {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  outline: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  color: var(--showcase-ui-link-color, #646464);
+  box-shadow: 0 0 0 1px currentColor;
+  border-radius: 4px;
+  transition: color 120ms ease-in-out;
+}
+
+.root:hover {
+  cursor: pointer;
+  color: var(--showcase-ui-link-hover-color, #323232);
+  background: transparent;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  fill: currentColor;
+  transition: fill 120ms ease-in-out;
+}

@@ -1,5 +1,6 @@
 import type { EmitStoriesEntrypointConfig, StoryModuleData } from './types';
 import path from 'node:path';
+import { defaultRawImport } from './utils';
 
 export function EntrypointTemplate(
   entries: StoryModuleData[],
@@ -39,7 +40,7 @@ export function ImportStorySourceTemplate(
 export function ImportStoryExtraSourcesTemplate(
   entry: StoryModuleData,
   { rawImport = defaultRawImport, ...config }: EmitStoriesEntrypointConfig,
-) {
+): string {
   if (
     typeof entry.metaJson?.parameters?.sources === 'object' &&
     entry.metaJson?.parameters?.sources !== null &&
@@ -99,13 +100,4 @@ function StoriesArrayItemTemplate(entry: StoryModuleData) {
   source: ${entry.importIdentifier}Source
 },
 `.trim();
-}
-
-function defaultRawImport(moduleData: { importPath: string }): { importPath: string } {
-  return {
-    // по умолчанию такой потому что такой поддерживается в Vite, Webpack, Rspack
-    // но в Rspack почему-то не работает без начального "!"
-    // поэтому даем возможность переопределить
-    importPath: `${moduleData.importPath}?raw`,
-  };
 }

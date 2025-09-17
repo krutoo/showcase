@@ -1,3 +1,4 @@
+import type { ElementType, ReactNode } from 'react';
 import type { StoryModule } from '#core';
 import styles from './StoryMdxViewer.m.css';
 
@@ -5,9 +6,9 @@ export interface StoryMdxViewerProps {
   story: StoryModule;
 }
 
-export function StoryMdxViewer({ story }: StoryMdxViewerProps) {
+export function StoryMdxViewer({ story }: StoryMdxViewerProps): ReactNode {
   const fullscreen = story.metaJson?.parameters?.layout === 'fullscreen';
-  const Component: any = story.default;
+  const Component: ElementType = story.default as any;
 
   return (
     <div data-kind='MdxViewer' className={styles.mdx}>
