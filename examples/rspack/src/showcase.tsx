@@ -12,14 +12,12 @@ createRoot(document.querySelector('#root')!).render(
     stories={validStories}
     title='Rspack example'
     logoSrc='public/rspack-logo.svg'
+    storySearch
+    themes={{ enabled: true }}
     headerLinks={[
       {
         name: 'GitHub',
-        href: 'https://github.com/krutoo/showcase',
-      },
-      {
-        name: 'NPM',
-        href: 'https://www.npmjs.com/package/@krutoo/showcase',
+        href: 'https://github.com/krutoo/showcase/tree/main/examples/rspack',
       },
     ]}
   />,
