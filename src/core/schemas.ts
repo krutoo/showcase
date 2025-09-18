@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import * as z from 'zod/mini';
 
 export type StoryMeta = z.infer<typeof StoryMetaSchema>;
 
@@ -8,24 +8,24 @@ export type StoryModule = z.infer<typeof StoryModuleSchema>;
  * Схема объекта мета-данных story-модуля.
  */
 export const StoryMetaSchema = z.object({
-  title: z.string().optional(),
-  category: z.string().optional(),
-  menuPriority: z.number().int().finite().optional(),
-  menuHidden: z.boolean().optional(),
-  parameters: z
-    .object({
-      layout: z.enum(['padded', 'fullscreen']).optional(),
-      backgrounds: z.object({ default: z.string() }).optional(),
-      sources: z
-        .union([
+  title: z.optional(z.string()),
+  category: z.optional(z.string()),
+  menuPriority: z.optional(z.int()),
+  menuHidden: z.optional(z.boolean()),
+  parameters: z.optional(
+    z.object({
+      layout: z.optional(z.enum(['padded', 'fullscreen'])),
+      backgrounds: z.optional(z.object({ default: z.string() })),
+      sources: z.optional(
+        z.union([
           z.boolean(),
           z.object({
             extraSources: z.array(z.string()),
           }),
-        ])
-        .optional(),
-    })
-    .optional(),
+        ]),
+      ),
+    }),
+  ),
 });
 
 /**
@@ -36,10 +36,10 @@ export const StoryModuleSchema = z.object({
   default: z.function(),
 
   /** Мета-данные из модуля (`export { meta: {} }`). */
-  meta: StoryMetaSchema.optional(),
+  meta: z.optional(StoryMetaSchema),
 
   /** Мета-данные из соответствующего json-файла. */
-  metaJson: StoryMetaSchema.optional(),
+  metaJson: z.optional(StoryMetaSchema),
 
   /** В каком формате модуль. */
   lang: z.enum(['js', 'mdx']),

@@ -1,5 +1,6 @@
 export const meta = {
   title: 'About',
+  category: '',
 };
 
 # Example of using `@krutoo/showcase` with Rspack
@@ -104,4 +105,16 @@ export const meta = {
 export default function Story() {
   return <h1>Hello, world!</h1>;
 }
+```
+
+If you set up MDX you can add MDX-stories:
+
+```mdx
+export const meta = {
+  title: 'My first MDX story',
+};
+
+# Hello, world
+
+This is **first** MDX-document in my showcase
 ```
