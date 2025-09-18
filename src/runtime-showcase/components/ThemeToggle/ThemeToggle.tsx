@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { ThemeContext } from '../../context/theme';
-import { RiSunLine, RiMoonLine } from 'react-icons/ri';
+import { SunSVG, MoonSVG } from '../../icons';
 import styles from './ThemeToggle.m.css';
 
 export function ThemeToggle() {
@@ -12,8 +12,8 @@ export function ThemeToggle() {
 
   return (
     <button className={styles.root} onClick={handleClick} aria-label='Toggle dark mode'>
-      {theme === 'light' && <RiSunLine className={styles.icon} />}
-      {theme === 'dark' && <RiMoonLine className={styles.icon} />}
+      {theme === 'light' && <SunSVG className={styles.icon} />}
+      {theme === 'dark' && <MoonSVG className={styles.icon} />}
     </button>
   );
 }

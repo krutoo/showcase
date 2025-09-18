@@ -299,11 +299,3 @@ You also need to provide special option to `ShowcaseApp`:
 ```jsx
 <ShowcaseApp defineStoryUrl={story => `sandbox/?path=${story.pathname}`} />
 ```
-
-## To Do
-
-- Ability of localization
-- ~~Search field of stories in menu~~
-- Unit tests & e2e tests
-- Working examples in repo (with Webpack, Rspack, Vite...)
-- Ability to fully customize docs page UI

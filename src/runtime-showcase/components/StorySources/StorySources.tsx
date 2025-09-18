@@ -1,13 +1,15 @@
 import { type StoryModule } from '#core';
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { Plate, PlateBody, PlateHeader } from '../Plate';
-import { HighlighterCore, getHighlighterCore } from 'shiki/core';
 import { ThemeContext } from '../../context/theme';
-import loadWasm from 'shiki/wasm';
+import { type HighlighterCore, createHighlighterCore } from 'shiki/core';
+import { createJavaScriptRegexEngine } from 'shiki/engine-javascript.mjs';
 import themeGitHubLight from 'shiki/themes/github-light.mjs';
 import themeOneDarkPro from 'shiki/themes/one-dark-pro.mjs';
 import classNames from 'classnames';
 import styles from './StorySources.m.css';
+
+let highlighterSingleton: Awaited<ReturnType<typeof createHighlighterCore>>;
 
 export function StorySources({
   story,
@@ -102,7 +104,12 @@ function useHighlighter() {
   const [highlighter, setHighlighter] = useState<HighlighterCore | null>(null);
 
   useEffect(() => {
-    getHighlighterCore({
+    if (highlighterSingleton) {
+      setHighlighter(highlighterSingleton);
+      return;
+    }
+
+    createHighlighterCore({
       langs: [
         //
         import('shiki/langs/mdx.mjs'),
@@ -114,9 +121,12 @@ function useHighlighter() {
         themeGitHubLight,
         themeOneDarkPro,
       ],
-      loadWasm,
+      engine: createJavaScriptRegexEngine(),
     })
-      .then(setHighlighter)
+      .then(result => {
+        setHighlighter(result);
+        highlighterSingleton = result;
+      })
       .catch(console.error);
   }, []);
 

@@ -8,7 +8,7 @@ import {
   useState,
   useSyncExternalStore,
 } from 'react';
-import { FaChevronRight } from 'react-icons/fa6';
+import { ChevronRightSVG } from '../../icons';
 import { createNanoStore, type NanoStore } from '../../shared/nano-store';
 import { useIsomorphicLayoutEffect } from '@krutoo/utils/react';
 import classNames from 'classnames';
@@ -71,7 +71,7 @@ export function Menu<T>({
                 onItemClick?.(event, item);
               }}
             >
-              {!toplevel && childItems.length > 0 && <FaChevronRight className={styles.icon} />}
+              {!toplevel && childItems.length > 0 && <ChevronRightSVG className={styles.icon} />}
               {(getTitle ?? String)(item)}
             </MenuItemTitle>
 

@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import rspack, { type Configuration } from '@rspack/core';
+import rspack, { SwcLoaderOptions, type Configuration } from '@rspack/core';
 import packageJson from './package.json' with { type: 'json' };
 
 async function emitCssModuleExports(data: {
@@ -47,11 +47,11 @@ const config: Configuration = {
         exclude: /node_modules/,
         loader: 'builtin:swc-loader',
         options: {
-          sourceMap: true,
+          sourceMaps: true,
           jsc: {
             parser: {
               syntax: 'typescript',
-              jsx: true,
+              tsx: true,
             },
             transform: {
               react: {
@@ -59,7 +59,7 @@ const config: Configuration = {
               },
             },
           },
-        },
+        } satisfies SwcLoaderOptions,
       },
       {
         test: /\.css$/i,
@@ -83,7 +83,7 @@ const config: Configuration = {
   },
   plugins: [
     new rspack.CssExtractRspackPlugin({
-      filename: path.resolve(process.cwd(), 'css/showcase.css'),
+      filename: '../css/showcase.css',
     }),
   ],
   experiments: {

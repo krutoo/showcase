@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from '../../shared/router';
-import { IoMdClose } from 'react-icons/io';
+import { CrossSVG } from '../../icons';
 import { Menu, MenuItem, MenuItemTitle } from '../Menu';
 import { ReactNode, useContext, useEffect, useState } from 'react';
 import { ShowcaseContext, useMenuItems, useStorySearchResult } from '../../context/showcase';
@@ -34,7 +34,7 @@ export function MenuModal({ open, onClose }: MenuModalProps): ReactNode {
   return (
     <div className={styles.root}>
       <div className={styles.header}>
-        <IoMdClose className={styles.close} onClick={() => onClose?.()} />
+        <CrossSVG className={styles.close} onClick={() => onClose?.()} />
       </div>
       <div className={styles.body}>
         {headerLinks?.map((item, index) => (

@@ -2,7 +2,7 @@ import { ReactNode, useContext } from 'react';
 import { ShowcaseContext } from '../../context/showcase';
 import { Link } from '../Link';
 import { useMatchMedia } from '@krutoo/utils/react';
-import { IoMenu } from 'react-icons/io5';
+import { BurgerMenuSVG } from '../../icons';
 import { ThemeToggle } from '../ThemeToggle';
 import styles from './HeaderLinks.m.css';
 
@@ -26,7 +26,11 @@ export function HeaderButtons(): ReactNode {
       )}
 
       {mobile && (
-        <IoMenu role='button' className={styles.menuIcon} onClick={() => toggleMenuModal(true)} />
+        <BurgerMenuSVG
+          role='button'
+          className={styles.menuIcon}
+          onClick={() => toggleMenuModal(true)}
+        />
       )}
     </div>
   );
