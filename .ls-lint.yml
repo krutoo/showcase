@@ -1,0 +1,13 @@
+ls:
+  '{src,scripts}':
+    .dir: kebab-case
+    .js: kebab-case
+    .jsx: kebab-case
+    .ts: kebab-case
+    .tsx: kebab-case
+
+ignore:
+  - '*/.git'
+  - '*/node_modules'
+  - '*/dist'
+  - '*/.tsimp'
