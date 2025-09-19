@@ -1,1 +1,1 @@
-export { type SandboxAppProps, SandboxApp } from './components/SandboxApp';
+export { type SandboxAppProps, SandboxApp } from './components/sandbox-app';
