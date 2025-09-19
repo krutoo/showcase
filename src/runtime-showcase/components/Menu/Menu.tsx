@@ -1,9 +1,9 @@
 import {
-  AnchorHTMLAttributes,
+  type AnchorHTMLAttributes,
   createContext,
-  HTMLAttributes,
-  MouseEvent,
-  ReactNode,
+  type HTMLAttributes,
+  type MouseEvent,
+  type ReactNode,
   useContext,
   useState,
   useSyncExternalStore,

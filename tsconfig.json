@@ -9,6 +9,7 @@
     "strict": true,
     "skipLibCheck": true,
     "isolatedModules": true,
+    "verbatimModuleSyntax": true,
     "noUnusedLocals": true,
     "paths": {
       "#core": ["./src/core/index.ts"],

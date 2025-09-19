@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useEffect, useState } from 'react';
+import { type ReactNode, useContext, useEffect, useState } from 'react';
 import { useMatchMedia, useStorageItem } from '@krutoo/utils/react';
 import { useLocation, useNavigate } from '../../shared/router';
 import { StoryViewer } from '../StoryViewer';
@@ -32,42 +32,15 @@ export function App(): ReactNode {
   const mobile = useMatchMedia('(max-width: 960px)');
   const currentStory = useCurrentStory();
 
-  const isDefaultDark = useMatchMedia('(prefers-color-scheme: dark)');
-  const defaultTheme = isDefaultDark ? 'dark' : 'light';
-
-  const [savedTheme, setTheme] = useStorageItem('showcase:theme', {
-    storage: localStorage,
-  });
-
-  const theme = savedTheme ?? defaultTheme;
-
   const [search, setSearch] = useState('');
-  const searchResultItems = useStorySearchResult(search);
+  const searchResult = useStorySearchResult(search);
 
-  const onThemeToggle = () => {
-    setTheme((theme ?? defaultTheme) === 'dark' ? 'light' : 'dark');
-  };
+  const { theme, toggleTheme } = useTheme();
 
   const themeContext = {
-    theme: (theme as 'light' | 'dark' | null) ?? defaultTheme,
-    onThemeToggle,
+    theme,
+    onThemeToggle: toggleTheme,
   };
-
-  useEffect(() => {
-    if (processedProps.themes.attributeTarget !== 'documentElement') {
-      return;
-    }
-
-    if (theme && processedProps.themes.enabled) {
-      document.documentElement.setAttribute('data-theme', theme);
-      document.documentElement.classList.add(styles[`default-theme-${theme}`]);
-    }
-
-    return () => {
-      document.documentElement.removeAttribute('data-theme');
-      document.documentElement.classList.remove(styles[`default-theme-${theme}`]);
-    };
-  }, [processedProps.themes, theme]);
 
   return (
     <ThemeContext.Provider value={themeContext}>
@@ -87,7 +60,7 @@ export function App(): ReactNode {
           <HeaderLinks />
         </Header>
 
-        {!mobile && (
+        {!mobile && currentStory?.isAsideEnabled() && (
           <Aside>
             {processedProps.storySearch && (
               <div className={styles.search}>
@@ -143,7 +116,7 @@ export function App(): ReactNode {
             {search.length > 0 && (
               <div className={styles.menu}>
                 <Menu
-                  items={searchResultItems}
+                  items={searchResult}
                   getTitle={data => {
                     return data.meta?.title || data.meta?.category;
                   }}
@@ -164,7 +137,7 @@ export function App(): ReactNode {
           </Aside>
         )}
 
-        <Main>
+        <Main fullWidth={!currentStory?.isAsideEnabled()}>
           {!currentStory && <StoryPlaceholder />}
           {currentStory && <StoryViewer story={currentStory} defineStoryUrl={defineStoryUrl} />}
         </Main>
@@ -173,4 +146,40 @@ export function App(): ReactNode {
       </Layout>
     </ThemeContext.Provider>
   );
+}
+
+function useTheme() {
+  const { processedProps } = useContext(ShowcaseContext);
+
+  const isDefaultDark = useMatchMedia('(prefers-color-scheme: dark)');
+  const defaultTheme = isDefaultDark ? 'dark' : 'light';
+
+  const [savedTheme, setTheme] = useStorageItem('showcase:theme', {
+    storage: localStorage,
+  });
+
+  const theme = savedTheme ?? defaultTheme;
+
+  useEffect(() => {
+    if (processedProps.themes.attributeTarget !== 'documentElement') {
+      return;
+    }
+
+    if (theme && processedProps.themes.enabled) {
+      document.documentElement.setAttribute('data-theme', theme);
+      document.documentElement.classList.add(styles[`default-theme-${theme}`]);
+    }
+
+    return () => {
+      document.documentElement.removeAttribute('data-theme');
+      document.documentElement.classList.remove(styles[`default-theme-${theme}`]);
+    };
+  }, [processedProps.themes, theme]);
+
+  return {
+    theme: theme as 'light' | 'dark',
+    toggleTheme: () => {
+      setTheme(theme === 'dark' ? 'light' : 'dark');
+    },
+  };
 }

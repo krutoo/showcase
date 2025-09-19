@@ -1,7 +1,7 @@
 import chokidar from 'chokidar';
 import { emitStoriesEntrypoint } from './emit-stories-entrypoint';
 import { debounce } from '@krutoo/utils';
-import { EmitStoriesEntrypointConfig } from './types';
+import type { EmitStoriesEntrypointConfig } from './types';
 import { validateConfig } from './utils';
 
 /**

@@ -1,5 +1,5 @@
-import { type ElementType, ReactNode, useLayoutEffect, useMemo, useState } from 'react';
-import { type StoryModule } from '#core';
+import { type ReactNode, useLayoutEffect, useMemo, useState } from 'react';
+import { type StoryModule, StoryService } from '#core';
 
 export interface SandboxAppProps {
   stories: StoryModule[];
@@ -11,7 +11,16 @@ export function SandboxApp({
   defineStoryPathname = defaultDefinePathname,
 }: SandboxAppProps): ReactNode {
   const [pathname, setPathname] = useState<string | null>(null);
-  const currentStory = useMemo(() => stories.find(s => s.pathname === pathname), [pathname]);
+
+  const currentStory = useMemo(() => {
+    const story = stories.find(s => s.pathname === pathname);
+
+    if (!story) {
+      return null;
+    }
+
+    return new StoryService(story);
+  }, [pathname]);
 
   // определяем pathname текущего story-модуля
   useLayoutEffect(() => {
@@ -20,23 +29,25 @@ export function SandboxApp({
 
   // меняем title страницы
   useLayoutEffect(() => {
-    if (currentStory?.meta?.title) {
-      document.title = currentStory.meta.title;
+    const storyTitle = currentStory?.getTitle();
+
+    if (storyTitle) {
+      document.title = storyTitle;
     }
   }, [currentStory]);
 
   // применяем параметры фона
   useLayoutEffect(() => {
-    const backgrounds = getMetaParameter('backgrounds', currentStory?.meta);
+    const background = currentStory?.getDefaultBackground();
 
-    if (typeof backgrounds?.default === 'string') {
-      document.documentElement.style.setProperty('background', `${backgrounds.default}`);
+    if (typeof background === 'string') {
+      document.documentElement.style.setProperty('background', background);
     }
   }, [currentStory]);
 
   // применяем параметры раскладки
   useLayoutEffect(() => {
-    const layout = getMetaParameter('layout', currentStory?.meta) ?? 'padded';
+    const layout = currentStory?.getLayout();
 
     if (layout === 'padded') {
       document.body.style.setProperty('padding', '16px');
@@ -47,7 +58,7 @@ export function SandboxApp({
     }
   }, [currentStory]);
 
-  const Component = currentStory?.default as ElementType;
+  const Component = currentStory?.getComponent();
 
   if (!Component) {
     return null;
@@ -58,8 +69,4 @@ export function SandboxApp({
 
 function defaultDefinePathname(): string {
   return new URL(window.location.href).searchParams.get('path') ?? '';
-}
-
-function getMetaParameter(key: string, meta: any): any {
-  return meta?.parameters?.[key];
 }

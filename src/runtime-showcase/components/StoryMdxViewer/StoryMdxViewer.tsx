@@ -1,14 +1,14 @@
-import type { ElementType, ReactNode } from 'react';
-import type { StoryModule } from '#core';
+import type { ReactNode } from 'react';
+import type { StoryService } from '#core';
 import styles from './StoryMdxViewer.m.css';
 
 export interface StoryMdxViewerProps {
-  story: StoryModule;
+  story: StoryService;
 }
 
 export function StoryMdxViewer({ story }: StoryMdxViewerProps): ReactNode {
-  const fullscreen = story.metaJson?.parameters?.layout === 'fullscreen';
-  const Component: ElementType = story.default as any;
+  const fullscreen = story.isFullscreen();
+  const Component = story.getComponent();
 
   return (
     <div data-kind='MdxViewer' className={styles.mdx}>

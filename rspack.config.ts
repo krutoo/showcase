@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import rspack, { SwcLoaderOptions, type Configuration } from '@rspack/core';
+import rspack, { type SwcLoaderOptions, type Configuration } from '@rspack/core';
 import packageJson from './package.json' with { type: 'json' };
 
 async function emitCssModuleExports(data: {

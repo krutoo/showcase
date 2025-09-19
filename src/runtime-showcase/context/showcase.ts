@@ -1,6 +1,6 @@
-import { StoryModule } from '#core';
-import { Context, createContext, useContext, useMemo } from 'react';
-import { AnyMenuNode, getMenuItems } from '../utils/menu';
+import { type StoryModule, StoryService } from '#core';
+import { type Context, createContext, useContext, useMemo } from 'react';
+import { type AnyMenuNode, getMenuItems } from '../utils/menu';
 import { useLocation } from '../shared/router';
 
 export interface ShowcaseContextValue {
@@ -50,16 +50,21 @@ export function useStories(): StoryModule[] {
   return stories;
 }
 
-export function useCurrentStory(): StoryModule | undefined {
+export function useCurrentStory(): StoryService | undefined {
   const location = useLocation();
 
   const { processedProps } = useContext(ShowcaseContext);
   const { stories } = processedProps;
 
-  return useMemo(
-    () => stories.find(item => item.pathname === location.pathname),
-    [stories, location.pathname],
-  );
+  return useMemo(() => {
+    const story = stories.find(item => item.pathname === location.pathname);
+
+    if (!story) {
+      return undefined;
+    }
+
+    return new StoryService(story);
+  }, [stories, location.pathname]);
 }
 
 export function useMenuItems(): AnyMenuNode[] {

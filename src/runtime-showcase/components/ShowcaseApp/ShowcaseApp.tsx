@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { App } from '../App';
-import { StandaloneAppProps, StandaloneProvider } from '../StandaloneProvider';
+import { type StandaloneAppProps, StandaloneProvider } from '../StandaloneProvider';
 
 export type ShowcaseAppProps = StandaloneAppProps;
 

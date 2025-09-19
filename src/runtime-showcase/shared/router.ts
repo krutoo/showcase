@@ -1,4 +1,4 @@
-import { Context, createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { type Context, createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 export interface RouterLocation {
   readonly pathname: string;
