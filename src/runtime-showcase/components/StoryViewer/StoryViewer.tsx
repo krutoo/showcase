@@ -1,5 +1,5 @@
-import { type StoryModule } from '#core';
-import { ReactNode, useMemo, useState } from 'react';
+import { type StoryModule, StoryService } from '#core';
+import { type ReactNode, useState } from 'react';
 import { Link } from '../Link';
 import { Plate, PlateBody, PlateHeader } from '../Plate';
 import { StorySources } from '../StorySources';
@@ -8,29 +8,26 @@ import classNames from 'classnames';
 import styles from './StoryViewer.m.css';
 
 export interface StoryViewerProps {
-  story: StoryModule;
+  story: StoryService;
   defineStoryUrl: (story: StoryModule) => string;
 }
 
 export function StoryViewer({ story, defineStoryUrl }: StoryViewerProps): ReactNode {
-  const sourcesEnabled = useMemo(
-    () => Boolean(story?.meta?.parameters?.sources) || story.lang === 'js',
-    [story],
-  );
-
   const [sourcesOpen, setSourcesOpen] = useState(false);
 
-  const storyUrl = defineStoryUrl(story);
+  const storyUrl = defineStoryUrl(story.data);
 
-  if (story.lang === 'mdx') {
+  if (story.data.lang === 'mdx') {
     return <StoryMdxViewer story={story} />;
   }
 
   return (
     <div className={styles.root}>
       <Plate
-        className={classNames(styles.main, sourcesOpen && sourcesEnabled && styles.detailed)}
-        style={{ overflow: 'hidden' }}
+        className={classNames(
+          styles.main,
+          sourcesOpen && story.isSourcesEnabled() && styles.detailed,
+        )}
       >
         <PlateHeader>
           <div className={styles.controls}>
@@ -38,7 +35,7 @@ export function StoryViewer({ story, defineStoryUrl }: StoryViewerProps): ReactN
               Open in new tab
             </Link>
 
-            {sourcesEnabled && (
+            {story.isSourcesEnabled() && (
               <Link
                 href='#'
                 onClick={event => {
@@ -55,15 +52,15 @@ export function StoryViewer({ story, defineStoryUrl }: StoryViewerProps): ReactN
         <PlateBody className={styles.body}>
           <iframe
             // ВАЖНО: key нужен чтобы iframe не вызывал popstate у родительского документа
-            key={story.pathname}
+            key={story.data.pathname}
             className={styles.iframe}
             src={storyUrl}
           />
         </PlateBody>
       </Plate>
 
-      {story && sourcesEnabled && sourcesOpen && (
-        <StorySources className={styles.codeBlock} story={story} />
+      {story && story.isSourcesEnabled() && sourcesOpen && (
+        <StorySources className={styles.codeBlock} story={story.data} />
       )}
     </div>
   );

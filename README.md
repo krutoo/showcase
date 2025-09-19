@@ -56,13 +56,13 @@ Interface of meta data object:
 
 ```ts
 interface StoryMeta {
-  /** Title of story module. Title will be shown in menu of documentation page */
+  /** Title of story module. Title will be shown in menu of documentation page. */
   title?: string;
 
-  /** Category is needed to group modules on the documentation page */
+  /** Category is needed to group modules on the documentation page. */
   category?: string;
 
-  /** Affects position of link to story in menu, greater values makes links upper. */
+  /** Affects order of menu item, greater values makes item upper. */
   menuPriority?: number;
 
   /**
@@ -84,6 +84,9 @@ interface StoryMeta {
     backgrounds?: {
       default: string;
     };
+
+    /** Is aside on desktop enabled. */
+    asideEnabled?: boolean;
 
     /** Source code display config. False will disable display of sources in docs page */
     sources?:
@@ -130,7 +133,6 @@ Next step is creating two entrypoints - for "sandbox" and for "showcase".
 Create sandbox entrypoint in your project, for example in `./src/sandbox.jsx`:
 
 ```jsx
-// React bootstrap code
 import { createRoot } from 'react-dom/client';
 
 // util for validate story-modules
@@ -157,7 +159,6 @@ This page contains simple menu with all grouped stories and will render selected
 Create showcase entrypoint in your project, for example in `./src/showcase.jsx`:
 
 ```jsx
-// React bootstrap code
 import { createRoot } from 'react-dom/client';
 
 // "stories entrypoint" (trough alias, more on that later)

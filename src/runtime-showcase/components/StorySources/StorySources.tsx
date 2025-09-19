@@ -1,5 +1,5 @@
 import { type StoryModule } from '#core';
-import { ReactNode, useContext, useEffect, useState } from 'react';
+import { type ReactNode, useContext, useEffect, useState } from 'react';
 import { Plate, PlateBody, PlateHeader } from '../Plate';
 import { ThemeContext } from '../../context/theme';
 import { type HighlighterCore, createHighlighterCore } from 'shiki/core';
@@ -9,12 +9,14 @@ import themeOneDarkPro from 'shiki/themes/one-dark-pro.mjs';
 import classNames from 'classnames';
 import styles from './StorySources.m.css';
 
+export interface StorySourcesProps {
+  story: StoryModule;
+  className?: string;
+}
+
 let highlighterSingleton: Awaited<ReturnType<typeof createHighlighterCore>>;
 
-export function StorySources({
-  story,
-  className,
-}: { story: StoryModule } & { className?: string }): ReactNode {
+export function StorySources({ story, className }: StorySourcesProps): ReactNode {
   const [sourceIndex, setSourceIndex] = useState(-1);
   const [source, setSource] = useState(story.source);
 

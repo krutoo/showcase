@@ -1,8 +1,8 @@
-import { StoryModule } from '#core';
-import { ReactNode, useEffect, useMemo, useState } from 'react';
-import { AnyMenuNode, getMenuItems } from '../../utils/menu';
+import { type StoryModule } from '#core';
+import { type ReactNode, useEffect, useMemo, useState } from 'react';
+import { type AnyMenuNode, getMenuItems } from '../../utils/menu';
 import { QueryRouter, RouterContext } from '../../shared/router';
-import { ShowcaseContext, ShowcaseContextValue } from '../../context/showcase';
+import { ShowcaseContext, type ShowcaseContextValue } from '../../context/showcase';
 import { isObject } from '@krutoo/utils';
 
 export interface StandaloneAppProps {

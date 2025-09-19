@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from '../../shared/router';
 import { CrossSVG } from '../../icons';
 import { Menu, MenuItem, MenuItemTitle } from '../Menu';
-import { ReactNode, useContext, useEffect, useState } from 'react';
+import { type ReactNode, useContext, useEffect, useState } from 'react';
 import { ShowcaseContext, useMenuItems, useStorySearchResult } from '../../context/showcase';
 import { Input } from '../Input';
 import styles from './MenuModal.m.css';

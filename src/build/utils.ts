@@ -1,4 +1,4 @@
-import { EmitStoriesEntrypointConfig } from './types';
+import type { EmitStoriesEntrypointConfig } from './types';
 
 export function validateConfig(
   config: EmitStoriesEntrypointConfig,

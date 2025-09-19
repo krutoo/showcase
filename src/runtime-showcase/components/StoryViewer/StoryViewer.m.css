@@ -27,6 +27,7 @@
 }
 
 .main {
+  overflow: hidden;
   box-sizing: border-box;
   max-height: calc(
     100vh - var(--showcase-ui-header-height, 64px) -

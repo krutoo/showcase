@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useStories } from '../../context/showcase';
 import styles from './StoryPlaceholder.m.css';
 

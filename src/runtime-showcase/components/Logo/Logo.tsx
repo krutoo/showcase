@@ -1,4 +1,4 @@
-import { ReactNode, useContext } from 'react';
+import { type ReactNode, useContext } from 'react';
 import { useNavigate } from '../../shared/router';
 import { ShowcaseContext } from '../../context/showcase';
 import styles from './Logo.m.css';

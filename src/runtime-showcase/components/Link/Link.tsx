@@ -1,4 +1,4 @@
-import { AnchorHTMLAttributes, ReactNode } from 'react';
+import type { AnchorHTMLAttributes, ReactNode } from 'react';
 import classNames from 'classnames';
 import styles from './Link.m.css';
 
