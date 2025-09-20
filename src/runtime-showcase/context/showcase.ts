@@ -84,16 +84,27 @@ export function useStorySearchResult(query: string): StoryModule[] {
   const { processedProps } = useContext(ShowcaseContext);
   const { stories } = processedProps;
 
+  const items = useMemo(() => {
+    return stories.map(data => new StoryService(data));
+  }, [stories]);
+
   return useMemo(() => {
     if (!query) {
       return stories;
     }
 
-    return stories.filter(
-      ({ meta }) =>
-        !meta?.menuHidden &&
-        (meta?.title?.toLowerCase().includes(query.toLowerCase()) ||
-          meta?.category?.toLowerCase().includes(query.toLowerCase())),
-    );
-  }, [query, stories]);
+    const result: StoryModule[] = [];
+
+    for (const item of items) {
+      if (
+        !item.isMenuItemHidden() &&
+        (item.getTitle()?.toLowerCase().includes(query.toLowerCase()) ||
+          item.getCategory()?.toLowerCase().includes(query.toLowerCase()))
+      ) {
+        result.push(item.data);
+      }
+    }
+
+    return result;
+  }, [query, stories, items]);
 }
