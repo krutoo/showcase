@@ -155,3 +155,8 @@
   margin-bottom: 0;
   color: var(--showcase-ui-mdx-blockquote-color, #aaa);
 }
+
+.mdx i,
+.mdx em {
+  font-style: italic;
+}

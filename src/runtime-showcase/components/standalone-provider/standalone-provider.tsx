@@ -1,5 +1,5 @@
 import { type StoryModule } from '#core';
-import { type ReactNode, useEffect, useMemo, useState } from 'react';
+import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { type AnyMenuNode, getMenuItems } from '../../utils/menu';
 import { QueryRouter, RouterContext } from '../../shared/router';
 import { ShowcaseContext, type ShowcaseContextValue } from '../../context/showcase';
@@ -23,6 +23,8 @@ export interface StandaloneAppProps {
 
   /** Enables search by stories in sidebar and mobile modal menu. */
   storySearch?: boolean;
+
+  defaultStory?: { pathname: string };
 
   /** Enables switch between light and dark themes. */
   themes?:
@@ -52,12 +54,19 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
     //
     children,
     stories,
+    defaultStory,
     defineStoryUrl = defaultDefineStoryUrl,
   } = props;
 
   const [menuOpen, toggleMenu] = useState(false);
 
+  const defaultStoryRef = useRef(defaultStory);
+
   const defaultPathname = useMemo(() => {
+    if (defaultStoryRef.current?.pathname) {
+      return defaultStoryRef.current.pathname;
+    }
+
     const findFirstStory = (items: AnyMenuNode[]): string => {
       for (const item of items) {
         if (item.type === 'story') {
@@ -71,7 +80,7 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
     };
 
     return findFirstStory(getMenuItems(stories));
-  }, [stories]);
+  }, [defaultStoryRef, stories]);
 
   const contextValue: ShowcaseContextValue = {
     processedProps: {

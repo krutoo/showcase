@@ -60,7 +60,7 @@ export function App(): ReactNode {
           <HeaderLinks />
         </Header>
 
-        {!mobile && currentStory?.isAsideEnabled() && (
+        {!mobile && (!currentStory || currentStory?.isAsideEnabled()) && (
           <Aside>
             {processedProps.storySearch && (
               <div className={styles.search}>
@@ -137,7 +137,7 @@ export function App(): ReactNode {
           </Aside>
         )}
 
-        <Main fullWidth={!currentStory?.isAsideEnabled()}>
+        <Main fullWidth={!(!currentStory || currentStory?.isAsideEnabled())}>
           {!currentStory && <StoryPlaceholder />}
           {currentStory && <StoryViewer story={currentStory} defineStoryUrl={defineStoryUrl} />}
         </Main>
