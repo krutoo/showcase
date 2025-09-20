@@ -60,7 +60,7 @@ export function App(): ReactNode {
           <HeaderLinks />
         </Header>
 
-        {!mobile && currentStory?.isAsideEnabled() && (
+        {!mobile && (!currentStory || currentStory?.isAsideEnabled()) && (
           <Aside>
             {processedProps.storySearch && (
               <div className={styles.search}>
@@ -137,7 +137,7 @@ export function App(): ReactNode {
           </Aside>
         )}
 
-        <Main fullWidth={!currentStory?.isAsideEnabled()}>
+        <Main fullWidth={!(!currentStory || currentStory?.isAsideEnabled())}>
           {!currentStory && <StoryPlaceholder />}
           {currentStory && <StoryViewer story={currentStory} defineStoryUrl={defineStoryUrl} />}
         </Main>
@@ -152,7 +152,7 @@ function useTheme() {
   const { processedProps } = useContext(ShowcaseContext);
 
   const isDefaultDark = useMatchMedia('(prefers-color-scheme: dark)');
-  const defaultTheme = isDefaultDark ? 'dark' : 'light';
+  const defaultTheme = processedProps.themes.enabled && isDefaultDark ? 'dark' : 'light';
 
   const [savedTheme, setTheme] = useStorageItem('showcase:theme', {
     storage: localStorage,

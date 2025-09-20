@@ -209,7 +209,7 @@ const storiesConfig = {
   // where stories entrypoint will be emitted
   filename: './.generated/entries.js',
 
-  // glob patter for find all story modules
+  // glob pattern for find all story modules
   storiesGlob: './stories/**/*.story.{mdx,tsx}',
 
   // root dir of all story modules
