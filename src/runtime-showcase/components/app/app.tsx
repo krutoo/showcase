@@ -152,7 +152,7 @@ function useTheme() {
   const { processedProps } = useContext(ShowcaseContext);
 
   const isDefaultDark = useMatchMedia('(prefers-color-scheme: dark)');
-  const defaultTheme = isDefaultDark ? 'dark' : 'light';
+  const defaultTheme = processedProps.themes.enabled && isDefaultDark ? 'dark' : 'light';
 
   const [savedTheme, setTheme] = useStorageItem('showcase:theme', {
     storage: localStorage,
