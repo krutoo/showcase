@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-import type { StoryModule } from './schemas';
+import type { StoryModule } from '#core';
 
 export class StoryService {
   data: StoryModule;

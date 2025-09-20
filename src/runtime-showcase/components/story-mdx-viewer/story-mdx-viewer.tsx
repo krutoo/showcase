@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { StoryService } from '#core';
+import type { StoryService } from '#runtime';
 import styles from './story-mdx-viewer.m.css';
 
 export interface StoryMdxViewerProps {

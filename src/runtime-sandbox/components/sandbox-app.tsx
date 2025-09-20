@@ -1,5 +1,6 @@
 import { type ReactNode, useLayoutEffect, useMemo, useState } from 'react';
-import { type StoryModule, StoryService } from '#core';
+import { type StoryModule } from '#core';
+import { StoryService } from '#runtime';
 
 export interface SandboxAppProps {
   stories: StoryModule[];
