@@ -1,12 +1,13 @@
-import { type StoryModule, StoryService } from '#core';
 import { type Context, createContext, useContext, useMemo } from 'react';
+import type { StoryModule } from '#core';
+import { StoryService } from '#runtime';
 import { type AnyMenuNode, getMenuItems } from '../utils/menu';
 import { useLocation } from '../shared/router';
 
 export interface ShowcaseContextValue {
   processedProps: {
     title?: string;
-    logoSrc?: string;
+    logoSrc?: { light?: string; dark?: string };
     headerLinks?: Array<{ name: string; href: string }>;
     stories: StoryModule[];
     defineStoryUrl: (story: StoryModule) => string;

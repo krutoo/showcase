@@ -9,8 +9,8 @@ export interface StandaloneAppProps {
   /** Your application name. */
   title?: string;
 
-  /** Your application name. */
-  logoSrc?: string;
+  /** Your logo image src. */
+  logoSrc?: string | { light: string; dark?: string };
 
   /** Links in header. */
   headerLinks?: Array<{ name: string; href: string }>;
@@ -76,6 +76,14 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
   const contextValue: ShowcaseContextValue = {
     processedProps: {
       ...props,
+      logoSrc: isObject(props.logoSrc)
+        ? {
+            light: props.logoSrc.light,
+            dark: props.logoSrc.dark,
+          }
+        : {
+            light: props.logoSrc,
+          },
       storySearch: !!props.storySearch,
       themes: isObject(props.themes)
         ? {

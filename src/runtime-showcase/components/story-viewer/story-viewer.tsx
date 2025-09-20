@@ -1,5 +1,6 @@
-import { type StoryModule, StoryService } from '#core';
 import { type ReactNode, useState } from 'react';
+import type { StoryModule } from '#core';
+import type { StoryService } from '#runtime';
 import { Link } from '../link';
 import { Plate, PlateBody, PlateHeader } from '../plate';
 import { StorySources } from '../story-sources';

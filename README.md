@@ -29,7 +29,7 @@ For example you can store all _story modules_ in `./stories/` folder of your pro
 A typical _story module_ looks like this:
 
 ```jsx
-// ./stories/components/button/primary.jsx
+// ./stories/components/button/primary.story.jsx
 import { Button } from 'my-ui-lib/button';
 
 // export of meta needed for creating docs page with all stories
@@ -50,16 +50,16 @@ export default function () {
 }
 ```
 
-#### Meta data of _story module_
+#### Meta-data of _story module_
 
 Interface of meta data object:
 
 ```ts
 interface StoryMeta {
-  /** Title of story module. Title will be shown in menu of documentation page. */
+  /** Title of story module. Will be shown in menu. */
   title?: string;
 
-  /** Category is needed to group modules on the documentation page. */
+  /** Category is needed to group menu items. */
   category?: string;
 
   /** Affects order of menu item, greater values makes item upper. */
@@ -67,14 +67,14 @@ interface StoryMeta {
 
   /**
    * For menu item of story it means that it will not be shown in menu.
-   * For "Category root" it means that click will not be open it.
+   * For "Category root" it means that it will be non interactive.
    */
   menuHidden?: number;
 
-  /** Parameters of building or/and displaying story */
+  /** Parameters of building or/and displaying story. */
   parameters?: {
     /**
-     * Layout of HTML page.
+     * Layout.
      * Value "padded" is default and will added "1rem" padding to body.
      * Value "fullscreen" will removes all paddings of body.
      */
@@ -88,18 +88,21 @@ interface StoryMeta {
     /** Is aside on desktop enabled. */
     asideEnabled?: boolean;
 
-    /** Source code display config. False will disable display of sources in docs page */
+    /** Source code display config. False will disable display of sources in docs page. */
     sources?:
       | boolean
       | {
-          /** Available only in JSON-file. List of additional files for which you need to show the source code */
+          /**
+           * Additional files for which you need to show the source code.
+           * Available only in JSON-file.
+           */
           extraSources: string[];
         };
   };
 }
 ```
 
-#### Meta: How to create category root?
+#### Tip: Create "category root"
 
 In menu categories will be shown as headers of item groups.
 
@@ -111,6 +114,8 @@ export const meta = {
   title: '',
 };
 ```
+
+#### Meta-data in separated file
 
 In JavaScript/TypeScript (and also in MDX) files you can just export `meta` with meta data.
 
@@ -138,10 +143,10 @@ import { createRoot } from 'react-dom/client';
 // util for validate story-modules
 import { filterValidStories } from '@krutoo/showcase/runtime';
 
-// React component for showing current story
+// component for showing current story
 import { SandboxApp } from '@krutoo/showcase/runtime-sandbox';
 
-// "stories entrypoint" (this is an alias, more on that later)
+// "stories entrypoint" (trough alias provided by your bundler)
 import foundStories from '#found-stories';
 
 // render your current story to the root element
@@ -167,7 +172,7 @@ import foundStories from '#found-stories';
 // util for validate found stories
 import { filterValidStories } from '@krutoo/showcase/runtime';
 
-// standalone React component for showing documentation with all stories
+// standalone component for showing documentation with all stories
 import { ShowcaseApp } from '@krutoo/showcase/runtime-showcase';
 
 // showcase app styles bundle
@@ -176,9 +181,7 @@ import '@krutoo/showcase/showcase.css';
 // render documentation app wherever you want
 createRoot(document.getElementById('root')).render(
   <ShowcaseApp
-    // first we need to provide all found stories:
     stories={filterValidStories(foundStories).validStories}
-    // you can also provide some details:
     title='My UI Library'
     logoSrc='public/my-logo.svg'
     headerLinks={[
@@ -239,7 +242,7 @@ export default {
     rules: [
       // since above we set "rawImport" option we need this rule
       // details: https://webpack.js.org/guides/asset-modules/#replacing-inline-loader-syntax
-      // details: https://www.rspack.dev/guide/features/asset-module#replacing-raw-loader-with-type-assetsource
+      // details: https://rspack.rs/guide/features/asset-module#replacing-raw-loader-with-type-assetsource
       {
         resourceQuery: /raw/,
         type: 'asset/source',
