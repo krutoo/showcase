@@ -1,5 +1,6 @@
-import type { StoryMeta } from '../core/schemas.js';
+import type { StoryMeta } from '#core';
 
+/** Config for search stories and emit entrypoint file. */
 export interface EmitStoriesEntrypointConfig {
   /** Entrypoint file emit destination. */
   filename: string;
@@ -14,20 +15,16 @@ export interface EmitStoriesEntrypointConfig {
   rawImport?: (moduleData: { importPath: string }) => { importPath: string };
 }
 
+/** @private */
 export interface StoryModuleData {
+  /** язык, взятый из расширения */
   lang: 'js' | 'mdx';
 
   /** путь до файла */
   filename: string;
 
   /** отображаемый путь */
-  pathname: string;
-
-  /** идентификатор для импорта файла в точке входа */
-  importIdentifier: string;
-
-  /** путь для импорта файла в точке входа */
-  importPath: string;
+  storyPathname: string;
 
   /** JSON-файл meta-данных, соответствующий найденному story-модулю */
   metaJson?: StoryMeta;
