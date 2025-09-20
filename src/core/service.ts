@@ -8,8 +8,16 @@ export class StoryService {
     this.data = data;
   }
 
+  isMenuItemHidden(): boolean {
+    return this.data.meta?.menuHidden ?? this.data.metaJson?.menuHidden ?? false;
+  }
+
   getTitle(): string | undefined {
     return this.data.meta?.title ?? this.data.metaJson?.title;
+  }
+
+  getCategory(): string | undefined {
+    return this.data.meta?.category ?? this.data.metaJson?.category;
   }
 
   getDefaultBackground() {
