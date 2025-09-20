@@ -1,5 +1,6 @@
 import type { EmitStoriesEntrypointConfig } from './types';
 
+/** @private */
 export function validateConfig(
   config: EmitStoriesEntrypointConfig,
 ): Required<EmitStoriesEntrypointConfig> {
@@ -18,6 +19,7 @@ export function validateConfig(
   };
 }
 
+/** @private */
 export function defaultRawImport(moduleData: { importPath: string }): { importPath: string } {
   return {
     // по умолчанию такой потому что такой поддерживается в Vite, Webpack, Rspack

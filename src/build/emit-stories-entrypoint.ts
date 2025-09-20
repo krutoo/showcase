@@ -21,7 +21,7 @@ export async function emitStoriesEntrypoint(config: EmitStoriesEntrypointConfig)
     .then(filenames => Promise.all(filenames.map(getPageDataFactory(validConfig))))
 
     // формируем содержимое точки входа - импорт всех файлов
-    .then(entries => EntrypointTemplate(entries, validConfig))
+    .then(entries => EntrypointTemplate({ config: validConfig, entries }))
 
     // создаем каталог для точки входа если его нет
     .then(content =>
@@ -33,17 +33,13 @@ export async function emitStoriesEntrypoint(config: EmitStoriesEntrypointConfig)
 }
 
 function getPageDataFactory(config: Required<EmitStoriesEntrypointConfig>) {
-  return async (filename: string, index: number): Promise<StoryModuleData> => {
+  return async (filename: string): Promise<StoryModuleData> => {
     return {
       filename,
       lang: path.extname(filename).includes('md') ? 'mdx' : 'js',
 
-      // данные для импорта модуля
-      importIdentifier: `Entry${index}`,
-      importPath: path.relative(path.dirname(config.filename), filename),
-
       // прочее (для отображения)
-      pathname: `/${path
+      storyPathname: `/${path
         .relative(config.storiesRootDir, filename)
         .replace(/\.[^/.]+$/, '')
         .replace(/\.story$/, '')}`,
