@@ -61,7 +61,7 @@ export function StoryViewer({ story, defineStoryUrl }: StoryViewerProps): ReactN
       </Plate>
 
       {story && story.isSourcesEnabled() && sourcesOpen && (
-        <StorySources className={styles.codeBlock} story={story.data} />
+        <StorySources className={styles.storySources} story={story.data} />
       )}
     </div>
   );
