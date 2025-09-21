@@ -1,11 +1,7 @@
 import { type StoryModule } from '#core';
-import { type ReactNode, useContext, useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import { Plate, PlateBody, PlateHeader } from '../plate';
-import { ThemeContext } from '../../context/theme';
-import { type HighlighterCore, createHighlighterCore } from 'shiki/core';
-import { createJavaScriptRegexEngine } from 'shiki/engine-javascript.mjs';
-import themeGitHubLight from 'shiki/themes/github-light.mjs';
-import themeOneDarkPro from 'shiki/themes/one-dark-pro.mjs';
+import { CodeBlock } from '../code-block';
 import classNames from 'classnames';
 import styles from './story-sources.m.css';
 
@@ -13,8 +9,6 @@ export interface StorySourcesProps {
   story: StoryModule;
   className?: string;
 }
-
-let highlighterSingleton: Awaited<ReturnType<typeof createHighlighterCore>>;
 
 export function StorySources({ story, className }: StorySourcesProps): ReactNode {
   const [sourceIndex, setSourceIndex] = useState(-1);
@@ -54,83 +48,18 @@ export function StorySources({ story, className }: StorySourcesProps): ReactNode
       </PlateHeader>
       <PlateBody>
         <CodeBlock
+          code={source}
           lang={
             sourceIndex === -1
-              ? 'tsx'
-              : story.extraSources[sourceIndex]?.title
+              ? story.lang
+              : // @todo надо чтобы у каждого элемента extraSources был именно ext а не lang для прозрачности
+                // сейчас не круто что берем title и надеемся что в нем будет расширение
+                story.extraSources[sourceIndex]?.title
                   .match(/\.[0-9a-z]+$/i)?.[0]
                   ?.replace(/^\./, '')
           }
-          source={source}
         />
       </PlateBody>
     </Plate>
   );
-}
-
-function CodeBlock({ lang, source }: { lang?: string; source: string }): ReactNode {
-  const { theme } = useContext(ThemeContext);
-  const highlighter = useHighlighter();
-  const [parsed, setParsed] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!highlighter) {
-      return;
-    }
-
-    try {
-      const html = highlighter.codeToHtml(source, {
-        lang: lang ?? 'text',
-        theme: theme === 'dark' ? 'one-dark-pro' : 'github-light',
-      });
-
-      setParsed(html);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-    }
-  }, [highlighter, source]);
-
-  if (!parsed) {
-    return (
-      <div className={styles.code}>
-        <pre>{source}</pre>
-      </div>
-    );
-  }
-
-  return <div className={styles.code} dangerouslySetInnerHTML={{ __html: parsed }} />;
-}
-
-function useHighlighter() {
-  const [highlighter, setHighlighter] = useState<HighlighterCore | null>(null);
-
-  useEffect(() => {
-    if (highlighterSingleton) {
-      setHighlighter(highlighterSingleton);
-      return;
-    }
-
-    createHighlighterCore({
-      langs: [
-        //
-        import('shiki/langs/mdx.mjs'),
-        import('shiki/langs/tsx.mjs'),
-        import('shiki/langs/scss.mjs'),
-      ],
-      themes: [
-        //
-        themeGitHubLight,
-        themeOneDarkPro,
-      ],
-      engine: createJavaScriptRegexEngine(),
-    })
-      .then(result => {
-        setHighlighter(result);
-        highlighterSingleton = result;
-      })
-      .catch(console.error);
-  }, []);
-
-  return highlighter;
 }

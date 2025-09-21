@@ -23,31 +23,3 @@
 .tab.active {
   box-shadow: inset 0 -2px 0 0 #1f84db;
 }
-
-.code {
-  box-sizing: border-box;
-  padding: 1.5rem;
-  font-size: var(--showcase-ui-source-font-size, 14px);
-  line-height: 1.25;
-  overflow: auto;
-  font-family:
-    Menlo,
-    Consolas,
-    Monaco,
-    Liberation Mono,
-    Lucida Console,
-    monospace;
-}
-
-@media (max-width: 960px) {
-  .code {
-    font-size: var(--showcase-ui-source-font-size, 12px);
-  }
-}
-
-.code pre {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  background: transparent !important;
-}
