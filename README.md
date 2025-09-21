@@ -66,8 +66,8 @@ interface StoryMeta {
   menuPriority?: number;
 
   /**
-   * For menu item of story it means that it will not be shown in menu.
-   * For "Category root" it means that it will be non interactive.
+   * When true, menu item of story will not be shown in menu.
+   * For "Category root" it means that menu item will be non interactive.
    */
   menuHidden?: number;
 

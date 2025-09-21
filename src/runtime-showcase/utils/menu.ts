@@ -90,8 +90,10 @@ function groupStoriesByFirstSegment(state: AnyMenuNode[], node: AnyMenuNode): An
   };
 
   // если нет имени группы оставляем узел на том уровне на котором он был
-  if (groupName === '' && !node.menuHidden) {
-    state.push(newNode);
+  if (groupName === '') {
+    if (!newNode.menuHidden) {
+      state.push(newNode);
+    }
     return state;
   }
 
