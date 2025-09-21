@@ -53,7 +53,7 @@ export function StorySources({ story, className }: StorySourcesProps): ReactNode
         </div>
       </PlateHeader>
       <PlateBody>
-        <Code
+        <CodeBlock
           lang={
             sourceIndex === -1
               ? 'tsx'
@@ -68,7 +68,7 @@ export function StorySources({ story, className }: StorySourcesProps): ReactNode
   );
 }
 
-export function Code({ lang, source }: { lang?: string; source: string }): ReactNode {
+function CodeBlock({ lang, source }: { lang?: string; source: string }): ReactNode {
   const { theme } = useContext(ThemeContext);
   const highlighter = useHighlighter();
   const [parsed, setParsed] = useState<string | null>(null);
