@@ -5,7 +5,6 @@
   display: grid;
   grid-template-columns: 320px 1fr;
   grid-template-rows: var(--showcase-ui-header-height, 64px) 1fr;
-  background: var(--showcase-ui-layout-background, #f9fafb);
 }
 
 .header {
