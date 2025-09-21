@@ -1,0 +1,27 @@
+.root {
+  box-sizing: border-box;
+  padding: var(--showcase-ui-code-block-padding, 20px);
+  font-size: var(--showcase-ui-code-block-font-size, 14px);
+  line-height: var(--showcase-ui-code-block-line-height, 1.25);
+  overflow: auto;
+  font-family:
+    Menlo,
+    Consolas,
+    Monaco,
+    Liberation Mono,
+    Lucida Console,
+    monospace;
+}
+
+@media (max-width: 960px) {
+  .root {
+    font-size: var(--showcase-ui-code-block-font-size, 12px);
+  }
+}
+
+.root > pre {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  background: transparent !important;
+}
