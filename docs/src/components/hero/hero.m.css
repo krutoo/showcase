@@ -1,0 +1,104 @@
+.root {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 32px;
+}
+
+.logo {
+  max-width: 120px;
+  aspect-ratio: 1;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+.root h1.title {
+  font-size: 36px;
+  margin: 0;
+}
+
+.root p.subtitle {
+  font-size: 18px;
+  margin: 0;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.button {
+  height: 48px;
+  flex-grow: 1;
+  max-width: 200px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  display: flex;
+  padding: 0 12px;
+  font-size: 18px;
+  background: #343a4a;
+  color: #fff;
+  font-weight: 600;
+  transition: transform 200ms ease-out;
+}
+
+.button.outlined {
+  color: #343a4a;
+  background: transparent;
+  box-shadow: inset 0 0 0 2px currentColor;
+}
+
+.dark .button {
+  background: #fff;
+  color: #343a4a;
+}
+
+.dark .button.outlined {
+  color: #fff;
+  background: transparent;
+  box-shadow: inset 0 0 0 2px currentColor;
+}
+
+.root a.button:link {
+  text-decoration: none;
+}
+
+.button:hover {
+  transform: translateY(-4px);
+}
+
+.cards {
+  display: flex;
+  width: 100%;
+  max-width: 720px;
+  gap: 12px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card {
+  text-align: center;
+  width: 0;
+  flex-grow: 1;
+  padding: 16px;
+  border-radius: 16px;
+  border-bottom-left-radius: 0;
+  box-shadow: inset 0 0 0 1px #ddd;
+}
+
+.dark .card {
+  box-shadow: inset 0 0 0 1px #343a4a;
+}

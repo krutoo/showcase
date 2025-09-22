@@ -1,0 +1,129 @@
+export const meta = {
+  title: 'Usage',
+  menuPriority: 1000,
+};
+
+# Usage
+
+### Installation
+
+All you need to use this library is contained in one package.
+
+```shell
+npm add @krutoo/showcase
+```
+
+### Story modules
+
+You can create _story modules_ - files with declarative examples of usage of your library or something else.
+
+A typical _story module_ looks like this:
+
+```jsx
+import { Button } from 'my-ui-lib/button';
+
+export const meta = {
+  category: 'Components/Button',
+  title: 'Simple example',
+};
+
+export default function () {
+  return (
+    <>
+      <Button id='greeting' onClick={() => alert('My button works!')}>
+        Do something
+      </Button>
+    </>
+  );
+}
+```
+
+As you can see, story module contains:
+
+- `export meta` with some information about your story
+- default export with functional React-component that renders something
+
+For simplicity reason, unlike Storybook, one file can contain only one story.
+
+### Meta-data of _story module_
+
+Story module can contain `meta` export with information about how to show your story.
+
+Here is what you can pass to `meta`:
+
+```ts
+interface StoryMeta {
+  /** Title of story module. Will be shown in menu. */
+  title?: string;
+
+  /** Category is needed to group menu items. */
+  category?: string;
+
+  /** Affects order of menu item, greater values makes item upper. */
+  menuPriority?: number;
+
+  /**
+   * For menu item of story it means that it will not be shown in menu.
+   * For "Category root" it means that it will be non interactive.
+   */
+  menuHidden?: number;
+
+  /** Parameters of building or/and displaying story. */
+  parameters?: {
+    /**
+     * Layout.
+     * Value "padded" is default and will added "1rem" padding to body.
+     * Value "fullscreen" will removes all paddings of body.
+     */
+    layout?: 'padded' | 'fullscreen';
+
+    /** Defines background of HTML page. */
+    backgrounds?: {
+      default: string;
+    };
+
+    /** Is aside on desktop enabled. */
+    asideEnabled?: boolean;
+
+    /** Source code display config. False will disable display of sources in docs page. */
+    sources?:
+      | boolean
+      | {
+          /**
+           * Additional files for which you need to show the source code.
+           * Important: available only in separated meta-file.
+           */
+          extraSources: string[];
+        };
+  };
+}
+```
+
+### Meta-data in separated file
+
+In JavaScript/TypeScript (and also in MDX) files you can just export `meta` with meta data.
+
+For any story module (jsx, tsx, md, mdx) you can provide meta by adding JSON-file next to the story module like this:
+
+```
+my-component/
+├── primary.story.tsx
+└── primary.story.meta.json
+```
+
+**Important**: some meta parameters available only in JSON files, for example `parameters.sources.extraSources`.
+
+### Tip: Create "category root"
+
+In menu categories will be shown as headers of item groups.
+
+To make it header as link to category root you need to set name of story as empty string (`''`):
+
+```jsx
+export const meta = {
+  category: 'My category'
+  title: '',
+};
+```
+
+You can also use category root to provide `menuPriority` for category.

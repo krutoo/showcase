@@ -1,0 +1,64 @@
+export const meta = {
+  category: 'Build',
+  title: 'Webpack/Rspack',
+};
+
+# Build with Webpack/Rspack
+
+For Rspack you can see working example: [Rspack example on GitHub](https://github.com/krutoo/showcase/tree/main/examples/rspack)
+
+Here is commented example configuration for Webpack/Rspack:
+
+```js
+import { emitStoriesEntrypoint } from '@krutoo/showcase/build';
+import path from 'node:path';
+
+// before bundling we need to emit stories entrypoint
+await emitStoriesEntrypoint({
+  // emitted file name
+  filename: './.generated/found-stories.js',
+
+  // glob pattern for find all story modules
+  storiesGlob: './stories/**/*.story.{mdx,tsx}',
+
+  // root of all story modules
+  storiesRootDir: './stories/',
+
+  // how sources of modules will be imported
+  // this option is needed in Webpack/Rspack to disable other loaders by add leading "!"
+  rawImport: mod => ({ importPath: `!${mod.importPath}?raw` }),
+});
+
+export default {
+  entry: {
+    sandbox: 'src/sandbox.jsx',
+    showcase: 'src/showcase.jsx',
+  },
+  resolve: {
+    alias: {
+      // alias that we uses in showcase/sandbox
+      '#found-stories': path.resolve(import.meta.dirname, './.generated/found-stories.js'),
+    },
+  },
+  module: {
+    rules: [
+      // since above we set "rawImport" option we need this rule
+      // details: https://webpack.js.org/guides/asset-modules/#replacing-inline-loader-syntax
+      // details: https://rspack.rs/guide/features/asset-module#replacing-raw-loader-with-type-assetsource
+      {
+        resourceQuery: /raw/,
+        type: 'asset/source',
+      },
+    ],
+  },
+  plugins: [
+    // you need to emit "index.html" for showcase (for example by HtmlWebpackPlugin or HtmlRspackPlugin)
+    // you also need to emit "sandbox.html" because ShowcaseApp is references it
+  ],
+};
+```
+
+In this config you can see that we need to create `sandbox.html`.
+This is because by default `ShowcaseApp` will be create `iframe` with src that looks at `sandbox.html`.
+
+This is configurable in by providing `defineStoryUrl` option to `ShowcaseApp`.

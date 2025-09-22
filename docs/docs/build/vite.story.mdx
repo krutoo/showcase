@@ -1,0 +1,47 @@
+export const meta = {
+  category: 'Build',
+  title: 'Vite',
+  menuPriority: -1,
+};
+
+# Build with Vite
+
+With Vite you need to configure it for example like this:
+
+```js
+import { defineConfig } from 'vite';
+import path from 'node:path';
+import { emitStoriesEntrypoint } from '@krutoo/showcase/build';
+
+const storiesConfig = {
+  filename: './.generated/entries.js',
+  storiesGlob: './stories/**/*.story.{mdx,tsx}',
+  storiesRootDir: './stories/',
+};
+
+export default defineConfig(async () => {
+  await emitStoriesEntrypoint(storiesConfig).catch(console.error);
+
+  return {
+    build: {
+      rollupOptions: {
+        input: {
+          main: path.resolve(process.cwd(), 'index.html'),
+          sandbox: path.resolve(process.cwd(), 'sandbox/index.html'),
+        },
+      },
+    },
+    resolve: {
+      alias: {
+        '#found-stories': path.resolve(process.cwd(), storiesConfig.filename),
+      },
+    },
+  };
+});
+```
+
+Also, during using Vite, you also need to provide option `defineStoryUrl` to `ShowcaseApp` according to Vite configuration:
+
+```jsx
+<ShowcaseApp defineStoryUrl={story => `sandbox/?path=${story.pathname}`} />
+```

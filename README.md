@@ -184,16 +184,6 @@ createRoot(document.getElementById('root')).render(
     stories={filterValidStories(foundStories).validStories}
     title='My UI Library'
     logoSrc='public/my-logo.svg'
-    headerLinks={[
-      {
-        name: 'GitHub',
-        href: 'https://github.com/my-team/my-ui-lib',
-      },
-      {
-        name: 'Figma',
-        href: 'https://www.figma.com/my-design-guides',
-      },
-    ]}
   />,
 );
 ```
