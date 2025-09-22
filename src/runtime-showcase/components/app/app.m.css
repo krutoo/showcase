@@ -1,9 +1,9 @@
-.default-theme-light {
+.default-color-scheme-light {
   --showcase-ui-background: #fff;
   --showcase-ui-color: #222;
 }
 
-.default-theme-dark {
+.default-color-scheme-dark {
   /* basics */
   --showcase-ui-background: #1e2227;
   --showcase-ui-color: #f0f0f0;

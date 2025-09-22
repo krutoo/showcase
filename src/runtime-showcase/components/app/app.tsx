@@ -16,7 +16,7 @@ import {
   useMenuItems,
   useStorySearchResult,
 } from '../../context/showcase';
-import { ThemeContext } from '../../context/theme';
+import { ColorSchemesContext } from '../../context/color-schemes';
 import classNames from 'classnames';
 import styles from './app.m.css';
 
@@ -35,24 +35,24 @@ export function App(): ReactNode {
   const [search, setSearch] = useState('');
   const searchResult = useStorySearchResult(search);
 
-  const { theme, toggleTheme } = useTheme();
+  const { colorScheme, toggleColorScheme } = useColorScheme();
 
-  const themeContext = {
-    theme,
-    onThemeToggle: toggleTheme,
+  const colorSchemeContext = {
+    colorScheme,
+    onColorSchemeToggle: toggleColorScheme,
   };
 
   return (
-    <ThemeContext.Provider value={themeContext}>
+    <ColorSchemesContext.Provider value={colorSchemeContext}>
       <Layout
         className={classNames(
           styles.root,
-          processedProps.colorSchemes.defaults && styles[`default-theme-${theme}`],
+          processedProps.colorSchemes.defaults && styles[`default-color-scheme-${colorScheme}`],
         )}
-        data-theme={
+        data-color-scheme={
           processedProps.colorSchemes.enabled &&
           processedProps.colorSchemes.attributeTarget === 'rootElement'
-            ? theme
+            ? colorScheme
             : undefined
         }
       >
@@ -145,42 +145,42 @@ export function App(): ReactNode {
 
         {mobile && <MenuModal open={menuOpen} onClose={() => setMenuOpen(false)} />}
       </Layout>
-    </ThemeContext.Provider>
+    </ColorSchemesContext.Provider>
   );
 }
 
-function useTheme() {
+function useColorScheme() {
   const { processedProps } = useContext(ShowcaseContext);
 
   const isDefaultDark = useMatchMedia('(prefers-color-scheme: dark)');
-  const defaultTheme = processedProps.colorSchemes.enabled && isDefaultDark ? 'dark' : 'light';
+  const defaultScheme = processedProps.colorSchemes.enabled && isDefaultDark ? 'dark' : 'light';
 
-  const [savedTheme, setTheme] = useStorageItem('showcase:theme', {
+  const [savedScheme, setSavedScheme] = useStorageItem('showcase:color-scheme', {
     storage: localStorage,
   });
 
-  const theme = savedTheme ?? defaultTheme;
+  const scheme = savedScheme ?? defaultScheme;
 
   useEffect(() => {
     if (processedProps.colorSchemes.attributeTarget !== 'documentElement') {
       return;
     }
 
-    if (theme && processedProps.colorSchemes.enabled) {
-      document.documentElement.setAttribute('data-theme', theme);
-      document.documentElement.classList.add(styles[`default-theme-${theme}`]);
+    if (scheme && processedProps.colorSchemes.enabled) {
+      document.documentElement.setAttribute('data-color-scheme', scheme);
+      document.documentElement.classList.add(styles[`default-color-scheme-${scheme}`]);
     }
 
     return () => {
-      document.documentElement.removeAttribute('data-theme');
-      document.documentElement.classList.remove(styles[`default-theme-${theme}`]);
+      document.documentElement.removeAttribute('data-color-scheme');
+      document.documentElement.classList.remove(styles[`default-color-scheme-${scheme}`]);
     };
-  }, [processedProps.colorSchemes, theme]);
+  }, [processedProps.colorSchemes, scheme]);
 
   return {
-    theme: theme as 'light' | 'dark',
-    toggleTheme: () => {
-      setTheme(theme === 'dark' ? 'light' : 'dark');
+    colorScheme: scheme as 'light' | 'dark',
+    toggleColorScheme: () => {
+      setSavedScheme(scheme === 'dark' ? 'light' : 'dark');
     },
   };
 }

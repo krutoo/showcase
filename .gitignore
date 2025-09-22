@@ -4,3 +4,4 @@ temp
 dist
 css
 *.tgz
+.DS_Store
