@@ -3,7 +3,7 @@ import foundStories from '#found-stories';
 import { filterValidStories } from '@krutoo/showcase/runtime';
 import { ShowcaseApp } from '@krutoo/showcase/runtime-showcase';
 import { MDXProvider } from '@mdx-js/react';
-import { CodeBlock } from '#components/code-block/code-block.tsx';
+import { CodeBlock } from '#components/code-block/code-block';
 import '@krutoo/showcase/showcase.css';
 import './reset.css';
 import './showcase.css';

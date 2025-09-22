@@ -2,8 +2,9 @@
   "compilerOptions": {
     "noEmit": true,
     "rootDir": "./",
-    "module": "nodenext",
     "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "lib": ["esnext", "DOM", "DOM.Iterable"],
     "types": ["node"],
     "noUncheckedIndexedAccess": true,
