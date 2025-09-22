@@ -8,12 +8,12 @@ import styles from './header-links.m.css';
 
 export function HeaderButtons(): ReactNode {
   const { processedProps, toggleMenu: toggleMenuModal } = useContext(ShowcaseContext);
-  const { headerLinks, themes } = processedProps;
+  const { headerLinks, colorSchemes } = processedProps;
   const mobile = useMatchMedia('(max-width: 960px)');
 
   return (
     <div className={styles.root}>
-      {themes.enabled && <ThemeToggle />}
+      {colorSchemes.enabled && <ThemeToggle />}
 
       {!mobile && (
         <>
