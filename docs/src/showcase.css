@@ -1,0 +1,10 @@
+body {
+  background: var(--showcase-ui-background);
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: var(--showcase-ui-background, #1e2227);
+    color: #fff;
+  }
+}

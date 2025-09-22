@@ -1,0 +1,23 @@
+.root {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+div.codeblock > pre {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  border: 0;
+  font-family:
+    Menlo,
+    Consolas,
+    Monaco,
+    Liberation Mono,
+    Lucida Console,
+    monospace;
+}

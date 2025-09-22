@@ -1,0 +1,29 @@
+export const meta = {
+  category: 'Build',
+  title: 'Watching',
+  menuPriority: -2,
+};
+
+# Watching stories
+
+During development you may want to watch stories for automatically add/remove in entrypoint.
+
+In this case you can use `watchStories` function in your bundler config file:
+
+```js
+import { emitStoriesEntrypoint, watchStories } from '@krutoo/showcase/build';
+
+const config = {
+  filename: './.generated/found-stories.js',
+};
+
+await emitStoriesEntrypoint(config);
+
+if (isDevMode) {
+  watchStories(config);
+}
+
+export default {
+  // ...bundler config
+};
+```

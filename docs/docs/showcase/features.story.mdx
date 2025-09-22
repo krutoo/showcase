@@ -1,0 +1,94 @@
+export const meta = {
+  category: 'Showcase',
+  title: 'Features',
+  menuPriority: 0,
+};
+
+# Showcase UI features
+
+There is information of what builtin `ShowcaseApp` component can do.
+
+## Logo and title
+
+You can pass `title` to `ShowcaseApp` to render it in header.
+
+You also can pass URL or base64-encoded image to `logoSrc` to display logo before title.
+
+```jsx
+<ShowcaseApp title='My docs' logoSrc='public/logo.png' />
+```
+
+## Header links
+
+```jsx
+<ShowcaseApp
+  title='My docs'
+  headerLinks={[
+    {
+      name: 'GitHub',
+      href: 'https://github.com/my-team/my-ui-lib',
+    },
+    {
+      name: 'Figma',
+      href: 'https://www.figma.com/my-design-guides',
+    },
+  ]}
+/>
+```
+
+## Default story
+
+By default (when pathname is not provided in url) showcase will show story of first menu item
+
+You can provide default story by its pathname manually:
+
+```jsx
+<ShowcaseApp
+  title='My docs'
+  defaultStory={{
+    pathname: '/hello/world',
+  }}
+/>
+```
+
+## MDX
+
+For now if you use MDX as story it will be rendered inline (not in iframe).
+
+It can be configurable in the future versions.
+
+## Search
+
+You can enable search field in sidebar by `storySearch` option:
+
+```jsx
+<ShowcaseApp title='My docs' storySearch />
+```
+
+## Color schemes & Dark mode
+
+Showcase supports automatic color scheme choose and manual toggle by corresponding options.
+
+Just enable color schemes with default behavior:
+
+```jsx
+<ShowcaseApp title='My docs' colorSchemes />
+
+// or
+<ShowcaseApp title='My docs' colorSchemes={{ enabled: true }} />
+```
+
+Customize behavior:
+
+```jsx
+<ShowcaseApp
+  title='My docs'
+  colorSchemes={{
+    // by default `data-color-scheme` will be added to showcase root element
+    attributeTarget: 'documentElement',
+
+    // use default css styles or not, true by default
+    defaults: true,
+  }}
+/>
+```
