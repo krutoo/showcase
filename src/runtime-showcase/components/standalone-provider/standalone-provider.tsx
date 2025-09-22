@@ -26,17 +26,17 @@ export interface StandaloneAppProps {
 
   defaultStory?: { pathname: string };
 
-  /** Enables switch between light and dark themes. */
-  themes?:
+  /** Enables switch between light and dark color schemes. */
+  colorSchemes?:
     | boolean
     | {
-        /** Enables switch between light and dark themes. */
+        /** Enables switch between light and dark color schemes. */
         enabled?: boolean;
 
         /** Element that will receive `data-theme` attribute. */
         attributeTarget?: 'rootElement' | 'documentElement';
 
-        /** Controls default styles for themes. */
+        /** Enables default styles for color schemes. */
         defaults?: boolean;
       };
 }
@@ -94,14 +94,14 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
             light: props.logoSrc,
           },
       storySearch: !!props.storySearch,
-      themes: isObject(props.themes)
+      colorSchemes: isObject(props.colorSchemes)
         ? {
-            enabled: props.themes.enabled ?? true,
-            attributeTarget: props.themes.attributeTarget ?? 'rootElement',
-            defaults: props.themes.defaults ?? true,
+            enabled: props.colorSchemes.enabled ?? true,
+            attributeTarget: props.colorSchemes.attributeTarget ?? 'rootElement',
+            defaults: props.colorSchemes.defaults ?? true,
           }
         : {
-            enabled: !!props.themes,
+            enabled: !!props.colorSchemes,
             attributeTarget: 'rootElement',
             defaults: true,
           },

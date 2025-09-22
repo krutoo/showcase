@@ -12,7 +12,7 @@ export interface ShowcaseContextValue {
     stories: StoryModule[];
     defineStoryUrl: (story: StoryModule) => string;
     storySearch: boolean;
-    themes: {
+    colorSchemes: {
       enabled: boolean;
       attributeTarget: 'rootElement' | 'documentElement';
       defaults: boolean;
@@ -30,7 +30,7 @@ export const ShowcaseContext: Context<ShowcaseContextValue> = createContext<Show
     stories: [],
     defineStoryUrl: () => '/',
     storySearch: false,
-    themes: {
+    colorSchemes: {
       enabled: false,
       attributeTarget: 'rootElement',
       defaults: true,

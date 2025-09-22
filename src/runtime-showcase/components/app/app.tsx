@@ -47,10 +47,11 @@ export function App(): ReactNode {
       <Layout
         className={classNames(
           styles.root,
-          processedProps.themes.defaults && styles[`default-theme-${theme}`],
+          processedProps.colorSchemes.defaults && styles[`default-theme-${theme}`],
         )}
         data-theme={
-          processedProps.themes.enabled && processedProps.themes.attributeTarget === 'rootElement'
+          processedProps.colorSchemes.enabled &&
+          processedProps.colorSchemes.attributeTarget === 'rootElement'
             ? theme
             : undefined
         }
@@ -152,7 +153,7 @@ function useTheme() {
   const { processedProps } = useContext(ShowcaseContext);
 
   const isDefaultDark = useMatchMedia('(prefers-color-scheme: dark)');
-  const defaultTheme = processedProps.themes.enabled && isDefaultDark ? 'dark' : 'light';
+  const defaultTheme = processedProps.colorSchemes.enabled && isDefaultDark ? 'dark' : 'light';
 
   const [savedTheme, setTheme] = useStorageItem('showcase:theme', {
     storage: localStorage,
@@ -161,11 +162,11 @@ function useTheme() {
   const theme = savedTheme ?? defaultTheme;
 
   useEffect(() => {
-    if (processedProps.themes.attributeTarget !== 'documentElement') {
+    if (processedProps.colorSchemes.attributeTarget !== 'documentElement') {
       return;
     }
 
-    if (theme && processedProps.themes.enabled) {
+    if (theme && processedProps.colorSchemes.enabled) {
       document.documentElement.setAttribute('data-theme', theme);
       document.documentElement.classList.add(styles[`default-theme-${theme}`]);
     }
@@ -174,7 +175,7 @@ function useTheme() {
       document.documentElement.removeAttribute('data-theme');
       document.documentElement.classList.remove(styles[`default-theme-${theme}`]);
     };
-  }, [processedProps.themes, theme]);
+  }, [processedProps.colorSchemes, theme]);
 
   return {
     theme: theme as 'light' | 'dark',
