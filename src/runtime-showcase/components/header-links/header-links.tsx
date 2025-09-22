@@ -3,7 +3,7 @@ import { ShowcaseContext } from '../../context/showcase';
 import { Link } from '../link';
 import { useMatchMedia } from '@krutoo/utils/react';
 import { BurgerMenuSVG } from '../../icons';
-import { ThemeToggle } from '../theme-toggle';
+import { ColorSchemeToggle } from '../color-scheme-toggle';
 import styles from './header-links.m.css';
 
 export function HeaderButtons(): ReactNode {
@@ -13,7 +13,7 @@ export function HeaderButtons(): ReactNode {
 
   return (
     <div className={styles.root}>
-      {colorSchemes.enabled && <ThemeToggle />}
+      {colorSchemes.enabled && <ColorSchemeToggle />}
 
       {!mobile && (
         <>

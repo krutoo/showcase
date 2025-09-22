@@ -33,7 +33,7 @@ export interface StandaloneAppProps {
         /** Enables switch between light and dark color schemes. */
         enabled?: boolean;
 
-        /** Element that will receive `data-theme` attribute. */
+        /** Element that will receive `data-color-scheme` attribute. */
         attributeTarget?: 'rootElement' | 'documentElement';
 
         /** Enables default styles for color schemes. */

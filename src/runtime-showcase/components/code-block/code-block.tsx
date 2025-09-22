@@ -1,5 +1,5 @@
 import { type ReactNode, type HTMLAttributes, useContext, useEffect, useState } from 'react';
-import { ThemeContext } from '../../context/theme';
+import { ColorSchemesContext } from '../../context/color-schemes';
 import { type HighlighterCore } from 'shiki/core';
 import { getHighlighterCore, getProcessedLang, getDefaultTheme } from './utils';
 import classNames from 'classnames';
@@ -20,7 +20,7 @@ const singletons: SingletonPool = {
 
 // @todo вынести в /integrations и использовать явно, здесь оставить примитивный pre/code
 export function CodeBlock({ lang, code, className, ...restProps }: CodeBlockProps): ReactNode {
-  const { theme } = useContext(ThemeContext);
+  const { colorScheme } = useContext(ColorSchemesContext);
   const highlighter = useHighlighter();
   const [parsed, setParsed] = useState<string | null>(null);
 
@@ -32,14 +32,14 @@ export function CodeBlock({ lang, code, className, ...restProps }: CodeBlockProp
     try {
       const html = highlighter.codeToHtml(code, {
         lang: getProcessedLang(lang ?? 'text'),
-        theme: getDefaultTheme(theme === 'dark'),
+        theme: getDefaultTheme(colorScheme === 'dark'),
       });
 
       setParsed(html);
     } catch (error) {
       console.error(error);
     }
-  }, [code, highlighter, theme]);
+  }, [code, highlighter, colorScheme]);
 
   const props: HTMLAttributes<HTMLDivElement> = {
     className: classNames(styles.root, className),
