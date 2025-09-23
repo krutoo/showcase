@@ -1,6 +1,6 @@
 import { type ReactNode, useContext, useEffect, useState } from 'react';
 import { useMatchMedia, useStorageItem } from '@krutoo/utils/react';
-import { useLocation, useNavigate } from '../../shared/router';
+import { useLocation, useNavigate } from '../../shared/router-react';
 import { StoryViewer } from '../story-viewer';
 import { MenuModal } from '../menu-modal';
 import { Layout, Header, Main, Aside } from '../layout';
@@ -25,7 +25,7 @@ export function App(): ReactNode {
   const location = useLocation();
 
   const { processedProps } = useContext(ShowcaseContext);
-  const { defineStoryUrl } = processedProps;
+  const { routing } = processedProps;
 
   const [menuOpen, setMenuOpen] = useMainMenu();
   const menuItems = useMenuItems();
@@ -35,7 +35,7 @@ export function App(): ReactNode {
   const [search, setSearch] = useState('');
   const searchResult = useStorySearchResult(search);
 
-  const { colorScheme, toggleColorScheme } = useColorScheme();
+  const { colorScheme, toggleColorScheme } = useColorSchemeState();
 
   const colorSchemeContext = {
     colorScheme,
@@ -63,7 +63,7 @@ export function App(): ReactNode {
 
         {!mobile && (!currentStory || currentStory?.isAsideEnabled()) && (
           <Aside>
-            {processedProps.storySearch && (
+            {processedProps.search && (
               <div className={styles.search}>
                 <Input
                   className={styles.searchField}
@@ -83,11 +83,13 @@ export function App(): ReactNode {
                   getChildItems={data => (data.type === 'group' ? data.items : [])}
                   getHref={data => {
                     return data.story && !data.story.meta?.menuHidden
-                      ? `?path=${data.story.pathname}` // @todo use some util from router module
+                      ? routing.getStoryShowcaseUrl(data.story)
                       : undefined;
                   }}
                   isActive={data => {
-                    return !!data.story && data.story?.pathname === location.pathname;
+                    return (
+                      !!data.story && data.story.pathname === routing.getStoryPathname(location)
+                    );
                   }}
                   isInteractive={data => {
                     return !!data.story && !data.story.meta?.menuHidden;
@@ -95,13 +97,13 @@ export function App(): ReactNode {
                   onItemClick={(event, data) => {
                     if (data.type === 'story' && !data.menuHidden) {
                       event.preventDefault();
-                      navigate(data.story.pathname);
+                      navigate(routing.getStoryShowcaseUrl(data.story));
                       return;
                     }
 
                     if (data.type === 'group' && data.story && !data.story.meta?.menuHidden) {
                       event.preventDefault();
-                      navigate(data.story.pathname);
+                      navigate(routing.getStoryShowcaseUrl(data.story));
                       return;
                     }
 
@@ -119,18 +121,17 @@ export function App(): ReactNode {
                 <Menu
                   items={searchResult}
                   getTitle={data => {
-                    return data.meta?.title || data.meta?.category;
+                    return data.meta?.title || data.meta?.category || data.pathname;
                   }}
                   getHref={data => {
-                    // @todo use some util from router module
-                    return `?path=${data.pathname}`;
+                    return routing.getStoryShowcaseUrl(data);
                   }}
                   isActive={data => {
-                    return data.pathname === location.pathname;
+                    return data.pathname === routing.getStoryPathname(location);
                   }}
                   onItemClick={(event, data) => {
                     event.preventDefault();
-                    navigate(data.pathname);
+                    navigate(routing.getStoryShowcaseUrl(data));
                   }}
                 />
               </div>
@@ -140,7 +141,7 @@ export function App(): ReactNode {
 
         <Main fullWidth={!(!currentStory || currentStory?.isAsideEnabled())}>
           {!currentStory && <StoryPlaceholder />}
-          {currentStory && <StoryViewer story={currentStory} defineStoryUrl={defineStoryUrl} />}
+          {currentStory && <StoryViewer story={currentStory} />}
         </Main>
 
         {mobile && <MenuModal open={menuOpen} onClose={() => setMenuOpen(false)} />}
@@ -149,7 +150,7 @@ export function App(): ReactNode {
   );
 }
 
-function useColorScheme() {
+function useColorSchemeState() {
   const { processedProps } = useContext(ShowcaseContext);
 
   const isDefaultDark = useMatchMedia('(prefers-color-scheme: dark)');

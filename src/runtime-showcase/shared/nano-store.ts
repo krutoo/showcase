@@ -1,6 +1,6 @@
 export interface NanoStore<T> {
   getState(): T;
-  setState(nextState: T | ((currentState: T) => T)): void;
+  setState(nextState: T): void;
   subscribe(listener: VoidFunction): VoidFunction;
 }
 
@@ -11,15 +11,9 @@ export function createNanoStore<T>(initialState: T): NanoStore<T> {
 
   return {
     setState(nextState) {
-      const prevState = state;
-
-      if (typeof nextState === 'function') {
-        state = (nextState as (currentState: T) => T)(state);
-      } else {
+      if (state !== nextState) {
         state = nextState;
-      }
 
-      if (prevState !== state) {
         for (const func of listeners) {
           func();
         }

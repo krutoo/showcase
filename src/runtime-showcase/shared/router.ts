@@ -1,59 +1,84 @@
-import { type Context, createContext, useCallback, useContext, useEffect, useState } from 'react';
-
 export interface RouterLocation {
-  readonly pathname: string;
+  pathname: string;
+  hash: string;
+  search: string;
 }
 
 export interface Router {
+  /** Get current location. */
   getLocation(): RouterLocation;
-  navigate(pathname: string): void;
+
+  /** Navigate to other route. */
+  navigate(url: string): void;
+
+  /** Connect to window (start working). */
   connect(): () => void;
+
+  /** Subscribe to location change. */
   subscribe(handler: VoidFunction): () => void;
 }
 
-export class QueryRouter implements Router {
+export function getStubLocation(): RouterLocation {
+  return {
+    pathname: '/',
+    hash: '',
+    search: '',
+  };
+}
+
+export class BrowserRouter implements Router {
   private location: RouterLocation;
   private listeners: Set<VoidFunction>;
 
   constructor() {
-    this.location = { pathname: '' };
+    this.location = {
+      pathname: '/',
+      hash: '',
+      search: '',
+    };
     this.listeners = new Set();
   }
 
-  private updateLocation(pathname: string): void {
-    this.location = { pathname };
-    this.listeners.forEach(fn => fn());
+  private setLocation(location: RouterLocation): void {
+    this.location = location;
+
+    for (const listener of this.listeners) {
+      listener();
+    }
   }
 
   getLocation(): RouterLocation {
     return this.location;
   }
 
-  navigate(pathname: string): void {
-    const url = new URL(window.location.href);
+  navigate(url: string): void {
+    const currentUrl = new URL(window.location.href);
+    const nextUrl = new URL(url, window.location.href);
 
-    url.searchParams.delete('path');
+    if (nextUrl.host !== currentUrl.host) {
+      window.location.assign(nextUrl.href);
+      return;
+    }
 
-    window.history.pushState(
-      null,
-      '',
-      `${url.pathname}${url.search}${pathname ? `${url.search ? '&' : '?'}path=${pathname}` : ''}`,
-    );
-
+    window.history.pushState(null, '', `${nextUrl.pathname}${nextUrl.search}`);
     window.scrollTo(0, 0);
-
-    this.updateLocation(pathname);
+    this.setLocation(nextUrl);
   }
 
   connect(): () => void {
     const sync = () => {
-      // @todo проверить event.target тк iframe на странице тоже вызывает событие на родителе
-      this.updateLocation(new URL(window.location.href).searchParams.get('path') ?? '');
+      const url = new URL(window.location.href);
+
+      this.setLocation({
+        pathname: url.pathname,
+        search: url.search,
+        hash: url.hash,
+      });
     };
 
-    window.addEventListener('popstate', sync);
-
     sync();
+
+    window.addEventListener('popstate', sync);
 
     return () => {
       window.removeEventListener('popstate', sync);
@@ -69,35 +94,4 @@ export class QueryRouter implements Router {
   }
 }
 
-export const RouterContext: Context<Router> = createContext<Router>({
-  getLocation: () => ({ pathname: '' }),
-  navigate: () => {},
-  subscribe: () => () => {},
-  connect: () => () => {},
-});
-
-RouterContext.displayName = 'RouterContext';
-
-export function useNavigate(): Router['navigate'] {
-  const router = useContext(RouterContext);
-
-  return useCallback<Router['navigate']>(pathname => router.navigate(pathname), [router]);
-}
-
-export function useLocation(): RouterLocation {
-  const router = useContext(RouterContext);
-
-  const [location, setLocation] = useState<RouterLocation>(() => ({ pathname: '' }));
-
-  useEffect(() => {
-    const sync = () => {
-      setLocation(router.getLocation());
-    };
-
-    sync();
-
-    return router.subscribe(sync);
-  }, [router]);
-
-  return location;
-}
+// @todo MemoryRouter если хочется совсем убрать роутинг

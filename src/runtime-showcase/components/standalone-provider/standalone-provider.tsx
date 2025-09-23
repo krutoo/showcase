@@ -1,7 +1,8 @@
 import { type StoryModule } from '#core';
 import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { type AnyMenuNode, getMenuItems } from '../../utils/menu';
-import { QueryRouter, RouterContext } from '../../shared/router';
+import { BrowserRouter, type RouterLocation } from '../../shared/router';
+import { RouterContext } from '../../shared/router-react';
 import { ShowcaseContext, type ShowcaseContextValue } from '../../context/showcase';
 import { isObject } from '@krutoo/utils';
 
@@ -18,8 +19,22 @@ export interface StandaloneAppProps {
   /** All stories you want to show. */
   stories: StoryModule[];
 
-  /** How to define story URL. */
+  /**
+   * How to define story URL.
+   * @deprecated Use `routing` instead.
+   */
   defineStoryUrl?: (story: StoryModule) => string;
+
+  routing?: {
+    /** Get story pathname from location. */
+    getStoryPathname: (location: RouterLocation) => string | null;
+
+    /** Get url to story sandbox url. */
+    getStorySandboxUrl: (story: StoryModule) => string;
+
+    /** Get url to story showcase page url. */
+    getStoryShowcaseUrl: (story: StoryModule) => string;
+  };
 
   /** Enables search by stories in sidebar and mobile modal menu. */
   storySearch?: boolean;
@@ -45,8 +60,16 @@ export interface StandaloneProviderProps extends StandaloneAppProps {
   children?: ReactNode;
 }
 
-function defaultDefineStoryUrl(story: StoryModule) {
+function defaultGetStorySandboxUrl(story: StoryModule): string {
   return `sandbox.html?path=${story.pathname}`;
+}
+
+function defaultGetStoryShowcaseUrl(story: StoryModule): string {
+  return `?path=${story.pathname}`;
+}
+
+function defaultGetStoryPathname(location: RouterLocation): string | null {
+  return new URLSearchParams(location.search).get('path');
 }
 
 export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
@@ -55,7 +78,8 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
     children,
     stories,
     defaultStory,
-    defineStoryUrl = defaultDefineStoryUrl,
+    routing,
+    defineStoryUrl,
   } = props;
 
   const [menuOpen, toggleMenu] = useState(false);
@@ -82,6 +106,12 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
     return findFirstStory(getMenuItems(stories));
   }, [defaultStoryRef, stories]);
 
+  const defaultRouting: ShowcaseContextValue['processedProps']['routing'] = {
+    getStoryPathname: defaultGetStoryPathname,
+    getStoryShowcaseUrl: defaultGetStoryShowcaseUrl,
+    getStorySandboxUrl: defaultGetStorySandboxUrl,
+  };
+
   const contextValue: ShowcaseContextValue = {
     processedProps: {
       ...props,
@@ -93,7 +123,7 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
         : {
             light: props.logoSrc,
           },
-      storySearch: !!props.storySearch,
+      search: !!props.storySearch,
       colorSchemes: isObject(props.colorSchemes)
         ? {
             enabled: props.colorSchemes.enabled ?? true,
@@ -105,7 +135,12 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
             attributeTarget: 'rootElement',
             defaults: true,
           },
-      defineStoryUrl,
+      routing: defineStoryUrl
+        ? {
+            ...defaultRouting,
+            getStorySandboxUrl: defineStoryUrl,
+          }
+        : (routing ?? defaultRouting),
     },
 
     // menu slice
@@ -113,20 +148,38 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
     toggleMenu,
 
     // main page pathname
+    // @todo похоже копирует defaultStory
     defaultPathname,
   };
 
-  const router = useMemo(() => new QueryRouter(), []);
+  const router = useMemo(() => new BrowserRouter(), []);
 
   useEffect(() => {
-    const disconnect = router.connect();
+    const { stories, routing } = contextValue.processedProps;
+    const currentStoryPathname = routing.getStoryPathname(location);
 
-    if (router.getLocation().pathname === '') {
-      router.navigate(defaultPathname);
+    const navigateToDefault = () => {
+      const story = stories.find(item => item.pathname === defaultPathname);
+
+      if (story) {
+        router.navigate(routing.getStoryShowcaseUrl(story));
+      }
+    };
+
+    if (currentStoryPathname === null) {
+      navigateToDefault();
     }
 
-    return disconnect;
-  }, [router, defaultPathname]);
+    if (currentStoryPathname === '/') {
+      const story = stories.find(item => item.pathname === currentStoryPathname);
+
+      if (!story) {
+        navigateToDefault();
+      }
+    }
+
+    return router.connect();
+  }, []);
 
   return (
     <RouterContext.Provider value={router}>

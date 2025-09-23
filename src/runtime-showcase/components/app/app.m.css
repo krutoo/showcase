@@ -69,7 +69,6 @@
 .search {
   padding-left: 1rem;
   padding-right: 1rem;
-  /* @todo убрать отрицательный отступ */
   padding-top: 1rem;
   padding-bottom: 0.5rem;
   display: flex;

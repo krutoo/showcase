@@ -82,8 +82,8 @@
   margin-right: 0;
 }
 
-.mdx a:link {
-  color: (internal value);
+.mdx a {
+  color: #3498db;
   text-decoration: underline;
 }
 

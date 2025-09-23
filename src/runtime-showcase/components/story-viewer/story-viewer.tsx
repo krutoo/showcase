@@ -1,22 +1,22 @@
-import { type ReactNode, useState } from 'react';
-import type { StoryModule } from '#core';
+import { type ReactNode, useContext, useState } from 'react';
 import type { StoryService } from '#runtime';
 import { Link } from '../link';
 import { Plate, PlateBody, PlateHeader } from '../plate';
 import { StorySources } from '../story-sources';
 import { StoryMdxViewer } from '../story-mdx-viewer';
+import { ShowcaseContext } from '../../context/showcase';
 import classNames from 'classnames';
 import styles from './story-viewer.m.css';
 
 export interface StoryViewerProps {
   story: StoryService;
-  defineStoryUrl: (story: StoryModule) => string;
 }
 
-export function StoryViewer({ story, defineStoryUrl }: StoryViewerProps): ReactNode {
+export function StoryViewer({ story }: StoryViewerProps): ReactNode {
+  const { processedProps } = useContext(ShowcaseContext);
+  const { routing } = processedProps;
   const [sourcesOpen, setSourcesOpen] = useState(false);
-
-  const storyUrl = defineStoryUrl(story.data);
+  const sandboxUrl = routing.getStorySandboxUrl(story.data);
 
   if (story.data.lang === 'mdx') {
     return <StoryMdxViewer story={story} />;
@@ -32,7 +32,7 @@ export function StoryViewer({ story, defineStoryUrl }: StoryViewerProps): ReactN
       >
         <PlateHeader>
           <div className={styles.controls}>
-            <Link href={storyUrl} target='_blank'>
+            <Link href={sandboxUrl} target='_blank'>
               Open in new tab
             </Link>
 
@@ -55,7 +55,7 @@ export function StoryViewer({ story, defineStoryUrl }: StoryViewerProps): ReactN
             // ВАЖНО: key нужен чтобы iframe не вызывал popstate у родительского документа
             key={story.data.pathname}
             className={styles.iframe}
-            src={storyUrl}
+            src={sandboxUrl}
           />
         </PlateBody>
       </Plate>
