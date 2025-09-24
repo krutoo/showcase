@@ -13,8 +13,8 @@ export interface StoryViewerProps {
 }
 
 export function StoryViewer({ story }: StoryViewerProps): ReactNode {
-  const { processedProps } = useContext(ShowcaseContext);
-  const { routing } = processedProps;
+  const { config } = useContext(ShowcaseContext);
+  const { routing } = config;
   const [sourcesOpen, setSourcesOpen] = useState(false);
   const sandboxUrl = routing.getStorySandboxUrl(story.data);
 

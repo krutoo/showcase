@@ -18,7 +18,7 @@ export function useNavigate(): Router['navigate'] {
 
 export function useLocation(): RouterLocation {
   const router = useContext(RouterContext);
-  const [location, setLocation] = useState<RouterLocation>(getStubLocation);
+  const [location, setLocation] = useState<RouterLocation>(() => router.getLocation());
 
   useEffect(() => {
     const sync = () => {

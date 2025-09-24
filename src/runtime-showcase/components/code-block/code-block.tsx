@@ -39,7 +39,7 @@ export function CodeBlock({ lang, code, className, ...restProps }: CodeBlockProp
     } catch (error) {
       console.error(error);
     }
-  }, [code, highlighter, colorScheme]);
+  }, [code, lang, highlighter, colorScheme]);
 
   const props: HTMLAttributes<HTMLDivElement> = {
     className: classNames(styles.root, className),

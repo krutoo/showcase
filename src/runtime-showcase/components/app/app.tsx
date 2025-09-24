@@ -24,8 +24,8 @@ export function App(): ReactNode {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { processedProps } = useContext(ShowcaseContext);
-  const { routing } = processedProps;
+  const { config } = useContext(ShowcaseContext);
+  const { routing } = config;
 
   const [menuOpen, setMenuOpen] = useMainMenu();
   const menuItems = useMenuItems();
@@ -47,11 +47,10 @@ export function App(): ReactNode {
       <Layout
         className={classNames(
           styles.root,
-          processedProps.colorSchemes.defaults && styles[`default-color-scheme-${colorScheme}`],
+          config.colorSchemes.defaults && styles[`default-color-scheme-${colorScheme}`],
         )}
         data-color-scheme={
-          processedProps.colorSchemes.enabled &&
-          processedProps.colorSchemes.attributeTarget === 'rootElement'
+          config.colorSchemes.enabled && config.colorSchemes.attributeTarget === 'rootElement'
             ? colorScheme
             : undefined
         }
@@ -63,7 +62,7 @@ export function App(): ReactNode {
 
         {!mobile && (!currentStory || currentStory?.isAsideEnabled()) && (
           <Aside>
-            {processedProps.search && (
+            {config.search && (
               <div className={styles.search}>
                 <Input
                   className={styles.searchField}
@@ -151,23 +150,23 @@ export function App(): ReactNode {
 }
 
 function useColorSchemeState() {
-  const { processedProps } = useContext(ShowcaseContext);
+  const { config } = useContext(ShowcaseContext);
 
   const isDefaultDark = useMatchMedia('(prefers-color-scheme: dark)');
-  const defaultScheme = processedProps.colorSchemes.enabled && isDefaultDark ? 'dark' : 'light';
+  const defaultScheme = config.colorSchemes.enabled && isDefaultDark ? 'dark' : 'light';
 
   const [savedScheme, setSavedScheme] = useStorageItem('showcase:color-scheme', {
-    storage: localStorage,
+    storage: () => localStorage,
   });
 
   const scheme = savedScheme ?? defaultScheme;
 
   useEffect(() => {
-    if (processedProps.colorSchemes.attributeTarget !== 'documentElement') {
+    if (config.colorSchemes.attributeTarget !== 'documentElement') {
       return;
     }
 
-    if (scheme && processedProps.colorSchemes.enabled) {
+    if (scheme && config.colorSchemes.enabled) {
       document.documentElement.setAttribute('data-color-scheme', scheme);
       document.documentElement.classList.add(styles[`default-color-scheme-${scheme}`]);
     }
@@ -176,7 +175,7 @@ function useColorSchemeState() {
       document.documentElement.removeAttribute('data-color-scheme');
       document.documentElement.classList.remove(styles[`default-color-scheme-${scheme}`]);
     };
-  }, [processedProps.colorSchemes, scheme]);
+  }, [config.colorSchemes, scheme]);
 
   return {
     colorScheme: scheme as 'light' | 'dark',

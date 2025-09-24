@@ -30,12 +30,8 @@ export class BrowserRouter implements Router {
   private location: RouterLocation;
   private listeners: Set<VoidFunction>;
 
-  constructor() {
-    this.location = {
-      pathname: '/',
-      hash: '',
-      search: '',
-    };
+  constructor({ defaultLocation }: { defaultLocation?: RouterLocation } = {}) {
+    this.location = defaultLocation ?? getStubLocation();
     this.listeners = new Set();
   }
 

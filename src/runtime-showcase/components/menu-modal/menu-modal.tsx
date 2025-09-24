@@ -15,8 +15,8 @@ export function MenuModal({ open, onClose }: MenuModalProps): ReactNode {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { processedProps } = useContext(ShowcaseContext);
-  const { headerLinks, routing } = processedProps;
+  const { config } = useContext(ShowcaseContext);
+  const { headerLinks, routing } = config;
   const [search, setSearch] = useState('');
   const searchResult = useStorySearchResult(search);
   const menuItems = useMenuItems();
@@ -45,7 +45,7 @@ export function MenuModal({ open, onClose }: MenuModalProps): ReactNode {
           </MenuItem>
         ))}
 
-        {processedProps.search && (
+        {config.search && (
           <div className={styles.search}>
             <Input
               className={styles.searchField}
@@ -57,7 +57,7 @@ export function MenuModal({ open, onClose }: MenuModalProps): ReactNode {
           </div>
         )}
 
-        {!processedProps.search && <hr className={styles.hr} />}
+        {!config.search && <hr className={styles.hr} />}
 
         {search.length === 0 && (
           <Menu

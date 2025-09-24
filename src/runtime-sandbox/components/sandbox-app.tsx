@@ -21,7 +21,7 @@ export function SandboxApp({
     }
 
     return new StoryService(story);
-  }, [pathname]);
+  }, [stories, pathname]);
 
   // определяем pathname текущего story-модуля
   useLayoutEffect(() => {

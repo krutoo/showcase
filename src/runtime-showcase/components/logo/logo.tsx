@@ -5,14 +5,14 @@ import { ColorSchemesContext } from '../../context/color-schemes';
 import styles from './logo.m.css';
 
 export function Logo(): ReactNode {
-  const { processedProps, defaultPathname } = useContext(ShowcaseContext);
-  const { logoSrc, title, routing } = processedProps;
   const navigate = useNavigate();
   const { colorScheme } = useContext(ColorSchemesContext);
+  const { config } = useContext(ShowcaseContext);
+  const { logoSrc, title, routing, stories, defaultStory } = config;
   const src = colorScheme === 'dark' ? (logoSrc?.dark ?? logoSrc?.light) : logoSrc?.light;
 
   const handleClick = () => {
-    const story = processedProps.stories.find(item => item.pathname === defaultPathname);
+    const story = stories.find(item => item.pathname === defaultStory.pathname);
 
     if (!story) {
       return;
@@ -23,7 +23,7 @@ export function Logo(): ReactNode {
 
   return (
     <div className={styles.root} onClick={handleClick}>
-      {src && <img className={styles.logo} src={src} alt='logo' />}
+      {src && <img className={styles.logo} alt='logo' src={src} />}
       {title}
     </div>
   );
