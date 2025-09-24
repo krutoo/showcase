@@ -9,9 +9,9 @@ export function Hero() {
   return (
     <div className={classNames(styles.root, colorScheme === 'dark' && styles.dark)}>
       <img
-        src={colorScheme === 'dark' ? 'public/logo.dark.svg' : 'public/logo.svg'}
-        alt='Logo'
         className={styles.logo}
+        alt='Logo'
+        src={colorScheme === 'dark' ? '/public/logo.dark.svg' : '/public/logo.svg'}
       />
       <div className={styles.header}>
         <h1 className={styles.title}>@krutoo/showcase</h1>
@@ -21,7 +21,7 @@ export function Hero() {
       </div>
 
       <div className={styles.buttons}>
-        <a className={styles.button} href='?path=/usage'>
+        <a className={classNames(styles.button, styles.filled)} href='/usage'>
           Docs
         </a>
         <a
