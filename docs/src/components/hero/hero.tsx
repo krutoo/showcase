@@ -21,7 +21,7 @@ export function Hero() {
       </div>
 
       <div className={styles.buttons}>
-        <a className={classNames(styles.button, styles.filled)} href='/usage'>
+        <a className={classNames(styles.button, styles.filled)} href='?path=/usage'>
           Docs
         </a>
         <a
