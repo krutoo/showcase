@@ -11,7 +11,7 @@ export function Hero() {
       <img
         className={styles.logo}
         alt='Logo'
-        src={colorScheme === 'dark' ? '/public/logo.dark.svg' : '/public/logo.svg'}
+        src={colorScheme === 'dark' ? 'public/logo.dark.svg' : 'public/logo.svg'}
       />
       <div className={styles.header}>
         <h1 className={styles.title}>@krutoo/showcase</h1>
