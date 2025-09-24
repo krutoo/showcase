@@ -1,4 +1,4 @@
-import { type ReactNode, useLayoutEffect, useMemo, useState } from 'react';
+import { type ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { type StoryModule } from '#core';
 import { StoryService } from '#runtime';
 
@@ -21,11 +21,13 @@ export function SandboxApp({
     }
 
     return new StoryService(story);
-  }, [pathname]);
+  }, [stories, pathname]);
+
+  const defineStoryPathnameRef = useRef(defineStoryPathname);
 
   // определяем pathname текущего story-модуля
   useLayoutEffect(() => {
-    setPathname(defineStoryPathname());
+    setPathname(defineStoryPathnameRef.current());
   }, []);
 
   // меняем title страницы

@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from '../../shared/router';
+import { useLocation, useNavigate } from '../../shared/router-react';
 import { CrossSVG } from '../../icons';
 import { Menu, MenuItem, MenuItemTitle } from '../menu';
 import { type ReactNode, useContext, useEffect, useState } from 'react';
@@ -15,10 +15,10 @@ export function MenuModal({ open, onClose }: MenuModalProps): ReactNode {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { processedProps } = useContext(ShowcaseContext);
-  const { headerLinks, defineStoryUrl } = processedProps;
+  const { config } = useContext(ShowcaseContext);
+  const { headerLinks, routing } = config;
   const [search, setSearch] = useState('');
-  const searchResultItems = useStorySearchResult(search);
+  const searchResult = useStorySearchResult(search);
   const menuItems = useMenuItems();
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export function MenuModal({ open, onClose }: MenuModalProps): ReactNode {
           </MenuItem>
         ))}
 
-        {processedProps.storySearch && (
+        {config.search && (
           <div className={styles.search}>
             <Input
               className={styles.searchField}
@@ -57,7 +57,7 @@ export function MenuModal({ open, onClose }: MenuModalProps): ReactNode {
           </div>
         )}
 
-        {!processedProps.storySearch && <hr className={styles.hr} />}
+        {!config.search && <hr className={styles.hr} />}
 
         {search.length === 0 && (
           <Menu
@@ -69,10 +69,10 @@ export function MenuModal({ open, onClose }: MenuModalProps): ReactNode {
                 return undefined;
               }
 
-              return defineStoryUrl(data.story);
+              return routing.getStoryShowcaseUrl(data.story);
             }}
             isActive={data => {
-              return !!data.story && data.story?.pathname === location.pathname;
+              return !!data.story && data.story.pathname === routing.getStoryPathname(location);
             }}
             isInteractive={data => {
               return !!data.story && !data.story.meta?.menuHidden;
@@ -87,7 +87,8 @@ export function MenuModal({ open, onClose }: MenuModalProps): ReactNode {
 
               if (data.type === 'group' && data.story && !data.story.meta?.menuHidden) {
                 event.preventDefault();
-                navigate(data.story.pathname);
+                navigate(routing.getStoryShowcaseUrl(data.story));
+                onClose?.();
                 return;
               }
 
@@ -102,20 +103,19 @@ export function MenuModal({ open, onClose }: MenuModalProps): ReactNode {
         {search.length > 0 && (
           <div className={styles.menu}>
             <Menu
-              items={searchResultItems}
+              items={searchResult}
               getTitle={data => {
                 return data.meta?.title || data.meta?.category;
               }}
               getHref={data => {
-                // @todo use some util from router module
-                return `?path=${data.pathname}`;
+                return routing.getStoryShowcaseUrl(data);
               }}
               isActive={data => {
-                return data.pathname === location.pathname;
+                return data.pathname === routing.getStoryPathname(location);
               }}
               onItemClick={(event, data) => {
                 event.preventDefault();
-                navigate(data.pathname);
+                navigate(routing.getStoryShowcaseUrl(data));
               }}
             />
           </div>

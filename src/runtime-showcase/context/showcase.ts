@@ -1,17 +1,22 @@
 import { type Context, createContext, useContext, useMemo } from 'react';
 import type { StoryModule } from '#core';
-import { StoryService } from '#runtime';
 import { type AnyMenuNode, getMenuItems } from '../utils/menu';
-import { useLocation } from '../shared/router';
+import type { ShowcaseRouting } from '../types';
+import { StoryService } from '#runtime';
+import { useLocation } from '../shared/router-react';
 
 export interface ShowcaseContextValue {
-  processedProps: {
+  /** Config, this is processed props given to ShowcaseApp. */
+  config: {
     title?: string;
     logoSrc?: { light?: string; dark?: string };
-    headerLinks?: Array<{ name: string; href: string }>;
+    headerLinks: Array<{ name: string; href: string }>;
     stories: StoryModule[];
-    defineStoryUrl: (story: StoryModule) => string;
-    storySearch: boolean;
+    defaultStory: {
+      pathname: string;
+    };
+    routing: ShowcaseRouting;
+    search: boolean;
     colorSchemes: {
       enabled: boolean;
       attributeTarget: 'rootElement' | 'documentElement';
@@ -19,58 +24,68 @@ export interface ShowcaseContextValue {
     };
   };
 
+  /** Menu open state. */
   menuOpen: boolean;
-  toggleMenu(open: boolean): void;
 
-  defaultPathname: string;
+  /** Toggle menu state. */
+  toggleMenu(open: boolean): void;
 }
 
+/** Context that available inside ShowcaseApp. */
 export const ShowcaseContext: Context<ShowcaseContextValue> = createContext<ShowcaseContextValue>({
-  processedProps: {
+  config: {
     stories: [],
-    defineStoryUrl: () => '/',
-    storySearch: false,
+    headerLinks: [],
+    routing: {
+      getStorySandboxUrl: () => '/',
+      getStoryShowcaseUrl: () => '/',
+      getStoryPathname: () => null,
+    },
+    search: false,
     colorSchemes: {
       enabled: false,
       attributeTarget: 'rootElement',
       defaults: true,
     },
+    defaultStory: {
+      pathname: '/',
+    },
   },
   menuOpen: false,
   toggleMenu() {},
-
-  defaultPathname: '',
 });
 
 ShowcaseContext.displayName = 'ShowcaseContext';
 
 export function useStories(): StoryModule[] {
-  const { processedProps } = useContext(ShowcaseContext);
-  const { stories } = processedProps;
+  const { config } = useContext(ShowcaseContext);
+  const { stories } = config;
 
   return stories;
 }
 
 export function useCurrentStory(): StoryService | undefined {
-  const location = useLocation();
+  const location = useLocation() as any;
 
-  const { processedProps } = useContext(ShowcaseContext);
-  const { stories } = processedProps;
+  const { config } = useContext(ShowcaseContext);
+  const { stories, routing } = config;
 
   return useMemo(() => {
-    const story = stories.find(item => item.pathname === location.pathname);
+    const targetPathname = routing.getStoryPathname(location);
+
+    const story = stories.find(item => item.pathname === targetPathname);
 
     if (!story) {
       return undefined;
     }
 
     return new StoryService(story);
-  }, [stories, location.pathname]);
+  }, [stories, location, routing]);
 }
 
 export function useMenuItems(): AnyMenuNode[] {
-  const { processedProps } = useContext(ShowcaseContext);
-  const { stories } = processedProps;
+  const { config } = useContext(ShowcaseContext);
+  const { stories } = config;
 
   return useMemo(() => getMenuItems(stories), [stories]);
 }
@@ -82,8 +97,8 @@ export function useMainMenu(): [boolean, (open: boolean) => void] {
 }
 
 export function useStorySearchResult(query: string): StoryModule[] {
-  const { processedProps } = useContext(ShowcaseContext);
-  const { stories } = processedProps;
+  const { config } = useContext(ShowcaseContext);
+  const { stories } = config;
 
   const items = useMemo(() => {
     return stories.map(data => new StoryService(data));

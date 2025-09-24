@@ -101,7 +101,6 @@ export function MenuItem({
   active = false,
   open: openProp,
   defaultOpen,
-  onToggle,
   children,
   className,
   ...restProps
@@ -109,20 +108,19 @@ export function MenuItem({
   active?: boolean;
   open?: boolean;
   defaultOpen?: boolean;
-  onToggle?: (event: { open: boolean }) => void;
 }): ReactNode {
   const [store] = useState(() =>
     createNanoStore<{ open: boolean }>({
       open: openProp ?? defaultOpen ?? true,
     }),
   );
-  const state = useSyncExternalStore(store.subscribe, store.getState);
+  const state = useSyncExternalStore(store.subscribe, store.getState, store.getState);
 
   useIsomorphicLayoutEffect(() => {
     if (openProp !== undefined && openProp !== state.open) {
       store.setState({ open: openProp });
     }
-  }, [openProp, state.open]);
+  }, [store, state.open, openProp]);
 
   const rootClassName = classNames(
     styles.menuitem,
@@ -178,7 +176,7 @@ export function MenuItemBody({
   ...restProps
 }: HTMLAttributes<HTMLDivElement>): ReactNode {
   const { store } = useContext(MenuItemContext);
-  const state = useSyncExternalStore(store.subscribe, store.getState);
+  const state = useSyncExternalStore(store.subscribe, store.getState, store.getState);
 
   if (!state.open) {
     return null;

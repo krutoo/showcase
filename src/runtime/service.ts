@@ -54,7 +54,7 @@ export class StoryService {
     );
   }
 
-  getComponent(): ComponentType<{}> {
-    return this.data.default as ComponentType<{}>;
+  getComponent(): ComponentType {
+    return this.data.default as ComponentType;
   }
 }

@@ -7,8 +7,8 @@ import { ColorSchemeToggle } from '../color-scheme-toggle';
 import styles from './header-links.m.css';
 
 export function HeaderButtons(): ReactNode {
-  const { processedProps, toggleMenu: toggleMenuModal } = useContext(ShowcaseContext);
-  const { headerLinks, colorSchemes } = processedProps;
+  const { config, toggleMenu } = useContext(ShowcaseContext);
+  const { headerLinks, colorSchemes } = config;
   const mobile = useMatchMedia('(max-width: 960px)');
 
   return (
@@ -26,11 +26,7 @@ export function HeaderButtons(): ReactNode {
       )}
 
       {mobile && (
-        <BurgerMenuSVG
-          role='button'
-          className={styles.menuIcon}
-          onClick={() => toggleMenuModal(true)}
-        />
+        <BurgerMenuSVG role='button' className={styles.menuIcon} onClick={() => toggleMenu(true)} />
       )}
     </div>
   );

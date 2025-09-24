@@ -17,5 +17,5 @@
       "#runtime": ["./src/runtime/index.ts"]
     }
   },
-  "exclude": ["docs", "examples"]
+  "exclude": ["node_modules", "dist", "docs", "examples"]
 }

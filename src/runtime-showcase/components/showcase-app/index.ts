@@ -1,1 +1,1 @@
-export { type ShowcaseAppProps, ShowcaseApp } from './showcase-app';
+export { ShowcaseApp } from './showcase-app';

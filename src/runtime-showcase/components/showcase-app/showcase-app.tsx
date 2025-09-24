@@ -1,10 +1,9 @@
 import { type ReactNode } from 'react';
+import type { StandaloneAppConfig } from '../../types';
+import { StandaloneProvider } from '../standalone-provider';
 import { App } from '../app';
-import { type StandaloneAppProps, StandaloneProvider } from '../standalone-provider';
 
-export type ShowcaseAppProps = StandaloneAppProps;
-
-export function ShowcaseApp(props: StandaloneAppProps): ReactNode {
+export function ShowcaseApp(props: StandaloneAppConfig): ReactNode {
   return (
     <StandaloneProvider {...props}>
       <App />

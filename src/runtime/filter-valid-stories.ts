@@ -2,6 +2,8 @@ import { type StoryModule, StoryModuleSchema } from '#core';
 
 /**
  * Filter only valid stories from given array.
+ * @param stories Array of anything.
+ * @returns Array with valid stories.
  */
 export function filterValidStories(stories: unknown[]): {
   validStories: StoryModule[];

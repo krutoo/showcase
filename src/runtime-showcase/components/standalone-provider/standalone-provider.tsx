@@ -1,90 +1,56 @@
-import { type StoryModule } from '#core';
-import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import { type AnyMenuNode, getMenuItems } from '../../utils/menu';
-import { QueryRouter, RouterContext } from '../../shared/router';
-import { ShowcaseContext, type ShowcaseContextValue } from '../../context/showcase';
+import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import { isObject } from '@krutoo/utils';
+import type { StoryModule } from '#core';
+import type { ShowcaseRouting, StandaloneAppConfig } from '../../types';
+import { type AnyMenuNode, getMenuItems } from '../../utils/menu';
+import { useInitial } from '../../shared/hooks';
+import { BrowserRouter, type RouterLocation } from '../../shared/router';
+import { RouterContext } from '../../shared/router-react';
+import { ShowcaseContext, type ShowcaseContextValue } from '../../context/showcase';
 
-export interface StandaloneAppProps {
-  /** Your application name. */
-  title?: string;
-
-  /** Your logo image src. */
-  logoSrc?: string | { light: string; dark?: string };
-
-  /** Links in header. */
-  headerLinks?: Array<{ name: string; href: string }>;
-
-  /** All stories you want to show. */
-  stories: StoryModule[];
-
-  /** How to define story URL. */
-  defineStoryUrl?: (story: StoryModule) => string;
-
-  /** Enables search by stories in sidebar and mobile modal menu. */
-  storySearch?: boolean;
-
-  defaultStory?: { pathname: string };
-
-  /** Enables switch between light and dark color schemes. */
-  colorSchemes?:
-    | boolean
-    | {
-        /** Enables switch between light and dark color schemes. */
-        enabled?: boolean;
-
-        /** Element that will receive `data-color-scheme` attribute. */
-        attributeTarget?: 'rootElement' | 'documentElement';
-
-        /** Enables default styles for color schemes. */
-        defaults?: boolean;
-      };
-}
-
-export interface StandaloneProviderProps extends StandaloneAppProps {
+export interface StandaloneProviderProps extends StandaloneAppConfig {
   children?: ReactNode;
 }
 
-function defaultDefineStoryUrl(story: StoryModule) {
-  return `sandbox.html?path=${story.pathname}`;
-}
+const defaultRouting: ShowcaseRouting = {
+  getStorySandboxUrl(story: StoryModule): string {
+    return `sandbox.html?path=${story.pathname}`;
+  },
+
+  getStoryShowcaseUrl(story: StoryModule): string {
+    return `?path=${story.pathname}`;
+  },
+
+  getStoryPathname(location: RouterLocation): string | null {
+    return new URLSearchParams(location.search).get('path');
+  },
+};
 
 export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
   const {
     //
     children,
     stories,
-    defaultStory,
-    defineStoryUrl = defaultDefineStoryUrl,
+    defaultStory: givenDefaultStory,
+    router: givenRouter,
+    routing,
+    defineStoryUrl,
   } = props;
 
   const [menuOpen, toggleMenu] = useState(false);
 
-  const defaultStoryRef = useRef(defaultStory);
+  const defaultStory = useMemo(
+    () =>
+      givenDefaultStory ?? {
+        pathname: findFirstMenuItem(getMenuItems(stories))?.pathname ?? '',
+      },
+    [stories, givenDefaultStory],
+  );
 
-  const defaultPathname = useMemo(() => {
-    if (defaultStoryRef.current?.pathname) {
-      return defaultStoryRef.current.pathname;
-    }
-
-    const findFirstStory = (items: AnyMenuNode[]): string => {
-      for (const item of items) {
-        if (item.type === 'story') {
-          return item.story.pathname;
-        } else {
-          return findFirstStory(item.items);
-        }
-      }
-
-      return '';
-    };
-
-    return findFirstStory(getMenuItems(stories));
-  }, [defaultStoryRef, stories]);
-
-  const contextValue: ShowcaseContextValue = {
-    processedProps: {
-      ...props,
+  const context: ShowcaseContextValue = {
+    config: {
+      stories,
+      title: props.title,
       logoSrc: isObject(props.logoSrc)
         ? {
             light: props.logoSrc.light,
@@ -93,7 +59,8 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
         : {
             light: props.logoSrc,
           },
-      storySearch: !!props.storySearch,
+      headerLinks: props.headerLinks ?? [],
+      search: !!props.storySearch,
       colorSchemes: isObject(props.colorSchemes)
         ? {
             enabled: props.colorSchemes.enabled ?? true,
@@ -105,32 +72,72 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
             attributeTarget: 'rootElement',
             defaults: true,
           },
-      defineStoryUrl,
+      routing: defineStoryUrl
+        ? {
+            ...defaultRouting,
+            getStorySandboxUrl: defineStoryUrl,
+          }
+        : (routing ?? defaultRouting),
+
+      defaultStory: defaultStory,
     },
 
     // menu slice
     menuOpen,
     toggleMenu,
-
-    // main page pathname
-    defaultPathname,
   };
 
-  const router = useMemo(() => new QueryRouter(), []);
+  const router = useMemo(() => givenRouter ?? new BrowserRouter(), [givenRouter]);
+  const initialRouting = useInitial(context.config.routing);
+  const initialStories = useInitial(context.config.stories);
+  const initialDefaultStory = useInitial(defaultStory);
 
   useEffect(() => {
-    const disconnect = router.connect();
+    const currentStoryPathname = initialRouting.getStoryPathname(location);
 
-    if (router.getLocation().pathname === '') {
-      router.navigate(defaultPathname);
+    const navigateToDefault = () => {
+      const story = initialStories.find(item => item.pathname === initialDefaultStory.pathname);
+
+      if (story) {
+        router.navigate(initialRouting.getStoryShowcaseUrl(story));
+      }
+    };
+
+    if (currentStoryPathname === null) {
+      navigateToDefault();
     }
 
-    return disconnect;
-  }, [router, defaultPathname]);
+    if (currentStoryPathname === '/') {
+      const story = initialStories.find(item => item.pathname === currentStoryPathname);
+
+      if (!story) {
+        navigateToDefault();
+      }
+    }
+
+    return router.connect();
+  }, [
+    router,
+
+    // stable:
+    initialStories,
+    initialRouting,
+    initialDefaultStory,
+  ]);
 
   return (
     <RouterContext.Provider value={router}>
-      <ShowcaseContext.Provider value={contextValue}>{children}</ShowcaseContext.Provider>
+      <ShowcaseContext.Provider value={context}>{children}</ShowcaseContext.Provider>
     </RouterContext.Provider>
   );
+}
+
+function findFirstMenuItem(items: AnyMenuNode[]): StoryModule | undefined {
+  for (const item of items) {
+    if (item.type === 'story') {
+      return item.story;
+    } else {
+      return findFirstMenuItem(item.items);
+    }
+  }
 }
