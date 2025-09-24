@@ -13,7 +13,7 @@ createRoot(document.querySelector('#root')!).render(
     title='Rspack example'
     logoSrc='public/rspack-logo.svg'
     storySearch
-    themes={{ enabled: true }}
+    colorSchemes={{ enabled: true }}
     headerLinks={[
       {
         name: 'GitHub',

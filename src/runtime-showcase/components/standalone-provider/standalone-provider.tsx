@@ -50,6 +50,7 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
   const context: ShowcaseContextValue = {
     config: {
       stories,
+      title: props.title,
       logoSrc: isObject(props.logoSrc)
         ? {
             light: props.logoSrc.light,
@@ -58,6 +59,7 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
         : {
             light: props.logoSrc,
           },
+      headerLinks: props.headerLinks ?? [],
       search: !!props.storySearch,
       colorSchemes: isObject(props.colorSchemes)
         ? {

@@ -10,7 +10,7 @@ export interface ShowcaseContextValue {
   config: {
     title?: string;
     logoSrc?: { light?: string; dark?: string };
-    headerLinks?: Array<{ name: string; href: string }>;
+    headerLinks: Array<{ name: string; href: string }>;
     stories: StoryModule[];
     defaultStory: {
       pathname: string;
@@ -35,6 +35,7 @@ export interface ShowcaseContextValue {
 export const ShowcaseContext: Context<ShowcaseContextValue> = createContext<ShowcaseContextValue>({
   config: {
     stories: [],
+    headerLinks: [],
     routing: {
       getStorySandboxUrl: () => '/',
       getStoryShowcaseUrl: () => '/',
