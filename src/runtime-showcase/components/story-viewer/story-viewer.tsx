@@ -18,7 +18,7 @@ export function StoryViewer({ story }: StoryViewerProps): ReactNode {
   const [sourcesOpen, setSourcesOpen] = useState(false);
   const sandboxUrl = routing.getStorySandboxUrl(story.data);
 
-  if (story.data.lang === 'mdx') {
+  if (story.getViewMode() === 'page') {
     return <StoryMdxViewer story={story} />;
   }
 

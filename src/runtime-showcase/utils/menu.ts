@@ -142,3 +142,13 @@ function compareTitleDesc(a: AnyMenuNode, b: AnyMenuNode): number {
 function comparePriorityDesc(a: AnyMenuNode, b: AnyMenuNode): number {
   return (b.menuPriority ?? 0) - (a.menuPriority ?? 0);
 }
+
+export function findFirstMenuItem(items: AnyMenuNode[]): StoryModule | undefined {
+  for (const item of items) {
+    if (item.type === 'story') {
+      return item.story;
+    } else {
+      return findFirstMenuItem(item.items);
+    }
+  }
+}

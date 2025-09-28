@@ -5,7 +5,7 @@ export function validateConfig(
   config: EmitStoriesEntrypointConfig,
 ): Required<EmitStoriesEntrypointConfig> {
   const {
-    filename,
+    filename = './.generated/found-stories.js',
     storiesGlob = './**/*.story.{ts,tsx,md,mdx}',
     storiesRootDir = './stories/',
     rawImport = defaultRawImport,

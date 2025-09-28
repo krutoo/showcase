@@ -91,3 +91,4 @@ export class BrowserRouter implements Router {
 }
 
 // @todo MemoryRouter если хочется совсем убрать роутинг
+// @todo HashRouter если хочется на хешах

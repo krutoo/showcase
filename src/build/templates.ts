@@ -68,7 +68,7 @@ function StoryExtrasConst({ story, index }: StoryTemplateProps) {
   const sources = story.metaJson?.parameters?.sources;
 
   const data = {
-    lang: story.lang,
+    ext: path.extname(story.filename),
     pathname: story.storyPathname,
     metaJson: story.metaJson,
     extraSources: [] as any[],
@@ -77,6 +77,7 @@ function StoryExtrasConst({ story, index }: StoryTemplateProps) {
   if (isObject(sources) && sources.extraSources) {
     data.extraSources = sources.extraSources.map((sourcePath, sourceIndex) => {
       return {
+        ext: path.extname(sourcePath),
         title: path.basename(sourcePath),
         source: `{{Story${index}ExtraSrc${sourceIndex}}}`,
       };
