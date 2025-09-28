@@ -3,3 +3,7 @@
   color: var(--showcase-ui-link-color, #222);
   text-decoration: var(--showcase-ui-link-text-decoration, none);
 }
+
+.link:hover {
+  color: var(--showcase-ui-link-hover-color, var(--showcase-ui-link-color, #555));
+}
