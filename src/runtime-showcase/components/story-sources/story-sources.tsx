@@ -49,15 +49,7 @@ export function StorySources({ story, className }: StorySourcesProps): ReactNode
       <PlateBody>
         <CodeBlock
           code={source}
-          lang={
-            sourceIndex === -1
-              ? story.lang
-              : // @todo надо чтобы у каждого элемента extraSources был именно ext а не lang для прозрачности
-                // сейчас не круто что берем title и надеемся что в нем будет расширение
-                story.extraSources[sourceIndex]?.title
-                  .match(/\.[0-9a-z]+$/i)?.[0]
-                  ?.replace(/^\./, '')
-          }
+          lang={sourceIndex === -1 ? story.ext : story.extraSources[sourceIndex]?.ext}
         />
       </PlateBody>
     </Plate>

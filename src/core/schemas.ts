@@ -5,7 +5,7 @@ export type StoryMeta = z.infer<typeof StoryMetaSchema>;
 export type StoryModule = z.infer<typeof StoryModuleSchema>;
 
 /**
- * Схема объекта мета-данных story-модуля.
+ * Schema of meta data of story module .
  */
 export const StoryMetaSchema = z.object({
   /** Title, affects menu item name. */
@@ -53,30 +53,31 @@ export const StoryMetaSchema = z.object({
 });
 
 /**
- * Схема для дальнейшего отсеивания невалидных story-модулей.
+ * Schema of valid story module data.
  */
 export const StoryModuleSchema = z.object({
-  /** React-компонент с примером (`export default ...`). */
+  /** Render function. Value from `export default ...`. */
   default: z.function(),
 
-  /** Мета-данные из модуля (`export { meta: {} }`). */
+  /** Meta data. Value from `export { meta: {} }`. */
   meta: z.optional(StoryMetaSchema),
 
-  /** Мета-данные из соответствующего json-файла. */
+  /** Meta data from json file. */
   metaJson: z.optional(StoryMetaSchema),
 
-  /** В каком формате модуль. */
-  lang: z.enum(['js', 'mdx']),
+  /** Extension of source file. */
+  ext: z.string(),
 
-  /** Путь для роутинга (на основе пути до файла story-модуля). */
+  /** Story pathname (based on file path in file system). */
   pathname: z.string(),
 
-  /** Исходный код модуля. */
+  /** Source code. */
   source: z.string(),
 
-  /** Дополнительные исходники (на основе json-файла с мета-данными). */
+  /** Extra sources from json meta file. */
   extraSources: z.array(
     z.object({
+      ext: z.string(),
       title: z.string(),
       source: z.string(),
     }),

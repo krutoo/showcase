@@ -8,6 +8,10 @@ export class StoryService {
     this.data = data;
   }
 
+  getViewMode(): 'story' | 'page' {
+    return this.data.ext.includes('md') ? 'page' : 'story';
+  }
+
   isMenuItemHidden(): boolean {
     return this.data.meta?.menuHidden ?? this.data.metaJson?.menuHidden ?? false;
   }
@@ -42,8 +46,7 @@ export class StoryService {
   isSourcesEnabled(): boolean {
     return (
       Boolean(this.data?.meta?.parameters?.sources) ||
-      Boolean(this.data?.metaJson?.parameters?.sources) ||
-      this.data.lang === 'js'
+      Boolean(this.data?.metaJson?.parameters?.sources)
     );
   }
 

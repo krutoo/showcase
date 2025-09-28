@@ -6,9 +6,9 @@ import { validateConfig } from './utils';
 import { StoryMetaSchema } from '#core';
 
 export async function defineStories(
-  config: EmitStoriesEntrypointConfig,
+  config: Pick<EmitStoriesEntrypointConfig, 'storiesGlob'>,
 ): Promise<StoryModuleData[]> {
-  const validConfig = validateConfig(config);
+  const validConfig = validateConfig(config as any);
   const getPageData = getPageDataFactory(validConfig);
 
   return await glob(validConfig.storiesGlob)
@@ -23,9 +23,6 @@ function getPageDataFactory(config: Required<EmitStoriesEntrypointConfig>) {
   return async (filename: string): Promise<StoryModuleData> => {
     return {
       filename,
-
-      // @todo заменить lang на ext для "прозрачности" либо совсем убрать lang
-      lang: path.extname(filename).includes('md') ? 'mdx' : 'js',
 
       // прочее (для отображения)
       storyPathname: `/${path

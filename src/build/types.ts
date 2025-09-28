@@ -17,9 +17,6 @@ export interface EmitStoriesEntrypointConfig {
 
 /** @private */
 export interface StoryModuleData {
-  /** язык, взятый из расширения */
-  lang: 'js' | 'mdx';
-
   /** путь до файла */
   filename: string;
 

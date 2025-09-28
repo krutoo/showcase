@@ -1,30 +1,17 @@
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import { isObject } from '@krutoo/utils';
-import type { StoryModule } from '#core';
 import type { ShowcaseRouting, StandaloneAppConfig } from '../../types';
-import { type AnyMenuNode, getMenuItems } from '../../utils/menu';
+import { findFirstMenuItem, getMenuItems } from '../../utils/menu';
 import { useInitial } from '../../shared/hooks';
-import { BrowserRouter, type RouterLocation } from '../../shared/router';
+import { BrowserRouter } from '../../shared/router';
 import { RouterContext } from '../../shared/router-react';
 import { ShowcaseContext, type ShowcaseContextValue } from '../../context/showcase';
+import { extendRouting, RoutingContext } from '../../context/routing';
+import { QueryRouting } from '../../utils/routing';
 
 export interface StandaloneProviderProps extends StandaloneAppConfig {
   children?: ReactNode;
 }
-
-const defaultRouting: ShowcaseRouting = {
-  getStorySandboxUrl(story: StoryModule): string {
-    return `sandbox.html?path=${story.pathname}`;
-  },
-
-  getStoryShowcaseUrl(story: StoryModule): string {
-    return `?path=${story.pathname}`;
-  },
-
-  getStoryPathname(location: RouterLocation): string | null {
-    return new URLSearchParams(location.search).get('path');
-  },
-};
 
 export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
   const {
@@ -33,11 +20,31 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
     stories,
     defaultStory: givenDefaultStory,
     router: givenRouter,
-    routing,
+    routing: givenRouting,
     defineStoryUrl,
   } = props;
 
   const [menuOpen, toggleMenu] = useState(false);
+
+  const router = useMemo(() => givenRouter ?? new BrowserRouter(), [givenRouter]);
+
+  const routing = useMemo<ShowcaseRouting>(() => {
+    if (defineStoryUrl) {
+      const base = new QueryRouting();
+
+      return {
+        getStoryPathname: base.getStoryPathname.bind(base),
+        getStoryShowcaseUrl: base.getStoryShowcaseUrl.bind(base),
+        getStorySandboxUrl: defineStoryUrl,
+      };
+    }
+
+    return givenRouting ?? new QueryRouting();
+  }, [givenRouting, defineStoryUrl]);
+
+  const extendedRouting = useMemo(() => {
+    return extendRouting(routing, stories);
+  }, [routing, stories]);
 
   const defaultStory = useMemo(
     () =>
@@ -72,14 +79,8 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
             attributeTarget: 'rootElement',
             defaults: true,
           },
-      routing: defineStoryUrl
-        ? {
-            ...defaultRouting,
-            getStorySandboxUrl: defineStoryUrl,
-          }
-        : (routing ?? defaultRouting),
-
-      defaultStory: defaultStory,
+      routing,
+      defaultStory,
     },
 
     // menu slice
@@ -87,7 +88,6 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
     toggleMenu,
   };
 
-  const router = useMemo(() => givenRouter ?? new BrowserRouter(), [givenRouter]);
   const initialRouting = useInitial(context.config.routing);
   const initialStories = useInitial(context.config.stories);
   const initialDefaultStory = useInitial(defaultStory);
@@ -127,17 +127,9 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
 
   return (
     <RouterContext.Provider value={router}>
-      <ShowcaseContext.Provider value={context}>{children}</ShowcaseContext.Provider>
+      <RoutingContext.Provider value={extendedRouting}>
+        <ShowcaseContext.Provider value={context}>{children}</ShowcaseContext.Provider>
+      </RoutingContext.Provider>
     </RouterContext.Provider>
   );
-}
-
-function findFirstMenuItem(items: AnyMenuNode[]): StoryModule | undefined {
-  for (const item of items) {
-    if (item.type === 'story') {
-      return item.story;
-    } else {
-      return findFirstMenuItem(item.items);
-    }
-  }
 }
