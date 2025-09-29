@@ -1,0 +1,7 @@
+{
+  "parameters": {
+    "sources": {
+      "extraSources": ["./primary.module.css"]
+    }
+  }
+}

@@ -1,0 +1,80 @@
+export const meta = {
+  title: 'About',
+};
+
+# Example of using `@krutoo/showcase` with Vite
+
+This package contains example of documentation built with `@krutoo/showcase` and Vite.
+
+`@krutoo/showcase` is a simple alternative for Storybook that works with every bundler.
+
+## Installation
+
+```shell
+npm add @krutoo/showcase
+```
+
+## Configuration
+
+#### 0. Basics
+
+You can configure Vite to handle all you will use in stories as you wish, for example:
+
+- TypeScript and JSX
+- CSS and CSS-modules
+- Raw import (import source code as string)
+- MDX import
+
+#### 1. Entrypoint
+
+Use `emitStoriesEntrypoint` to emit entrypoint with all found stories
+
+You can provide next settings:
+
+- `filename` - where will be placed entry file
+- `storiesGlob` - glob pattern to find stories
+- `storiesRootDir` - root directory where all stories placed
+- `rawImport` - how to import raw story content
+
+```js
+// @todo
+```
+
+#### 2. Bundle entries
+
+You need two provide two entries:
+
+- for story sandbox
+- for showcase SPA
+
+You also need to emit two HTML files
+
+```js
+// @todo
+```
+
+## Defining stories
+
+Create file that matches story pattern in your build config. In this file you need to export `meta` and `default`.
+
+```jsx
+export const meta = {
+  title: 'My first story',
+};
+
+export default function Story() {
+  return <h1>Hello, world!</h1>;
+}
+```
+
+If you set up MDX you can add MDX-stories:
+
+```mdx
+export const meta = {
+  title: 'My first MDX story',
+};
+
+# Hello, world
+
+This is **first** MDX-document in my showcase
+```
