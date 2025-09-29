@@ -31,7 +31,7 @@ export class PathnameRouting implements ShowcaseRouting {
   }
 
   getStoryPathname(location: RouterLocation) {
-    const result = location.pathname;
+    const result = location.pathname.replace(/\/$/, '');
 
     if (this.publicPath) {
       return removeBasePath(this.publicPath, result);
