@@ -27,7 +27,7 @@ export function StoryViewer({ story }: StoryViewerProps): ReactNode {
       <Plate
         className={classNames(
           styles.main,
-          sourcesOpen && story.isSourcesEnabled() && styles.detailed,
+          story.isSourcesEnabled() && sourcesOpen && styles.detailed,
         )}
       >
         <PlateHeader>

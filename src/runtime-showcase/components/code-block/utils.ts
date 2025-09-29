@@ -32,7 +32,8 @@ export function getHighlighterCore() {
 }
 
 export function getProcessedLang(lang: string): string {
-  switch (lang) {
+  // make lang from ext (remove first dot if exist)
+  switch (lang.replace(/^\./, '')) {
     case 'js':
     case 'jsx':
     case 'ts':

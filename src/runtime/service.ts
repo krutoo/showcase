@@ -45,8 +45,8 @@ export class StoryService {
 
   isSourcesEnabled(): boolean {
     return (
-      Boolean(this.data?.meta?.parameters?.sources) ||
-      Boolean(this.data?.metaJson?.parameters?.sources)
+      Boolean(this.data?.meta?.parameters?.sources ?? true) ||
+      Boolean(this.data?.metaJson?.parameters?.sources ?? true)
     );
   }
 
