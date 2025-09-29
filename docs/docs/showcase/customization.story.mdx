@@ -88,4 +88,60 @@ Coming soon...
 
 ## Routing
 
-Coming soon...
+By default, showcase uses next routing rules:
+
+- showcase page of story `/hello/world` looks for `?path=/hello/world`
+- sandbox page of story `/hello/world` looks for `sandbox.html?path=/hello/world`
+
+You can configure routing of your stories by **router** and **routing** options.
+
+#### Option `router`
+
+By this option you can configure how to deal with `window.location` if you want.
+Default router is `BrowserRouter` that connects to `window.location`.
+
+`BrowserRouter` can be exported and configured:
+
+```jsx
+import { ShowcaseApp, BrowserRouter } from '@krutoo/showcase/showcase-runtime';
+
+<ShowcaseApp router={new BrowserRouter()}>
+```
+
+#### Option `routing`
+
+This option controls how to:
+
+- define story by location
+- define location by story
+- define story sandbox URL
+
+By default `ShowcaseApp` uses `QueryRouting` that looks for `?path` parameter in location.
+
+If you want to make pathname-based routing you can use `PathnameRouting`:
+
+```jsx
+import { ShowcaseApp, PathnameRouting } from '@krutoo/showcase/showcase-runtime';
+
+<ShowcaseApp routing={new PathnameRouting()}>
+```
+
+It also of course possible to provide your own implementation.
+
+Notice that for pathname-based routing you also need to either:
+
+- make HTML files for each story during compile time
+- configure your server to redirect all missed pathnames to your SPA
+
+#### Tip: public path
+
+If you want to publish your showcase to non root path you can provide `publicPath` option to `PathnameRouting`:
+
+```jsx
+import { ShowcaseApp, PathnameRouting } from '@krutoo/showcase/showcase-runtime';
+
+<ShowcaseApp routing={new PathnameRouting({ publicPath: '/hello/' })}>
+```
+
+For example, `docs` repo published to GitHub Pages will have url `github.com/<username>/docs`
+where `username` is _base path_.

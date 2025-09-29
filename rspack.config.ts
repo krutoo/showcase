@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import rspack, { type SwcLoaderOptions, type Configuration } from '@rspack/core';
+import { type Configuration } from '@rspack/core';
+import * as utils from '@krutoo/utils/rspack';
 import packageJson from './package.json' with { type: 'json' };
 
 async function emitCssModuleExports(data: {
@@ -34,56 +35,19 @@ const config: Configuration = {
   externals: Object.fromEntries(
     Object.entries(packageJson.dependencies).map(([key]) => [key, key]),
   ),
-  resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
-    tsConfig: {
-      configFile: path.resolve(import.meta.dirname, './tsconfig.json'),
-    },
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx|ts|tsx)$/,
-        exclude: /node_modules/,
-        loader: 'builtin:swc-loader',
-        options: {
-          sourceMaps: true,
-          jsc: {
-            parser: {
-              syntax: 'typescript',
-              tsx: true,
-            },
-            transform: {
-              react: {
-                runtime: 'automatic',
-              },
-            },
-          },
-        } satisfies SwcLoaderOptions,
-      },
-      {
-        test: /\.css$/i,
-        use: [
-          rspack.CssExtractRspackPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              modules: {
-                auto: /\.(module|m)\.css$/i,
-                localIdentName: 'showcase__[local]--[hash:4]',
-                exportLocalsConvention: 'as-is',
-                namedExport: false,
-                getJSON: emitCssModuleExports,
-              },
-            },
-          },
-        ],
-      },
-    ],
-  },
   plugins: [
-    new rspack.CssExtractRspackPlugin({
-      filename: '../css/showcase.css',
+    utils.pluginTypeScript(),
+    utils.pluginCSS({
+      extract: {
+        filename: '../css/showcase.css',
+      },
+      cssModules: {
+        auto: /\.(module|m)\.css$/i,
+        localIdentName: 'showcase__[local]--[hash:4]',
+        exportLocalsConvention: 'as-is',
+        namedExport: false,
+        getJSON: emitCssModuleExports,
+      },
     }),
   ],
   experiments: {

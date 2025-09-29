@@ -1,9 +1,11 @@
 import { useContext } from 'react';
-import { ColorSchemesContext } from '@krutoo/showcase/runtime-showcase';
+import { RoutingContext, ColorSchemesContext, Link } from '@krutoo/showcase/runtime-showcase';
+import { withPublicPath } from '../../utils';
 import classNames from 'classnames';
 import styles from './hero.m.css';
 
 export function Hero() {
+  const { pathnameToUrl } = useContext(RoutingContext);
   const { colorScheme } = useContext(ColorSchemesContext);
 
   return (
@@ -11,7 +13,11 @@ export function Hero() {
       <img
         className={styles.logo}
         alt='Logo'
-        src={colorScheme === 'dark' ? 'public/logo.dark.svg' : 'public/logo.svg'}
+        src={
+          colorScheme === 'dark'
+            ? withPublicPath('public/logo.dark.svg')
+            : withPublicPath('public/logo.svg')
+        }
       />
       <div className={styles.header}>
         <h1 className={styles.title}>@krutoo/showcase</h1>
@@ -21,16 +27,16 @@ export function Hero() {
       </div>
 
       <div className={styles.buttons}>
-        <a className={classNames(styles.button, styles.filled)} href='?path=/usage'>
+        <Link className={classNames(styles.button, styles.filled)} href={pathnameToUrl('/usage')}>
           Docs
-        </a>
-        <a
+        </Link>
+        <Link
           className={classNames(styles.button, styles.outlined)}
           href='https://github.com/krutoo/showcase'
           target='_blank'
         >
           GitHub
-        </a>
+        </Link>
       </div>
 
       <div className={styles.cards}>
