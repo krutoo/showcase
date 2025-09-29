@@ -160,3 +160,8 @@
 .mdx em {
   font-style: italic;
 }
+
+.mdx b,
+.mdx strong {
+  font-weight: bolder;
+}
