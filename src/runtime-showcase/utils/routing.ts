@@ -7,13 +7,16 @@ export interface PathnameRoutingOptions {
 }
 
 // @todo экспортировать из пакета?
-function withPublicPath(base: string, path: string): string {
+function addBasePath(base: string, path: string): string {
+  // и base и path могут начинаться и заканчиваться на "/" а могут и нет
+  // чтобы правильно реализовать склеивание используем URL
+  // URL поддерживается в Node.js и в браузерах очень давно
   const url = new URL(path, new URL(base, 'http://stub.com'));
 
   return `${url.pathname}${url.hash}${url.search}`;
 }
 
-function withoutPublicPath(base: string, path: string): string {
+function removeBasePath(base: string, path: string): string {
   // @todo не уверен но вроде можно url.href.replace(baseUrl.href, '') но если путь "/" то не работает
   const url = new URL(path, new URL(base, 'http://stub.com'));
 
@@ -31,7 +34,7 @@ export class PathnameRouting implements ShowcaseRouting {
     const result = location.pathname;
 
     if (this.publicPath) {
-      return withoutPublicPath(this.publicPath, result);
+      return removeBasePath(this.publicPath, result);
     }
 
     return result;
@@ -41,7 +44,7 @@ export class PathnameRouting implements ShowcaseRouting {
     const result = `.${story.pathname}`;
 
     if (this.publicPath) {
-      return withPublicPath(this.publicPath, result);
+      return addBasePath(this.publicPath, result);
     }
 
     return story.pathname;
@@ -51,7 +54,7 @@ export class PathnameRouting implements ShowcaseRouting {
     const result = `./sandbox.html?path=${story.pathname}`;
 
     if (this.publicPath) {
-      return withPublicPath(this.publicPath, result);
+      return addBasePath(this.publicPath, result);
     }
 
     return result;
