@@ -88,18 +88,19 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
     toggleMenu,
   };
 
+  const initialRouter = useInitial(router);
   const initialRouting = useInitial(context.config.routing);
   const initialStories = useInitial(context.config.stories);
   const initialDefaultStory = useInitial(defaultStory);
 
   useEffect(() => {
-    const currentStoryPathname = initialRouting.getStoryPathname(location);
+    const currentStoryPathname = initialRouting.getStoryPathname(initialRouter.getLocation());
 
     const navigateToDefault = () => {
       const story = initialStories.find(item => item.pathname === initialDefaultStory.pathname);
 
       if (story) {
-        router.navigate(initialRouting.getStoryShowcaseUrl(story));
+        initialRouter.navigate(initialRouting.getStoryShowcaseUrl(story));
       }
     };
 
@@ -115,11 +116,10 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
       }
     }
 
-    return router.connect();
+    return initialRouter.connect();
   }, [
-    router,
-
     // stable:
+    initialRouter,
     initialStories,
     initialRouting,
     initialDefaultStory,
