@@ -94,6 +94,7 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
   const initialDefaultStory = useInitial(defaultStory);
 
   useEffect(() => {
+    const disconnect = initialRouter.connect();
     const currentStoryPathname = initialRouting.getStoryPathname(initialRouter.getLocation());
 
     const navigateToDefault = () => {
@@ -116,7 +117,7 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
       }
     }
 
-    return initialRouter.connect();
+    return disconnect;
   }, [
     // stable:
     initialRouter,

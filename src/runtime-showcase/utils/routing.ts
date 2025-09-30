@@ -17,10 +17,13 @@ function addBasePath(base: string, path: string): string {
 }
 
 function removeBasePath(base: string, path: string): string {
-  // @todo не уверен но вроде можно url.href.replace(baseUrl.href, '') но если путь "/" то не работает
   const url = new URL(path, new URL(base, 'http://stub.com'));
 
-  return `/${url.pathname.replace(base, '').replace(/^\//, '')}`;
+  return `${url.pathname.replace(base, '')}${url.hash}${url.search}`;
+}
+
+function formatStoryPathname(path: string): string {
+  return `/${path.replace(/^\//, '').replace(/\/$/, '')}`;
 }
 
 export class PathnameRouting implements ShowcaseRouting {
@@ -31,13 +34,13 @@ export class PathnameRouting implements ShowcaseRouting {
   }
 
   getStoryPathname(location: RouterLocation) {
-    const result = location.pathname.replace(/\/$/, '');
+    const result = `${location.pathname.replace(/\/$/, '')}/`;
 
     if (this.publicPath) {
-      return removeBasePath(this.publicPath, result);
+      return formatStoryPathname(removeBasePath(this.publicPath, result));
     }
 
-    return result;
+    return formatStoryPathname(result);
   }
 
   getStoryShowcaseUrl(story: StoryModule): string {
