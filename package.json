@@ -73,5 +73,7 @@
     "./runtime-showcase/styles.css": "./css/showcase.css",
     "./showcase.css": "./css/showcase.css"
   },
-  "sideEffects": false
+  "sideEffects": [
+    "*.css"
+  ]
 }
