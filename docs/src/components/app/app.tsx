@@ -1,9 +1,9 @@
-import { CodeBlock } from '#components/code-block/code-block';
 import { filterValidStories } from '@krutoo/showcase/runtime';
 import { PathnameRouting, type Router, ShowcaseApp } from '@krutoo/showcase/runtime-showcase';
 import { MDXProvider } from '@mdx-js/react';
-import { withPublicPath } from '../../utils';
+import { CodeBlock } from '#components/code-block/code-block';
 import foundStories from '#found-stories';
+import { withPublicPath } from '../../utils';
 import '@krutoo/showcase/showcase.css';
 
 const components = {

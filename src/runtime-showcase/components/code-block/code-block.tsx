@@ -1,8 +1,8 @@
-import { type ReactNode, type HTMLAttributes, useContext, useEffect, useState } from 'react';
-import { ColorSchemesContext } from '../../context/color-schemes';
-import { type HighlighterCore } from 'shiki/core';
-import { getHighlighterCore, getProcessedLang, getDefaultTheme } from './utils';
+import { type HTMLAttributes, type ReactNode, useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
+import { type HighlighterCore } from 'shiki/core';
+import { ColorSchemesContext } from '../../context/color-schemes';
+import { getDefaultTheme, getHighlighterCore, getProcessedLang } from './utils';
 import styles from './code-block.m.css';
 
 export interface CodeBlockProps extends HTMLAttributes<HTMLDivElement> {
@@ -37,6 +37,7 @@ export function CodeBlock({ lang, code, className, ...restProps }: CodeBlockProp
 
       setParsed(html);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
     }
   }, [code, lang, highlighter, colorScheme]);
@@ -75,6 +76,7 @@ function useHighlighter(): HighlighterCore | null {
         singletons.highlighter = result;
         setHighlighter(result);
       })
+      // eslint-disable-next-line no-console
       .catch(console.error);
 
     return () => {

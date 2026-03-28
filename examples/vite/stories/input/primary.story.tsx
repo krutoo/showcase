@@ -5,6 +5,6 @@ export const meta = {
   category: 'Components/Input',
 };
 
-export default function () {
+export default function Story() {
   return <input className={styles.input} placeholder='Type something' />;
 }

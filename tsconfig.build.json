@@ -4,7 +4,8 @@
     "outDir": "dist",
     "noEmit": false,
     "declaration": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "inlineSources": true
   },
   "include": ["src"],
   "exclude": ["node_modules"],

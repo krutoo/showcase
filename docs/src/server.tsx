@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { renderToString, renderToStaticMarkup } from 'react-dom/server';
+import { renderToStaticMarkup, renderToString } from 'react-dom/server';
 import { filterValidStories } from '@krutoo/showcase/runtime';
 import { BrowserRouter } from '@krutoo/showcase/runtime-showcase';
 import { App } from '#components/app/app';

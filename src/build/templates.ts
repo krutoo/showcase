@@ -1,6 +1,6 @@
-import type { EmitStoriesEntrypointConfig, StoryModuleData } from './types';
 import path from 'node:path';
 import { isObject } from '@krutoo/utils';
+import type { EmitStoriesEntrypointConfig, StoryModuleData } from './types';
 import { formatPathname } from './utils';
 
 interface StoryTemplateProps {

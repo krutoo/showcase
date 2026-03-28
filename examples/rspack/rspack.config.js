@@ -1,6 +1,6 @@
 import path from 'node:path';
-import rspack from '@rspack/core';
 import { emitStoriesEntrypoint } from '@krutoo/showcase/build';
+import rspack from '@rspack/core';
 
 const storiesEntrypoint = './.generated/found-stories.js';
 

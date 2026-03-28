@@ -1,12 +1,12 @@
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import { isObject } from '@krutoo/utils';
-import type { ShowcaseRouting, StandaloneAppConfig } from '../../types';
-import { findFirstMenuItem, getMenuItems } from '../../utils/menu';
+import { RoutingContext, extendRouting } from '../../context/routing';
+import { ShowcaseContext, type ShowcaseContextValue } from '../../context/showcase';
 import { useInitial } from '../../shared/hooks';
 import { BrowserRouter } from '../../shared/router';
 import { RouterContext } from '../../shared/router-react';
-import { ShowcaseContext, type ShowcaseContextValue } from '../../context/showcase';
-import { extendRouting, RoutingContext } from '../../context/routing';
+import type { ShowcaseRouting, StandaloneAppConfig } from '../../types';
+import { findFirstMenuItem, getMenuItems } from '../../utils/menu';
 import { QueryRouting } from '../../utils/routing';
 
 export interface StandaloneProviderProps extends StandaloneAppConfig {

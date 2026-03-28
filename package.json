@@ -6,34 +6,49 @@
   "author": "Dmitry Petrov",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=24.14.0",
+      "onFail": "error"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": ">=11.9.0",
+      "onFail": "error"
+    }
   },
   "scripts": {
     "check": "tsc -p . --noEmit",
-    "lint": "ls-lint",
+    "lint": "eslint --flag unstable_native_nodejs_ts_config . && prettier . --check && ls-lint",
     "fmt": "prettier . --write",
-    "build": "npm run build:clean && npm run build:js && npm run build:css",
-    "build:clean": "rimraf temp dist css",
-    "build:js": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json && npx babel dist --out-dir dist",
-    "build:css": "npx --node-options='--import=tsimp/import' rspack build"
+    "build": "node scripts/build.ts"
   },
   "devDependencies": {
     "@babel/cli": "^7.26.4",
     "@babel/core": "^7.26.7",
+    "@eslint/compat": "^2.0.3",
+    "@eslint/js": "^9.35.0",
     "@ls-lint/ls-lint": "^2.3.1",
     "@rspack/cli": "^1.5.5",
     "@rspack/core": "^1.5.5",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/node": "^22.10.10",
     "@types/react": "^18.3.18",
     "css-loader": "^7.1.2",
+    "eslint": "^9.35.0",
+    "eslint-plugin-jsdoc": "^62.8.1",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
     "prettier": "^3.4.2",
-    "rimraf": "^6.0.1",
     "tsc-alias": "^1.8.10",
-    "tsimp": "^2.0.12",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.57.2"
   },
   "dependencies": {
-    "@krutoo/utils": "^0.0.29",
+    "@krutoo/utils": "^0.0.36",
     "chokidar": "^4.0.3",
     "classnames": "^2.5.1",
     "fast-glob": "^3.3.3",
@@ -57,5 +72,8 @@
     "./runtime-showcase": "./dist/runtime-showcase/index.js",
     "./runtime-showcase/styles.css": "./css/showcase.css",
     "./showcase.css": "./css/showcase.css"
-  }
+  },
+  "sideEffects": [
+    "*.css"
+  ]
 }

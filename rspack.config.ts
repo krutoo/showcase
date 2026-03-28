@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { type Configuration } from '@rspack/core';
 import * as utils from '@krutoo/utils/rspack';
+import { type Configuration } from '@rspack/core';
 import packageJson from './package.json' with { type: 'json' };
 
 async function emitCssModuleExports(data: {

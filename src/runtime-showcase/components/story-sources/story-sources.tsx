@@ -1,8 +1,8 @@
-import { type StoryModule } from '#core';
 import { type ReactNode, useEffect, useState } from 'react';
-import { Plate, PlateBody, PlateHeader } from '../plate';
-import { CodeBlock } from '../code-block';
 import classNames from 'classnames';
+import { type StoryModule } from '#core';
+import { CodeBlock } from '../code-block';
+import { Plate, PlateBody, PlateHeader } from '../plate';
 import styles from './story-sources.m.css';
 
 export interface StorySourcesProps {
