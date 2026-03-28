@@ -1,9 +1,9 @@
 import { type ReactNode, useContext } from 'react';
-import { ShowcaseContext } from '../../context/showcase';
-import { Link } from '../link';
 import { useMatchMedia } from '@krutoo/utils/react';
+import { ShowcaseContext } from '../../context/showcase';
 import { BurgerMenuSVG } from '../../icons';
 import { ColorSchemeToggle } from '../color-scheme-toggle';
+import { Link } from '../link';
 import styles from './header-links.m.css';
 
 export function HeaderButtons(): ReactNode {

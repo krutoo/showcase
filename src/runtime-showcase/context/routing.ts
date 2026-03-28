@@ -1,7 +1,7 @@
 import { createContext } from 'react';
-import { QueryRouting } from '../utils/routing';
-import type { ShowcaseRouting } from '../types';
 import type { StoryModule } from '#core';
+import type { ShowcaseRouting } from '../types';
+import { QueryRouting } from '../utils/routing';
 
 export interface ExtendedShowcaseRouting extends ShowcaseRouting {
   pathnameToUrl: (storyPathname: string) => string | undefined;

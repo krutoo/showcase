@@ -1,9 +1,9 @@
 import fs from 'node:fs/promises';
-import glob from 'fast-glob';
 import path from 'node:path';
+import glob from 'fast-glob';
+import { StoryMetaSchema } from '#core';
 import type { EmitStoriesEntrypointConfig, StoryModuleData } from './types';
 import { validateConfig } from './utils';
-import { StoryMetaSchema } from '#core';
 
 export async function defineStories(
   config: Pick<EmitStoriesEntrypointConfig, 'storiesGlob'>,

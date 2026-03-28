@@ -1,11 +1,11 @@
 import { type ReactNode, useContext, useState } from 'react';
+import classNames from 'classnames';
 import type { StoryService } from '#runtime';
+import { ShowcaseContext } from '../../context/showcase';
 import { Link } from '../link';
 import { Plate, PlateBody, PlateHeader } from '../plate';
-import { StorySources } from '../story-sources';
 import { StoryMdxViewer } from '../story-mdx-viewer';
-import { ShowcaseContext } from '../../context/showcase';
-import classNames from 'classnames';
+import { StorySources } from '../story-sources';
 import styles from './story-viewer.m.css';
 
 export interface StoryViewerProps {

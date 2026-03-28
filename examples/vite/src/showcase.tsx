@@ -5,9 +5,7 @@ import foundStories from '#found-stories';
 import './reset.css';
 import '@krutoo/showcase/showcase.css';
 
-const { validStories, invalidStories } = filterValidStories(foundStories);
-
-console.log(invalidStories);
+const { validStories } = filterValidStories(foundStories);
 
 createRoot(document.querySelector('#root')!).render(
   <ShowcaseApp

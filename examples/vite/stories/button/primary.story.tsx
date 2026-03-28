@@ -5,7 +5,7 @@ export const meta = {
   category: 'Components/Button',
 };
 
-export default function () {
+export default function Story() {
   const handleClick = () => {
     alert('Button clicked!');
   };

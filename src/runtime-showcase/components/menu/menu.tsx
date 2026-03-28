@@ -1,17 +1,17 @@
 import {
   type AnchorHTMLAttributes,
-  createContext,
   type HTMLAttributes,
   type MouseEvent,
   type ReactNode,
+  createContext,
   useContext,
   useState,
   useSyncExternalStore,
 } from 'react';
-import { ChevronRightSVG } from '../../icons';
-import { createNanoStore, type NanoStore } from '../../shared/nano-store';
 import { useIsomorphicLayoutEffect } from '@krutoo/utils/react';
 import classNames from 'classnames';
+import { ChevronRightSVG } from '../../icons';
+import { type NanoStore, createNanoStore } from '../../shared/nano-store';
 import styles from './menu.m.css';
 
 export interface MenuProps<T> {
@@ -83,7 +83,7 @@ export function Menu<T>({
                   {...{
                     getTitle,
                     getHref,
-                    isActive: isActive,
+                    isActive,
                     onItemClick,
                     getChildItems,
                   }}

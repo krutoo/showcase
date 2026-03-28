@@ -1,8 +1,8 @@
 import { type ReactNode, useContext } from 'react';
-import { ShowcaseContext } from '../../context/showcase';
 import { ColorSchemesContext } from '../../context/color-schemes';
-import { Link } from '../link';
 import { RoutingContext } from '../../context/routing';
+import { ShowcaseContext } from '../../context/showcase';
+import { Link } from '../link';
 import styles from './logo.m.css';
 
 export function Logo(): ReactNode {

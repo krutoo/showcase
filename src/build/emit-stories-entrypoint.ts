@@ -1,13 +1,13 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import type { EmitStoriesEntrypointConfig } from './types';
-import { EntrypointTemplate } from './templates';
-import { validateConfig } from './utils';
 import { defineStories } from './define-stories';
+import { EntrypointTemplate } from './templates';
+import type { EmitStoriesEntrypointConfig } from './types';
+import { validateConfig } from './utils';
 
 /**
  * Searches all story-modules and emits file that exports all as array.
- * @param config
+ * @param config Config.
  */
 export async function emitStoriesEntrypoint(config: EmitStoriesEntrypointConfig): Promise<void> {
   const validConfig = validateConfig(config);

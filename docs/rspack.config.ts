@@ -1,14 +1,14 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import type { Configuration } from '@rspack/core';
-import * as utils from '@krutoo/utils/rspack';
 import {
+  type EmitStoriesEntrypointConfig,
   defineStories,
   emitStoriesEntrypoint,
-  type EmitStoriesEntrypointConfig,
 } from '@krutoo/showcase/build';
-import packageJson from './package.json' with { type: 'json' };
+import * as utils from '@krutoo/utils/rspack';
+import type { Configuration } from '@rspack/core';
 import dotenv from 'dotenv';
+import packageJson from './package.json' with { type: 'json' };
 
 if (process.env.NODE_ENV) {
   dotenv.config({ path: `./.env.${process.env.NODE_ENV}` });

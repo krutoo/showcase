@@ -1,7 +1,7 @@
-import { isValidElement, type ReactNode, useContext, useMemo, useRef, useState } from 'react';
+import { type ReactNode, isValidElement, useContext, useMemo, useRef, useState } from 'react';
+import { ColorSchemesContext } from '@krutoo/showcase/runtime-showcase';
 import { useIsomorphicLayoutEffect } from '@krutoo/utils/react';
 import { codeToHtml } from 'shiki';
-import { ColorSchemesContext } from '@krutoo/showcase/runtime-showcase';
 import styles from './code-block.m.css';
 
 export interface CodeBlockProps {
@@ -67,8 +67,9 @@ export function CodeBlock({ children }: CodeBlockProps) {
       theme: colorScheme === 'dark' ? 'one-dark-pro' : 'one-light',
     })
       .then(setContent)
+      // eslint-disable-next-line no-console
       .catch(console.error);
-  }, [sourceCode]);
+  }, [sourceCode, colorScheme]);
 
   return (
     <div className={styles.root} style={{ background }}>

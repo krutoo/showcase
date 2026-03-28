@@ -2,11 +2,11 @@
  * This is Link component module.
  * This is public component. So it should work as regular `a` but with next features:
  * - use default styles from css-variables
- * - routing by router from context if applicable
+ * - routing by router from context if applicable.
  */
 import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from 'react';
-import { useNavigate } from '../../shared/router-react';
 import classNames from 'classnames';
+import { useNavigate } from '../../shared/router-react';
 import styles from './link.m.css';
 
 export interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {

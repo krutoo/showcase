@@ -16,14 +16,14 @@ export const StoryMetaSchema = z.object({
 
   /**
    * Affects item menu order.
-   * @todo rename to menuItemPriority?
+   * @todo Rename to menuItemPriority?
    */
   menuPriority: z.optional(z.int()),
 
   /**
    * For menu item of story it means that it will not be shown in menu.
    * For "Category root" it means that click will not be open it.
-   * @todo rename to menuItemHidden?
+   * @todo Rename to menuItemHidden?
    */
   menuHidden: z.optional(z.boolean()),
 

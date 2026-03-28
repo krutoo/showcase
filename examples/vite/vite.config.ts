@@ -1,7 +1,7 @@
 import path from 'node:path';
-import react from '@vitejs/plugin-react';
-import mdx from '@mdx-js/rollup';
 import { emitStoriesEntrypoint } from '@krutoo/showcase/build';
+import mdx from '@mdx-js/rollup';
+import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
 const storiesConfig = {

@@ -15,14 +15,14 @@ export interface EmitStoriesEntrypointConfig {
   rawImport?: (moduleData: { importPath: string }) => { importPath: string };
 }
 
-/** @private */
+/** @internal */
 export interface StoryModuleData {
-  /** путь до файла */
+  /** Путь до файла. */
   filename: string;
 
-  /** отображаемый путь */
+  /** Отображаемый путь. */
   storyPathname: string;
 
-  /** JSON-файл meta-данных, соответствующий найденному story-модулю */
+  /** JSON-файл meta-данных, соответствующий найденному story-модулю. */
   metaJson?: StoryMeta;
 }

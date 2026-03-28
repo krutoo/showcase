@@ -139,13 +139,10 @@ Create sandbox entrypoint in your project, for example in `./src/sandbox.jsx`:
 
 ```jsx
 import { createRoot } from 'react-dom/client';
-
 // util for validate story-modules
 import { filterValidStories } from '@krutoo/showcase/runtime';
-
 // component for showing current story
 import { SandboxApp } from '@krutoo/showcase/runtime-sandbox';
-
 // "stories entrypoint" (trough alias provided by your bundler)
 import foundStories from '#found-stories';
 
@@ -165,16 +162,12 @@ Create showcase entrypoint in your project, for example in `./src/showcase.jsx`:
 
 ```jsx
 import { createRoot } from 'react-dom/client';
-
-// "stories entrypoint" (trough alias, more on that later)
-import foundStories from '#found-stories';
-
 // util for validate found stories
 import { filterValidStories } from '@krutoo/showcase/runtime';
-
 // standalone component for showing documentation with all stories
 import { ShowcaseApp } from '@krutoo/showcase/runtime-showcase';
-
+// "stories entrypoint" (trough alias, more on that later)
+import foundStories from '#found-stories';
 // showcase app styles bundle
 import '@krutoo/showcase/showcase.css';
 
@@ -255,10 +248,10 @@ export default {
 With Vite you need to configure it like this:
 
 ```js
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
 import path from 'node:path';
 import { emitStoriesEntrypoint } from '@krutoo/showcase/build';
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
 
 const storiesConfig = {
   filename: './.generated/entries.js',

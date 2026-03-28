@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState, type Context } from 'react';
+import { type Context, createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { type Router, type RouterLocation, getStubLocation } from './router';
 
 export const RouterContext: Context<Router> = createContext<Router>({
