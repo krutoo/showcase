@@ -1,186 +1,48 @@
-import { type ReactNode, useContext, useEffect, useState } from 'react';
-import { useMatchMedia, useStorageItem } from '@krutoo/utils/react';
+import { useContext, useMemo } from 'react';
 import classNames from 'classnames';
 import { ColorSchemesContext } from '../../context/color-schemes';
-import {
-  ShowcaseContext,
-  useCurrentStory,
-  useMainMenu,
-  useMenuItems,
-  useStorySearchResult,
-} from '../../context/showcase';
-import { useLocation, useNavigate } from '../../shared/router-react';
-import { HeaderLinks } from '../header-links';
-import { Input } from '../input';
-import { Aside, Header, Layout, Main } from '../layout';
-import { Logo } from '../logo';
-import { Menu } from '../menu';
-import { MenuModal } from '../menu-modal';
-import { StoryPlaceholder } from '../story-placeholder';
-import { StoryViewer } from '../story-viewer';
+import { ComponentRegistryContext } from '../../context/component-registry';
+import { ShowcaseContext } from '../../context/showcase';
+import { Layout } from '../layout';
+import { useColorSchemeState } from './use-color-scheme-state';
 import styles from './app.m.css';
 
-export function App(): ReactNode {
-  const navigate = useNavigate();
-  const location = useLocation();
-
+export function App() {
   const { config } = useContext(ShowcaseContext);
-  const { routing } = config;
+  const { Header, Aside, Main, Modals } = useContext(ComponentRegistryContext);
+  const { colorScheme, toggleColorScheme } = useColorSchemeState({
+    classes: {
+      dark: styles[`default-color-scheme-dark`],
+      light: styles[`default-color-scheme-light`],
+    },
+  });
 
-  const [menuOpen, setMenuOpen] = useMainMenu();
-  const menuItems = useMenuItems();
-  const mobile = useMatchMedia('(max-width: 960px)');
-  const currentStory = useCurrentStory();
+  const rootClassName = classNames(
+    styles.root,
+    config.colorSchemes.defaults && styles[`default-color-scheme-${colorScheme}`],
+  );
 
-  const [search, setSearch] = useState('');
-  const searchResult = useStorySearchResult(search);
+  const dataColorScheme =
+    config.colorSchemes.enabled && config.colorSchemes.attributeTarget === 'rootElement'
+      ? colorScheme
+      : undefined;
 
-  const { colorScheme, toggleColorScheme } = useColorSchemeState();
-
-  const colorSchemeContext = {
-    colorScheme,
-    onColorSchemeToggle: toggleColorScheme,
-  };
+  const colorSchemeContext = useMemo(
+    () => ({
+      colorScheme,
+      onColorSchemeToggle: toggleColorScheme,
+    }),
+    [colorScheme, toggleColorScheme],
+  );
 
   return (
     <ColorSchemesContext.Provider value={colorSchemeContext}>
-      <Layout
-        className={classNames(
-          styles.root,
-          config.colorSchemes.defaults && styles[`default-color-scheme-${colorScheme}`],
-        )}
-        data-color-scheme={
-          config.colorSchemes.enabled && config.colorSchemes.attributeTarget === 'rootElement'
-            ? colorScheme
-            : undefined
-        }
-      >
-        <Header>
-          <Logo />
-          <HeaderLinks />
-        </Header>
-
-        {!mobile && (!currentStory || currentStory?.isAsideEnabled()) && (
-          <Aside>
-            {config.search && (
-              <div className={styles.search}>
-                <Input
-                  className={styles.searchField}
-                  type='search'
-                  placeholder='Search...'
-                  value={search}
-                  onChange={event => setSearch(event.target.value)}
-                />
-              </div>
-            )}
-
-            {search.length === 0 && (
-              <div className={styles.menu}>
-                <Menu
-                  items={menuItems}
-                  getTitle={data => data.title}
-                  getChildItems={data => (data.type === 'group' ? data.items : [])}
-                  getHref={data => {
-                    return data.story && !data.story.meta?.menuHidden
-                      ? routing.getStoryShowcaseUrl(data.story)
-                      : undefined;
-                  }}
-                  isActive={data => {
-                    return (
-                      !!data.story && data.story.pathname === routing.getStoryPathname(location)
-                    );
-                  }}
-                  isInteractive={data => {
-                    return !!data.story && !data.story.meta?.menuHidden;
-                  }}
-                  onItemClick={(event, data) => {
-                    if (data.type === 'story' && !data.menuHidden) {
-                      event.preventDefault();
-                      navigate(routing.getStoryShowcaseUrl(data.story));
-                      return;
-                    }
-
-                    if (data.type === 'group' && data.story && !data.story.meta?.menuHidden) {
-                      event.preventDefault();
-                      navigate(routing.getStoryShowcaseUrl(data.story));
-                      return;
-                    }
-
-                    if (data.type === 'story') {
-                      event.preventDefault();
-                      return;
-                    }
-                  }}
-                />
-              </div>
-            )}
-
-            {search.length > 0 && (
-              <div className={styles.menu}>
-                <Menu
-                  items={searchResult}
-                  getTitle={data => {
-                    return data.meta?.title || data.meta?.category || data.pathname;
-                  }}
-                  getHref={data => {
-                    return routing.getStoryShowcaseUrl(data);
-                  }}
-                  isActive={data => {
-                    return data.pathname === routing.getStoryPathname(location);
-                  }}
-                  onItemClick={(event, data) => {
-                    event.preventDefault();
-                    navigate(routing.getStoryShowcaseUrl(data));
-                  }}
-                />
-              </div>
-            )}
-          </Aside>
-        )}
-
-        <Main fullWidth={!(!currentStory || currentStory?.isAsideEnabled())}>
-          {!currentStory && <StoryPlaceholder />}
-          {currentStory && <StoryViewer story={currentStory} />}
-        </Main>
-
-        {mobile && <MenuModal open={menuOpen} onClose={() => setMenuOpen(false)} />}
+      <Layout className={rootClassName} data-color-scheme={dataColorScheme}>
+        <Header />
+        <Aside />
+        <Main />
       </Layout>
+      <Modals />
     </ColorSchemesContext.Provider>
   );
-}
-
-function useColorSchemeState() {
-  const { config } = useContext(ShowcaseContext);
-
-  const isDefaultDark = useMatchMedia('(prefers-color-scheme: dark)');
-  const defaultScheme = config.colorSchemes.enabled && isDefaultDark ? 'dark' : 'light';
-
-  const [savedScheme, setSavedScheme] = useStorageItem('showcase:color-scheme', {
-    storage: () => localStorage,
-  });
-
-  const scheme = savedScheme ?? defaultScheme;
-
-  useEffect(() => {
-    if (config.colorSchemes.attributeTarget !== 'documentElement') {
-      return;
-    }
-
-    if (scheme && config.colorSchemes.enabled) {
-      document.documentElement.setAttribute('data-color-scheme', scheme);
-      document.documentElement.classList.add(styles[`default-color-scheme-${scheme}`]);
-    }
-
-    return () => {
-      document.documentElement.removeAttribute('data-color-scheme');
-      document.documentElement.classList.remove(styles[`default-color-scheme-${scheme}`]);
-    };
-  }, [config.colorSchemes, scheme]);
-
-  return {
-    colorScheme: scheme as 'light' | 'dark',
-    toggleColorScheme: () => {
-      setSavedScheme(scheme === 'dark' ? 'light' : 'dark');
-    },
-  };
 }

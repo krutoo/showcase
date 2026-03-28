@@ -1,7 +1,7 @@
 import { type Context, createContext, useContext, useMemo } from 'react';
+import { useLocation } from '@krutoo/utils/react';
 import type { StoryModule } from '#core';
 import { StoryService } from '#runtime';
-import { useLocation } from '../shared/router-react';
 import type { ShowcaseRouting } from '../types';
 import { type AnyMenuNode, getMenuItems } from '../utils/menu';
 

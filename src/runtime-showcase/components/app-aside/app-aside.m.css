@@ -1,0 +1,13 @@
+.menu {
+  box-sizing: border-box;
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.menu:first-child {
+  padding-top: 1rem;
+}

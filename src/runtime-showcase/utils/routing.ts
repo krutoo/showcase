@@ -1,5 +1,5 @@
+import type { RouterLocation } from '@krutoo/utils/router';
 import type { StoryModule } from '#core';
-import type { RouterLocation } from '../shared/router';
 import type { ShowcaseRouting } from '../types';
 
 export interface PathnameRoutingOptions {

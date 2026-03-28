@@ -1,7 +1,7 @@
 import { type ReactNode, useContext, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from '@krutoo/utils/react';
 import { ShowcaseContext, useMenuItems, useStorySearchResult } from '../../context/showcase';
 import { CrossSVG } from '../../icons';
-import { useLocation, useNavigate } from '../../shared/router-react';
 import { Input } from '../input';
 import { Menu, MenuItem, MenuItemTitle } from '../menu';
 import styles from './menu-modal.m.css';

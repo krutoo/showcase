@@ -1,5 +1,5 @@
+import type { Router, RouterLocation } from '@krutoo/utils/router';
 import type { StoryModule } from '#core';
-import type { Router, RouterLocation } from './shared/router';
 
 /** Routing interface to define story urls. */
 export interface ShowcaseRouting {

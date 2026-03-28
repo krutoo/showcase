@@ -9,3 +9,5 @@ export const ColorSchemesContext = createContext<ColorSchemesContextValue>({
   colorScheme: undefined,
   onColorSchemeToggle: () => {},
 });
+
+ColorSchemesContext.displayName = 'ColorSchemesContext';

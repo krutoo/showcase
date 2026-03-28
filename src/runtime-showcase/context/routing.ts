@@ -30,3 +30,5 @@ export function extendRouting(
 export const RoutingContext = createContext<ExtendedShowcaseRouting>(
   extendRouting(new QueryRouting(), []),
 );
+
+RoutingContext.displayName = 'RoutingContext';

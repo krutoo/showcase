@@ -11,7 +11,7 @@ import dotenv from 'dotenv';
 import packageJson from './package.json' with { type: 'json' };
 
 if (process.env.NODE_ENV) {
-  dotenv.config({ path: `./.env.${process.env.NODE_ENV}` });
+  dotenv.config({ path: `./.env.${process.env.NODE_ENV}`, quiet: true });
 }
 
 await fs.rm('./dist', { recursive: true, force: true });
