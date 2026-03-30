@@ -9,9 +9,9 @@ import {
   useSyncExternalStore,
 } from 'react';
 import { useIsomorphicLayoutEffect } from '@krutoo/utils/react';
+import { type Store, createStore } from '@krutoo/utils/store';
 import classNames from 'classnames';
 import { ChevronRightSVG } from '../../icons';
-import { type NanoStore, createNanoStore } from '../../shared/nano-store';
 import styles from './menu.m.css';
 
 export interface MenuProps<T> {
@@ -26,12 +26,12 @@ export interface MenuProps<T> {
 }
 
 interface MenuItemContextValue {
-  store: NanoStore<{ open: boolean }>;
+  store: Store<{ open: boolean }>;
   controlled: boolean;
 }
 
 const MenuItemContext = createContext<MenuItemContextValue>({
-  store: createNanoStore<{ open: boolean }>({ open: true }),
+  store: createStore<{ open: boolean }>({ open: true }),
   controlled: false,
 });
 
@@ -110,15 +110,15 @@ export function MenuItem({
   defaultOpen?: boolean;
 }): ReactNode {
   const [store] = useState(() =>
-    createNanoStore<{ open: boolean }>({
+    createStore<{ open: boolean }>({
       open: openProp ?? defaultOpen ?? true,
     }),
   );
-  const state = useSyncExternalStore(store.subscribe, store.getState, store.getState);
+  const state = useSyncExternalStore(store.subscribe, store.get, store.get);
 
   useIsomorphicLayoutEffect(() => {
     if (openProp !== undefined && openProp !== state.open) {
-      store.setState({ open: openProp });
+      store.set({ open: openProp });
     }
   }, [store, state.open, openProp]);
 
@@ -160,7 +160,7 @@ export function MenuItemTitle({
         }
 
         if (!controlled) {
-          store.setState({ open: !store.getState().open });
+          store.set({ open: !store.get().open });
         }
       }}
       {...restProps}
@@ -176,7 +176,7 @@ export function MenuItemBody({
   ...restProps
 }: HTMLAttributes<HTMLDivElement>): ReactNode {
   const { store } = useContext(MenuItemContext);
-  const state = useSyncExternalStore(store.subscribe, store.getState, store.getState);
+  const state = useSyncExternalStore(store.subscribe, store.get, store.get);
 
   if (!state.open) {
     return null;

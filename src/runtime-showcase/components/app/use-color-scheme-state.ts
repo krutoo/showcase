@@ -2,7 +2,10 @@ import { useContext, useEffect } from 'react';
 import { useLatestRef, useMatchMedia, useStorageItem } from '@krutoo/utils/react';
 import { ShowcaseContext } from '../../context/showcase';
 
-export function useColorSchemeState({ classes }: { classes: Record<string, string | undefined> }) {
+export function useColorSchemeState({ classes }: { classes: Record<string, string | undefined> }): {
+  colorScheme: 'dark' | 'light';
+  toggleColorScheme: VoidFunction;
+} {
   const { config } = useContext(ShowcaseContext);
 
   const isDefaultDark = useMatchMedia('(prefers-color-scheme: dark)');

@@ -14,7 +14,7 @@ interface DefaultExportTemplateProps {
   entries: StoryModuleData[];
 }
 
-export function EntrypointTemplate({ config, entries }: DefaultExportTemplateProps) {
+export function EntrypointTemplate({ config, entries }: DefaultExportTemplateProps): string {
   const stories = entries.map((story, index) => ({
     config,
     story,

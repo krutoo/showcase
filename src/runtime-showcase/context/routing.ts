@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { type Context, createContext } from 'react';
 import type { StoryModule } from '#core';
 import type { ShowcaseRouting } from '../types';
 import { QueryRouting } from '../utils/routing';
@@ -27,8 +27,7 @@ export function extendRouting(
   };
 }
 
-export const RoutingContext = createContext<ExtendedShowcaseRouting>(
-  extendRouting(new QueryRouting(), []),
-);
+export const RoutingContext: Context<ExtendedShowcaseRouting> =
+  createContext<ExtendedShowcaseRouting>(extendRouting(new QueryRouting(), []));
 
 RoutingContext.displayName = 'RoutingContext';

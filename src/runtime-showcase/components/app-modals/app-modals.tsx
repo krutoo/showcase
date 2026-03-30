@@ -1,9 +1,9 @@
-import { useContext } from 'react';
+import { type ReactNode, useContext } from 'react';
 import { useMatchMedia } from '@krutoo/utils/react';
 import { ShowcaseContext } from '../../context/showcase';
 import { MenuModal } from '../menu-modal';
 
-export function AppModals() {
+export function AppModals(): ReactNode {
   const { menuOpen, toggleMenu } = useContext(ShowcaseContext);
   const mobile = useMatchMedia('(max-width: 960px)');
 

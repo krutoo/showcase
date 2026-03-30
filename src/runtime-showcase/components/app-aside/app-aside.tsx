@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { type ReactNode, useContext, useState } from 'react';
 import { useLocation, useMatchMedia, useNavigate } from '@krutoo/utils/react';
 import { ComponentRegistryContext } from '../../context/component-registry';
 import {
@@ -11,7 +11,7 @@ import { Aside } from '../layout';
 import { Menu } from '../menu';
 import styles from './app-aside.m.css';
 
-export function AppAside() {
+export function AppAside(): ReactNode {
   const location = useLocation();
   const navigate = useNavigate();
   const { config } = useContext(ShowcaseContext);

@@ -1,10 +1,10 @@
-import { type ReactNode, useEffect, useMemo, useState } from 'react';
+import { type ReactNode, useMemo, useState } from 'react';
 import { isObject } from '@krutoo/utils';
 import { RouterContext } from '@krutoo/utils/react';
 import { BrowserRouter } from '@krutoo/utils/router';
 import { RoutingContext, extendRouting } from '../../context/routing';
 import { ShowcaseContext, type ShowcaseContextValue } from '../../context/showcase';
-import { useInitial } from '../../shared/hooks';
+import { useMountEffect } from '../../shared/hooks';
 import type { ShowcaseRouting, StandaloneAppConfig } from '../../types';
 import { findFirstMenuItem, getMenuItems } from '../../utils/menu';
 import { QueryRouting } from '../../utils/routing';
@@ -24,6 +24,7 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
     defineStoryUrl,
   } = props;
 
+  // @todo store
   const [menuOpen, toggleMenu] = useState(false);
 
   const router = useMemo(() => givenRouter ?? new BrowserRouter(), [givenRouter]);
@@ -88,20 +89,20 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
     toggleMenu,
   };
 
-  const initialRouter = useInitial(router);
-  const initialRouting = useInitial(context.config.routing);
-  const initialStories = useInitial(context.config.stories);
-  const initialDefaultStory = useInitial(defaultStory);
+  // @todo remove this step when provided?
+  useMountEffect(() => {
+    return router.connect();
+  });
 
-  useEffect(() => {
-    const disconnect = initialRouter.connect();
-    const currentStoryPathname = initialRouting.getStoryPathname(initialRouter.getLocation());
+  // navigate to story by location or to default story
+  useMountEffect(() => {
+    const currentStoryPathname = routing.getStoryPathname(router.getLocation());
 
     const navigateToDefault = () => {
-      const story = initialStories.find(item => item.pathname === initialDefaultStory.pathname);
+      const story = stories.find(item => item.pathname === defaultStory.pathname);
 
       if (story) {
-        initialRouter.navigate(initialRouting.getStoryShowcaseUrl(story));
+        router.navigate(routing.getStoryShowcaseUrl(story));
       }
     };
 
@@ -110,21 +111,13 @@ export function StandaloneProvider(props: StandaloneProviderProps): ReactNode {
     }
 
     if (currentStoryPathname === '/') {
-      const story = initialStories.find(item => item.pathname === currentStoryPathname);
+      const story = stories.find(item => item.pathname === currentStoryPathname);
 
       if (!story) {
         navigateToDefault();
       }
     }
-
-    return disconnect;
-  }, [
-    // stable:
-    initialRouter,
-    initialStories,
-    initialRouting,
-    initialDefaultStory,
-  ]);
+  });
 
   return (
     <RouterContext.Provider value={router}>

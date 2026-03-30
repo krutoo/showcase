@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react';
+import { type ReactNode, useContext, useMemo } from 'react';
 import classNames from 'classnames';
 import { ColorSchemesContext } from '../../context/color-schemes';
 import { ComponentRegistryContext } from '../../context/component-registry';
@@ -7,7 +7,7 @@ import { Layout } from '../layout';
 import { useColorSchemeState } from './use-color-scheme-state';
 import styles from './app.m.css';
 
-export function App() {
+export function App(): ReactNode {
   const { config } = useContext(ShowcaseContext);
   const { Header, Aside, Main, Modals } = useContext(ComponentRegistryContext);
   const { colorScheme, toggleColorScheme } = useColorSchemeState({

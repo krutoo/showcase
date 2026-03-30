@@ -24,14 +24,14 @@ export class StoryService {
     return this.data.meta?.category ?? this.data.metaJson?.category;
   }
 
-  getDefaultBackground() {
+  getDefaultBackground(): string | undefined {
     return (
       this.data.meta?.parameters?.backgrounds?.default ??
       this.data.metaJson?.parameters?.backgrounds?.default
     );
   }
 
-  getLayout() {
+  getLayout(): 'padded' | 'fullscreen' {
     return this.data.meta?.parameters?.layout ?? this.data.metaJson?.parameters?.layout ?? 'padded';
   }
 
