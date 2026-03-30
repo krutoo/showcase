@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { renderToStaticMarkup, renderToString } from 'react-dom/server';
 import { filterValidStories } from '@krutoo/showcase/runtime';
-import { BrowserRouter } from '@krutoo/showcase/runtime-showcase';
+import { BrowserRouter } from '@krutoo/utils/router';
 import { App } from '#components/app/app';
 import { Helmet } from '#components/helmet/helmet';
 import foundStories from '#found-stories';

@@ -7,9 +7,5 @@ import { StoryViewer } from '../story-viewer';
 export function AppMain(): ReactNode {
   const story = useCurrentStory();
 
-  return (
-    <Main fullWidth={!(!story || story?.isAsideEnabled())}>
-      {story ? <StoryViewer story={story} /> : <StoryPlaceholder />}
-    </Main>
-  );
+  return <Main>{story ? <StoryViewer story={story} /> : <StoryPlaceholder />}</Main>;
 }

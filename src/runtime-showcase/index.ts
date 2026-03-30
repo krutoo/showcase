@@ -7,11 +7,10 @@ export { type ShowcaseRouting, type StandaloneAppConfig as ShowcaseAppConfig } f
 // Color schemes
 export { type ColorSchemesContextValue, ColorSchemesContext } from './context/color-schemes';
 
-// Router
-export { type Router, type RouterLocation, BrowserRouter } from '@krutoo/utils/router';
+// page layout
+export { Layout } from './components/layout';
 
-// Navigation through router
-export { useLocation, useNavigate } from '@krutoo/utils/react';
+// Navigation (through router)
 export { type LinkProps, Link } from './components/link';
 
 // Routing (story to url, url to story, etc)

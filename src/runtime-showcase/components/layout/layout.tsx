@@ -8,9 +8,7 @@ export interface HeaderProps extends HTMLAttributes<HTMLElement> {}
 
 export interface AsideProps extends HTMLAttributes<HTMLElement> {}
 
-export interface MainProps extends HTMLAttributes<HTMLElement> {
-  fullWidth?: boolean;
-}
+export interface MainProps extends HTMLAttributes<HTMLElement> {}
 
 export function Layout({ className, children, ...restProps }: LayoutProps): ReactNode {
   const rootClassName = classNames(styles.layout, className);
@@ -21,6 +19,10 @@ export function Layout({ className, children, ...restProps }: LayoutProps): Reac
     </div>
   );
 }
+
+Layout.Header = Header;
+Layout.Main = Main;
+Layout.Aside = Aside;
 
 export function Header({ className, children, ...restProps }: HeaderProps): ReactNode {
   const rootClassName = classNames(styles.header, className);
@@ -42,8 +44,8 @@ export function Aside({ className, children, ...restProps }: HeaderProps): React
   );
 }
 
-export function Main({ className, children, fullWidth, ...restProps }: MainProps): ReactNode {
-  const rootClassName = classNames(styles.main, fullWidth && styles.mainFullWidth, className);
+export function Main({ className, children, ...restProps }: MainProps): ReactNode {
+  const rootClassName = classNames(styles.main, className);
 
   return (
     <main data-kind='PageMain' className={rootClassName} {...restProps}>

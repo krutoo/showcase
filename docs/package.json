@@ -19,7 +19,7 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "@krutoo/utils": "^0.0.29",
+    "@krutoo/utils": "^0.0.36",
     "@mdx-js/react": "^3.1.1",
     "classnames": "^2.5.1",
     "react": "^19.1.1",

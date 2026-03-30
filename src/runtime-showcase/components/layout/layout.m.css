@@ -3,7 +3,7 @@
   position: relative;
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: auto 1fr;
   grid-template-rows: var(--showcase-ui-header-height, 64px) 1fr;
 }
 
@@ -57,8 +57,8 @@
 
 .main {
   box-sizing: border-box;
-  grid-row: 2/3;
-  grid-column: 2/3;
+  grid-row: 2 / 3;
+  grid-column: 2 / 3;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -67,10 +67,6 @@
   background: var(--showcase-ui-main-background, none);
   color: var(--showcase-ui-main-color, inherit);
   box-shadow: var(--showcase-ui-main-box-shadow, none);
-}
-
-.mainFullWidth {
-  grid-column: 1/3;
 }
 
 @media (max-width: 960px) {

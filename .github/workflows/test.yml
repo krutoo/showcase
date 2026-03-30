@@ -13,6 +13,32 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-      - run: npm ci
-      - run: npm run check
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Static analysis
+        run: npm run check
+
+      - name: Build and pack
+        run: |
+          npm run build
+          npm pack
+
+      - name: Docs / Install dependencies
+        working-directory: ./docs
+        run: |
+          npm ci
+
+      - name: Docs / Use tarball
+        working-directory: ./docs
+        run: |
+          npm run preparing
+
+      - name: Docs / build
+        working-directory: ./docs
+        env:
+          NODE_ENV: development
+        run: |
+          npm run build
