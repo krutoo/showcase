@@ -1,3 +1,16 @@
+.search {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+  display: flex;
+}
+
+input.searchInput {
+  width: 0;
+  flex-grow: 1;
+}
+
 .menu {
   box-sizing: border-box;
   padding-top: 0.5rem;

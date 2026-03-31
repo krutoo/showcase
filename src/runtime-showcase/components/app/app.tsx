@@ -37,11 +37,11 @@ export function App(): ReactNode {
 
   return (
     <ColorSchemesContext.Provider value={colorSchemeContext}>
-      <Layout className={rootClassName} data-color-scheme={dataColorScheme}>
+      <Layout.Root className={rootClassName} data-color-scheme={dataColorScheme}>
         <Header />
         <Aside />
         <Main />
-      </Layout>
+      </Layout.Root>
       <Modals />
     </ColorSchemesContext.Provider>
   );

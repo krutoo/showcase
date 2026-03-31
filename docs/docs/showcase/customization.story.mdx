@@ -14,6 +14,9 @@ However, builtin component `ShowcaseApp` provides abilities to customization via
 
 Here is the list of css custom properties you can use to customize showcase UI. The name is pretty intuitive.
 
+<details>
+<summary>List of CSS variables</summary>
+
 ```
 --showcase-ui-background
 --showcase-ui-color
@@ -76,11 +79,81 @@ Here is the list of css custom properties you can use to customize showcase UI. 
 --showcase-ui-plate-header-background
 --showcase-ui-plate-header-border-radius
 --showcase-ui-plate-header-box-shadow
+
 ```
+
+</details>
 
 ## Component registry
 
-Coming soon...
+You can replace some parts of Showcase' default UI using "Component registry".
+
+Next example shows how to replace customize header adding some content inside it:
+
+```tsx
+import {
+  ComponentRegistryContext,
+  DefaultComponents,
+  Layout,
+  ShowcaseApp,
+} from '@krutoo/showcase/runtime-showcase';
+
+// first we define custom header component
+function CustomHeader() {
+  // we will use builtin components for logo and links
+  const { HeaderLogo, HeaderLinks } = useContext(ComponentRegistryContext);
+
+  return (
+    <Layout.Header>
+      <div>
+        <HeaderLogo />
+        <span>{import.meta.env.APP_VERSION ?? 'latest'}</span>
+      </div>
+      <HeaderLinks />
+    </Layout.Header>
+  );
+}
+
+// we define our custom components map
+const ShowcaseComponents = {
+  ...DefaultComponents,
+  Header: CustomHeader,
+};
+
+export function App() {
+  return (
+    // finally we need to provide components to ShowcaseApp
+    <ComponentRegistryContext value={ShowcaseComponents}>
+      <ShowcaseApp {/* ...your configuration */} />
+    </ComponentRegistryContext>
+  );
+}
+```
+
+**Builtin components** is components that used under the hood of `ShowcaseApp` trough registry.
+The purpose of these components is to render final showcase application.
+
+**Layout components** is plain UI components provided by package, it used by builtin components.
+The purpose of these components is just to render page layout.
+
+List of components that can be replaced by registry:
+
+- `Header` - header
+- `HeaderLogo` - logo in header
+- `HeaderLinks` - links in header
+- `Aside` - sidebar with menu
+- `Main` - main area of the page with story content
+- `Modals` - modals, currently only menu modal for mobile breakpoints
+
+How to use layout components:
+
+```jsx
+<Layout.Root>
+  <Layout.Header>{/* Header content */}</Layout.Header>
+  <Layout.Aside>{/* Aside content */}</Layout.Aside>
+  <Layout.Main>{/* Main content */}</Layout.Main>
+</Layout.Root>
+```
 
 ## Integrations
 

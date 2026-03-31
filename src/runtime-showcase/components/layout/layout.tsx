@@ -10,8 +10,10 @@ export interface AsideProps extends HTMLAttributes<HTMLElement> {}
 
 export interface MainProps extends HTMLAttributes<HTMLElement> {}
 
-export function Layout({ className, children, ...restProps }: LayoutProps): ReactNode {
-  const rootClassName = classNames(styles.layout, className);
+export function Root({ className, children, ...restProps }: LayoutProps): ReactNode {
+  // currently preset "fixed nav" is always enabled
+  // @todo ability to disable preset "fixed nav"
+  const rootClassName = classNames(styles.root, styles.presetFixedNav, className);
 
   return (
     <div data-kind='PageLayout' className={rootClassName} {...restProps}>
@@ -19,10 +21,6 @@ export function Layout({ className, children, ...restProps }: LayoutProps): Reac
     </div>
   );
 }
-
-Layout.Header = Header;
-Layout.Main = Main;
-Layout.Aside = Aside;
 
 export function Header({ className, children, ...restProps }: HeaderProps): ReactNode {
   const rootClassName = classNames(styles.header, className);
@@ -53,3 +51,11 @@ export function Main({ className, children, ...restProps }: MainProps): ReactNod
     </main>
   );
 }
+
+/** Set of UI components to define page layout. */
+export const Layout = {
+  Root,
+  Header,
+  Main,
+  Aside,
+};

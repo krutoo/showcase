@@ -80,7 +80,7 @@ export function MenuModal({ open, onClose }: MenuModalProps): ReactNode {
             onItemClick={(event, data) => {
               if (data.type === 'story' && !data.menuHidden) {
                 event.preventDefault();
-                navigate(data.story.pathname);
+                navigate(routing.getStoryShowcaseUrl(data.story));
                 onClose?.();
                 return;
               }

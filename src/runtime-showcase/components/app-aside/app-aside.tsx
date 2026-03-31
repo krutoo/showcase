@@ -1,12 +1,12 @@
 import { type ReactNode, useContext, useState } from 'react';
 import { useLocation, useMatchMedia, useNavigate } from '@krutoo/utils/react';
-import { ComponentRegistryContext } from '../../context/component-registry';
 import {
   ShowcaseContext,
   useCurrentStory,
   useMenuItems,
   useStorySearchResult,
 } from '../../context/showcase';
+import { Input } from '../input';
 import { Aside } from '../layout';
 import { Menu } from '../menu';
 import styles from './app-aside.m.css';
@@ -16,7 +16,6 @@ export function AppAside(): ReactNode {
   const navigate = useNavigate();
   const { config } = useContext(ShowcaseContext);
   const { routing } = config;
-  const { Search } = useContext(ComponentRegistryContext);
   const menuItems = useMenuItems();
   const mobile = useMatchMedia('(max-width: 960px)');
   const [search, setSearch] = useState('');
@@ -30,7 +29,17 @@ export function AppAside(): ReactNode {
 
   return (
     <Aside>
-      {config.search && <Search value={search} onValueChange={setSearch} />}
+      {Boolean(config.search) && (
+        <div className={styles.search}>
+          <Input
+            className={styles.searchInput}
+            type='search'
+            placeholder='Search...'
+            value={search}
+            onChange={event => setSearch(event.target.value)}
+          />
+        </div>
+      )}
 
       {search.length === 0 && (
         <div className={styles.menu}>
