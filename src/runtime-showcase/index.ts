@@ -7,13 +7,15 @@ export { type ShowcaseRouting, type StandaloneAppConfig as ShowcaseAppConfig } f
 // Color schemes
 export { type ColorSchemesContextValue, ColorSchemesContext } from './context/color-schemes';
 
-// Router
-export { type Router, type RouterLocation, BrowserRouter } from './shared/router';
+// page layout
+export { Layout } from './components/layout';
 
-// Navigation through router
-export { useLocation, useNavigate } from './shared/router-react';
+// Navigation (through router)
 export { type LinkProps, Link } from './components/link';
 
 // Routing (story to url, url to story, etc)
 export { RoutingContext } from './context/routing';
 export { type PathnameRoutingOptions, PathnameRouting, QueryRouting } from './utils/routing';
+
+// component registry
+export { ComponentRegistryContext, DefaultComponents } from './context/component-registry';

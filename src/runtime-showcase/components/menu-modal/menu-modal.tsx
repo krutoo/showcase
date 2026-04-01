@@ -1,7 +1,7 @@
 import { type ReactNode, useContext, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from '@krutoo/utils/react';
 import { ShowcaseContext, useMenuItems, useStorySearchResult } from '../../context/showcase';
 import { CrossSVG } from '../../icons';
-import { useLocation, useNavigate } from '../../shared/router-react';
 import { Input } from '../input';
 import { Menu, MenuItem, MenuItemTitle } from '../menu';
 import styles from './menu-modal.m.css';
@@ -80,7 +80,7 @@ export function MenuModal({ open, onClose }: MenuModalProps): ReactNode {
             onItemClick={(event, data) => {
               if (data.type === 'story' && !data.menuHidden) {
                 event.preventDefault();
-                navigate(data.story.pathname);
+                navigate(routing.getStoryShowcaseUrl(data.story));
                 onClose?.();
                 return;
               }

@@ -1,7 +1,10 @@
-import { forwardRef } from 'react';
+import { type ComponentType, type SVGProps, forwardRef } from 'react';
 import type { IconProps } from './types';
 
-export const CrossSVG = forwardRef<SVGSVGElement, IconProps>(function CrossSVG(props, ref) {
+export const CrossSVG: ComponentType<SVGProps<SVGSVGElement>> = forwardRef<
+  SVGSVGElement,
+  IconProps
+>(function CrossSVG(props, ref) {
   return (
     <svg ref={ref} width='24' height='24' viewBox='0 0 24 24' fill='currentColor' {...props}>
       <path d='M18.2929 4.29297C18.6834 3.90245 19.3164 3.90245 19.707 4.29297C20.0975 4.68349 20.0975 5.31651 19.707 5.70703L5.70696 19.707C5.31643 20.0976 4.68342 20.0976 4.29289 19.707C3.90237 19.3165 3.90237 18.6835 4.29289 18.293L18.2929 4.29297Z' />

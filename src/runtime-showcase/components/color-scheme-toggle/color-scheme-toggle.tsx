@@ -1,9 +1,9 @@
-import { useContext } from 'react';
+import { type ReactNode, useContext } from 'react';
 import { ColorSchemesContext } from '../../context/color-schemes';
 import { MoonSVG, SunSVG } from '../../icons';
 import styles from './color-scheme-toggle.m.css';
 
-export function ColorSchemeToggle() {
+export function ColorSchemeToggle(): ReactNode {
   const { colorScheme, onColorSchemeToggle } = useContext(ColorSchemesContext);
 
   const handleClick = () => {

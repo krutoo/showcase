@@ -1,4 +1,4 @@
-import { createHighlighterCore } from 'shiki/core';
+import { type HighlighterCore, createHighlighterCore } from 'shiki/core';
 import { createJavaScriptRegexEngine } from 'shiki/engine-javascript.mjs';
 import themeGitHubLight from 'shiki/themes/github-light.mjs';
 import themeOneDarkPro from 'shiki/themes/one-dark-pro.mjs';
@@ -14,7 +14,7 @@ const defaultThemes = {
   },
 };
 
-export function getHighlighterCore() {
+export function getHighlighterCore(): Promise<HighlighterCore> {
   return createHighlighterCore({
     engine: createJavaScriptRegexEngine(),
     langs: [

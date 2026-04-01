@@ -5,8 +5,8 @@
  * - routing by router from context if applicable.
  */
 import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from 'react';
+import { useNavigate } from '@krutoo/utils/react';
 import classNames from 'classnames';
-import { useNavigate } from '../../shared/router-react';
 import styles from './link.m.css';
 
 export interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {

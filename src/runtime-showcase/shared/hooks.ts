@@ -1,6 +1,7 @@
-import { useRef } from 'react';
+import { type EffectCallback, useEffect } from 'react';
+import { zeroDeps } from '@krutoo/utils/react';
 
-export function useInitial<T>(value: T): T {
-  const ref = useRef(value);
-  return ref.current;
+export function useMountEffect(effect: EffectCallback): void {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useEffect(effect, zeroDeps);
 }

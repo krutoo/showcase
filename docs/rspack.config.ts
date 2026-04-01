@@ -11,7 +11,7 @@ import dotenv from 'dotenv';
 import packageJson from './package.json' with { type: 'json' };
 
 if (process.env.NODE_ENV) {
-  dotenv.config({ path: `./.env.${process.env.NODE_ENV}` });
+  dotenv.config({ path: `./.env.${process.env.NODE_ENV}`, quiet: true });
 }
 
 await fs.rm('./dist', { recursive: true, force: true });
@@ -32,6 +32,7 @@ const config: Configuration[] = [
   {
     name: 'server',
     target: 'node',
+    mode: isProd ? 'production' : 'development',
     entry: {
       index: './src/server.tsx',
     },
@@ -86,6 +87,8 @@ const config: Configuration[] = [
   },
   {
     name: 'client',
+    target: 'web',
+    mode: isProd ? 'production' : 'development',
     dependencies: ['server'],
     entry: {
       showcase: './src/showcase.tsx',

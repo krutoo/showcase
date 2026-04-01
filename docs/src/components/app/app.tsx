@@ -1,18 +1,19 @@
 import { filterValidStories } from '@krutoo/showcase/runtime';
-import { PathnameRouting, type Router, ShowcaseApp } from '@krutoo/showcase/runtime-showcase';
+import { PathnameRouting, ShowcaseApp } from '@krutoo/showcase/runtime-showcase';
+import { type Router } from '@krutoo/utils/router';
 import { MDXProvider } from '@mdx-js/react';
 import { CodeBlock } from '#components/code-block/code-block';
 import foundStories from '#found-stories';
 import { withPublicPath } from '../../utils';
 import '@krutoo/showcase/showcase.css';
 
-const components = {
+const MdxComponents = {
   pre: CodeBlock,
 };
 
 export function App({ router }: { router?: Router }) {
   return (
-    <MDXProvider components={components}>
+    <MDXProvider components={MdxComponents}>
       <ShowcaseApp
         stories={filterValidStories(foundStories).validStories}
         title='@krutoo/showcase'
