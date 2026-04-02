@@ -139,11 +139,8 @@ Create sandbox entrypoint in your project, for example in `./src/sandbox.jsx`:
 
 ```jsx
 import { createRoot } from 'react-dom/client';
-// util for validate story-modules
 import { filterValidStories } from '@krutoo/showcase/runtime';
-// component for showing current story
 import { SandboxApp } from '@krutoo/showcase/runtime-sandbox';
-// "stories entrypoint" (trough alias provided by your bundler)
 import foundStories from '#found-stories';
 
 // render your current story to the root element
@@ -162,13 +159,9 @@ Create showcase entrypoint in your project, for example in `./src/showcase.jsx`:
 
 ```jsx
 import { createRoot } from 'react-dom/client';
-// util for validate found stories
 import { filterValidStories } from '@krutoo/showcase/runtime';
-// standalone component for showing documentation with all stories
 import { ShowcaseApp } from '@krutoo/showcase/runtime-showcase';
-// "stories entrypoint" (trough alias, more on that later)
 import foundStories from '#found-stories';
-// showcase app styles bundle
 import '@krutoo/showcase/showcase.css';
 
 // render documentation app wherever you want
