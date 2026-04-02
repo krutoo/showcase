@@ -78,7 +78,8 @@
 }
 
 .presetFixedNav .main {
-  margin-top: var(--showcase-ui-header-height, 64px);
+  /* IMPORTANT: padding-top instead margin-top because of height without scroll */
+  padding-top: var(--showcase-ui-header-height, 64px);
 }
 
 .presetFixedNav .aside + .main {
