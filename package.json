@@ -5,6 +5,10 @@
   "description": "Build tool agnostic Storybook alternative",
   "author": "Dmitry Petrov",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krutoo/showcase.git"
+  },
   "engines": {
     "node": ">=18"
   },
