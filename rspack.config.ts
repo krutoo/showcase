@@ -29,6 +29,7 @@ const config: Configuration = {
     path: path.resolve(import.meta.dirname, 'temp'),
     filename: '[name].js',
     clean: true,
+    module: true,
   },
   mode: 'development',
   devtool: false,
@@ -52,7 +53,6 @@ const config: Configuration = {
   ],
   experiments: {
     css: false,
-    outputModule: true,
   },
 };
 

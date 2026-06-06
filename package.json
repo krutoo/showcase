@@ -36,8 +36,9 @@
     "@eslint/compat": "^2.0.3",
     "@eslint/js": "^9.35.0",
     "@ls-lint/ls-lint": "^2.3.1",
-    "@rspack/cli": "^1.5.5",
-    "@rspack/core": "^1.5.5",
+    "@rspack/cli": "^2.0.6",
+    "@rspack/core": "^2.0.6",
+    "@rspack/dev-server": "^2.0.3",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/node": "^22.10.10",
     "@types/react": "^18.3.18",
@@ -59,7 +60,7 @@
     "zod": "^4.1.9"
   },
   "peerDependencies": {
-    "@krutoo/utils": "^0.0.36",
+    "@krutoo/utils": "^0.0.37",
     "react": "^18 || ^19",
     "react-dom": "^18 || ^19"
   },
