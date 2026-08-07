@@ -32,12 +32,20 @@ export function getMenuItems(stories: StoryModule[]): AnyMenuNode[] {
     type: 'story',
     title: story.meta?.title ?? story.metaJson?.title ?? story.pathname,
     category: story.meta?.category ?? story.metaJson?.category ?? '',
-    menuPriority: story.meta?.menuPriority,
-    menuHidden: story.meta?.menuHidden,
+    menuPriority: story.meta?.menuPriority ?? story.metaJson?.menuPriority,
+    menuHidden: story.meta?.menuHidden ?? story.metaJson?.menuHidden,
     story,
   }));
 
   return groupMenuNodes(nodes);
+}
+
+function compareMenuNodes(a: AnyMenuNode, b: AnyMenuNode): number {
+  if ((a.menuPriority ?? 0) !== (b.menuPriority ?? 0)) {
+    return comparePriorityDesc(a, b);
+  }
+
+  return compareCategoryDesc(a, b) || compareTitleDesc(a, b);
 }
 
 /**
@@ -45,10 +53,6 @@ export function getMenuItems(stories: StoryModule[]): AnyMenuNode[] {
  * @inheritdoc
  */
 function groupMenuNodes(nodes: AnyMenuNode[]): AnyMenuNode[] {
-  const compare = (a: AnyMenuNode, b: AnyMenuNode) => {
-    return comparePriorityDesc(a, b) || compareCategoryDesc(a, b) || compareTitleDesc(a, b);
-  };
-
   // рекурсивно применяем группировку узлов по полю category
   return nodes
     .reduce<AnyMenuNode[]>(groupStoriesByFirstSegment, [])
@@ -56,11 +60,11 @@ function groupMenuNodes(nodes: AnyMenuNode[]): AnyMenuNode[] {
       node.type === 'group'
         ? {
             ...node,
-            items: groupMenuNodes(node.items).sort(compare),
+            items: groupMenuNodes(node.items),
           }
         : node,
     )
-    .sort(compare);
+    .sort(compareMenuNodes);
 }
 
 /**
@@ -114,9 +118,14 @@ function groupStoriesByFirstSegment(state: AnyMenuNode[], node: AnyMenuNode): An
   }
 
   if (newNode.title === '') {
-    // если узел это "корень группы" - применяем его опции к группе
-    targetGroup.story = newNode.story;
-    targetGroup.menuPriority = newNode.menuPriority;
+    if (newNode.category) {
+      // если это "корень группы" но для вложенной группы - оставляем его для обработки далее рекурсией
+      targetGroup.items.push(newNode);
+    } else {
+      // если узел это "корень группы" - применяем его опции к группе
+      targetGroup.story = newNode.story;
+      targetGroup.menuPriority = newNode.menuPriority;
+    }
   } else if (!newNode.menuHidden) {
     // иначе просто добавляем его в группу если он не скрыт
     targetGroup.items.push(newNode);
