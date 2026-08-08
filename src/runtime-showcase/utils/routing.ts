@@ -3,7 +3,26 @@ import type { StoryModule } from '#core';
 import type { ShowcaseRouting } from '../types';
 
 export interface PathnameRoutingOptions {
+  /**
+   * Public path.
+   * Will be used for correct routing between showcase pages.
+   * By default public path is empty means your app is running on root path ("/").
+   */
   publicPath?: string;
+
+  /**
+   * Path that will be used for defining story sandbox URL.
+   * @default `./sandbox.html`
+   */
+  sandboxPathname?: string;
+}
+
+export interface QueryRoutingOptions {
+  /**
+   * Path that will be used for defining story sandbox URL.
+   * @default `./sandbox.html`
+   */
+  sandboxPathname?: string;
 }
 
 // @todo экспортировать из пакета?
@@ -27,10 +46,12 @@ function formatStoryPathname(path: string): string {
 }
 
 export class PathnameRouting implements ShowcaseRouting {
-  publicPath?: string;
+  protected publicPath?: string;
+  protected sandboxPathname: string;
 
-  constructor(options: PathnameRoutingOptions) {
+  constructor(options: PathnameRoutingOptions = {}) {
     this.publicPath = options.publicPath;
+    this.sandboxPathname = options.sandboxPathname ?? './sandbox.html';
   }
 
   getStoryPathname(location: RouterLocation): string {
@@ -54,7 +75,7 @@ export class PathnameRouting implements ShowcaseRouting {
   }
 
   getStorySandboxUrl(story: StoryModule): string {
-    const result = `./sandbox.html?path=${story.pathname}`;
+    const result = `${this.sandboxPathname}?path=${story.pathname}`;
 
     if (this.publicPath) {
       return addBasePath(this.publicPath, result);
@@ -65,6 +86,14 @@ export class PathnameRouting implements ShowcaseRouting {
 }
 
 export class QueryRouting implements ShowcaseRouting {
+  protected sandboxPathname: string;
+
+  // @todo вот тут добавить "./" раньше было без
+  // проверить и убедиться что все норм
+  constructor(options: QueryRoutingOptions = {}) {
+    this.sandboxPathname = options.sandboxPathname ?? './sandbox.html';
+  }
+
   getStoryPathname(location: RouterLocation): string | null {
     return new URLSearchParams(location.search).get('path');
   }
@@ -74,6 +103,6 @@ export class QueryRouting implements ShowcaseRouting {
   }
 
   getStorySandboxUrl(story: StoryModule): string {
-    return `sandbox.html?path=${story.pathname}`;
+    return `${this.sandboxPathname}?path=${story.pathname}`;
   }
 }

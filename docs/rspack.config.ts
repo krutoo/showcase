@@ -40,6 +40,7 @@ const config: Configuration[] = [
       path: path.resolve(import.meta.dirname, 'temp/server'),
       filename: '[name].js',
       publicPath: process.env.PUBLIC_PATH ?? '/',
+      module: true,
     },
     devtool: isProd ? false : undefined,
     externals: Object.fromEntries(
@@ -72,9 +73,6 @@ const config: Configuration[] = [
       utils.pluginImportMetaEnv(['PUBLIC_PATH', 'TEMPLATES_DIR']),
       utils.pluginExec({ script: 'node temp/server/index.js' }),
     ],
-    experiments: {
-      outputModule: true,
-    },
     devServer: {
       static: false,
       hot: false,
@@ -97,6 +95,7 @@ const config: Configuration[] = [
     output: {
       filename: isProd ? '[name].[contenthash].js' : '[name].js',
       publicPath: process.env.PUBLIC_PATH ?? '/',
+      module: true,
     },
     devtool: isProd ? false : undefined,
     resolve: {
@@ -139,9 +138,6 @@ const config: Configuration[] = [
         }),
       ),
     ],
-    experiments: {
-      outputModule: true,
-    },
   },
 ];
 

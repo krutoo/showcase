@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { filterValidStories } from '@krutoo/showcase/runtime';
-import { ShowcaseApp } from '@krutoo/showcase/runtime-showcase';
+import { QueryRouting, ShowcaseApp } from '@krutoo/showcase/runtime-showcase';
 import foundStories from '#found-stories';
 import './reset.css';
 import '@krutoo/showcase/showcase.css';
@@ -20,6 +20,10 @@ createRoot(document.querySelector('#root')!).render(
         href: 'https://github.com/krutoo/showcase/tree/main/examples/rspack',
       },
     ]}
-    defineStoryUrl={story => `sandbox/?path=${story.pathname}`}
+    routing={
+      new QueryRouting({
+        sandboxPathname: './sandbox/',
+      })
+    }
   />,
 );
