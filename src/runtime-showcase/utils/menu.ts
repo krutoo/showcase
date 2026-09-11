@@ -23,10 +23,13 @@ export interface GroupMenuNode extends MenuNode {
 export type AnyMenuNode = StoryMenuNode | GroupMenuNode;
 
 /**
- * Получив список story-модулей сформирует меню с группами по значениям в полях category.
+ * Having received a list of story modules, it will generate a menu with groups based on the values in the category fields.
  * @inheritdoc
  */
-export function getMenuItems(stories: StoryModule[]): AnyMenuNode[] {
+export function getMenuItems(
+  stories: StoryModule[],
+  { grouping = true }: { grouping?: boolean } = {},
+): AnyMenuNode[] {
   // создаем узел меню из объекта story
   const nodes = stories.map<StoryMenuNode>(story => ({
     type: 'story',
@@ -36,6 +39,10 @@ export function getMenuItems(stories: StoryModule[]): AnyMenuNode[] {
     menuHidden: story.meta?.menuHidden ?? story.metaJson?.menuHidden,
     story,
   }));
+
+  if (!grouping) {
+    return nodes;
+  }
 
   return groupMenuNodes(nodes);
 }
@@ -49,7 +56,7 @@ function compareMenuNodes(a: AnyMenuNode, b: AnyMenuNode): number {
 }
 
 /**
- * Получив список узлов меню сгруппирует их по значениям в полях category.
+ * Having received a list of menu nodes, it groups them by the values in the category fields.
  * @inheritdoc
  */
 function groupMenuNodes(nodes: AnyMenuNode[]): AnyMenuNode[] {
@@ -68,7 +75,7 @@ function groupMenuNodes(nodes: AnyMenuNode[]): AnyMenuNode[] {
 }
 
 /**
- * Reducer для группировки списка узлов меню.
+ * Reducer for grouping menu items by first segment of category (`<first>/<second>/<etc...>`).
  * @inheritdoc
  */
 function groupStoriesByFirstSegment(state: AnyMenuNode[], node: AnyMenuNode): AnyMenuNode[] {

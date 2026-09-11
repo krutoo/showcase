@@ -8,7 +8,6 @@ import {
 import * as utils from '@krutoo/utils/rspack';
 import type { Configuration } from '@rspack/core';
 import dotenv from 'dotenv';
-import packageJson from './package.json' with { type: 'json' };
 
 if (process.env.NODE_ENV) {
   dotenv.config({ path: `./.env.${process.env.NODE_ENV}`, quiet: true });
@@ -43,9 +42,10 @@ const config: Configuration[] = [
       module: true,
     },
     devtool: isProd ? false : undefined,
-    externals: Object.fromEntries(
-      Object.entries(packageJson.dependencies).map(([key]) => [key, key]),
-    ),
+    externals: utils.nodeExternals({
+      importType: 'module',
+      allow: [/css-loader/, /\.css$/],
+    }),
     externalsPresets: {
       node: true,
     },

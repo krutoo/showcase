@@ -1,14 +1,14 @@
-.mdx {
-  box-sizing: border-box;
-  flex-grow: 1;
-}
-
 .layout {
   width: var(--showcase-ui-mdx-layout-width, 1024px);
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
   padding: 2rem;
+}
+
+.mdx {
+  box-sizing: border-box;
+  flex-grow: 1;
 }
 
 .mdx * {

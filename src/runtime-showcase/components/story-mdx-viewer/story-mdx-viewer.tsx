@@ -7,18 +7,14 @@ export interface StoryMdxViewerProps {
 }
 
 export function StoryMdxViewer({ story }: StoryMdxViewerProps): ReactNode {
-  const fullscreen = story.isFullscreen();
   const Component = story.getComponent();
+  const fullscreen = story.isFullscreen();
 
   return (
     <div data-kind='MdxViewer' className={styles.mdx}>
-      {fullscreen && (
-        <>
-          <Component />
-        </>
-      )}
-
-      {!fullscreen && (
+      {fullscreen ? (
+        <Component />
+      ) : (
         <div className={styles.layout}>
           <Component />
         </div>

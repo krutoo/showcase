@@ -1,4 +1,5 @@
-import { type ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { type ReactNode, useMemo, useRef, useState } from 'react';
+import { useIsomorphicLayoutEffect } from '@krutoo/utils/react';
 import { type StoryModule } from '#core';
 import { StoryService } from '#runtime';
 
@@ -26,12 +27,12 @@ export function SandboxApp({
   const defineStoryPathnameRef = useRef(defineStoryPathname);
 
   // определяем pathname текущего story-модуля
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     setPathname(defineStoryPathnameRef.current());
   }, []);
 
   // меняем title страницы
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const storyTitle = currentStory?.getTitle();
 
     if (storyTitle) {
@@ -40,7 +41,7 @@ export function SandboxApp({
   }, [currentStory]);
 
   // применяем параметры фона
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const background = currentStory?.getDefaultBackground();
 
     if (typeof background === 'string') {
@@ -49,7 +50,7 @@ export function SandboxApp({
   }, [currentStory]);
 
   // применяем параметры раскладки
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const layout = currentStory?.getLayout();
 
     if (layout === 'padded') {
