@@ -83,11 +83,16 @@ export function useCurrentStory(): StoryService | undefined {
   }, [stories, location, routing]);
 }
 
-export function useMenuItems(): AnyMenuNode[] {
+/**
+ * Returns menu items for actual stories.
+ * @param options Options.
+ * @returns Menu items array.
+ */
+export function useMenuItems({ grouping = true }: { grouping?: boolean } = {}): AnyMenuNode[] {
   const { config } = useContext(ShowcaseContext);
   const { stories } = config;
 
-  return useMemo(() => getMenuItems(stories), [stories]);
+  return useMemo(() => getMenuItems(stories, { grouping }), [stories, grouping]);
 }
 
 export function useMainMenu(): [boolean, (open: boolean) => void] {

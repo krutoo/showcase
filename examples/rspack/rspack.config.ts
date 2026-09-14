@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { emitStoriesEntrypoint } from '@krutoo/showcase/build';
-import rspack from '@rspack/core';
+import rspack, { type Configuration } from '@rspack/core';
 
 const storiesEntrypoint = './.generated/found-stories.js';
 
@@ -16,6 +16,7 @@ export default {
   },
   output: {
     path: path.resolve(import.meta.dirname, 'dist'),
+    module: true,
   },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
@@ -106,10 +107,9 @@ export default {
   ],
   experiments: {
     css: false,
-    outputModule: true,
   },
   devServer: {
     hot: false,
     liveReload: true,
   },
-};
+} satisfies Configuration;

@@ -15,7 +15,16 @@ export { type LinkProps, Link } from './components/link';
 
 // Routing (story to url, url to story, etc)
 export { RoutingContext } from './context/routing';
-export { type PathnameRoutingOptions, PathnameRouting, QueryRouting } from './utils/routing';
+export {
+  type PathnameRoutingOptions,
+  type QueryRoutingOptions,
+  PathnameRouting,
+  QueryRouting,
+} from './utils/routing';
 
-// component registry
+// Component registry
 export { ComponentRegistryContext, DefaultComponents } from './context/component-registry';
+
+// Menu
+export { getMenuItems } from './utils/menu';
+export { useMenuItems } from './context/showcase';

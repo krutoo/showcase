@@ -1,4 +1,1 @@
-declare module '*.m.css' {
-  const styles: { [key: string]: string };
-  export default styles;
-}
+/// <reference types="@krutoo/utils/typings/css-modules" />
