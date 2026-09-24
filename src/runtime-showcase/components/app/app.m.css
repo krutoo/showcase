@@ -41,6 +41,10 @@
   --showcase-ui-menuitem-active-color: var(--showcase-ui-link-color);
   --showcase-ui-menuitem-active-background: #323842;
 
+  /* scrollbars */
+  --showcase-ui-scrollbar-thumb-color: #4b525c;
+  --showcase-ui-scrollbar-track-color: transparent;
+
   /* story */
   --showcase-ui-story-viewer-background: #191b20;
   --showcase-ui-plate-background: #1e2227;
