@@ -24,3 +24,15 @@ input.searchInput {
 .menu:first-child {
   padding-top: 1rem;
 }
+
+.scrollable, .scrollable:hover {
+  scrollbar-color: var(--showcase-ui-scrollbar-thumb-color, #00000032) var(--showcase-ui-scrollbar-track-color, transparent); 
+}
+
+.scrollable::-webkit-scrollbar-track {
+  background: var(--showcase-ui-scrollbar-track-color, transparent);
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: var(--showcase-ui-scrollbar-thumb-color, #00000032); 
+}

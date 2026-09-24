@@ -10,6 +10,7 @@ import { Input } from '../input';
 import { Aside } from '../layout';
 import { Menu } from '../menu';
 import styles from './app-aside.m.css';
+import classNames from 'classnames';
 
 export function AppAside(): ReactNode {
   const location = useLocation();
@@ -42,7 +43,7 @@ export function AppAside(): ReactNode {
       )}
 
       {search.length === 0 && (
-        <div className={styles.menu}>
+        <div className={classNames(styles.menu, styles.scrollable)}>
           <Menu
             items={menuItems}
             getTitle={data => data.title}

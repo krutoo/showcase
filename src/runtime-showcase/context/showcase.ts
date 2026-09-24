@@ -65,7 +65,7 @@ export function useStories(): StoryModule[] {
 }
 
 export function useCurrentStory(): StoryService | undefined {
-  const location = useLocation() as any;
+  const location = useLocation();
 
   const { config } = useContext(ShowcaseContext);
   const { stories, routing } = config;
