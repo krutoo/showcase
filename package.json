@@ -48,6 +48,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "prettier": "^3.4.2",
+    "shiki": "^4.5.0",
     "tsc-alias": "^1.8.10",
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.57.2"
@@ -56,13 +57,18 @@
     "chokidar": "^4.0.3",
     "classnames": "^2.5.1",
     "fast-glob": "^3.3.3",
-    "shiki": "^3.12.2",
     "zod": "^4.1.9"
   },
   "peerDependencies": {
     "@krutoo/utils": "^0.0.37",
     "react": "^18 || ^19",
-    "react-dom": "^18 || ^19"
+    "react-dom": "^18 || ^19",
+    "shiki": "^3.12.2 || ^4"
+  },
+  "peerDependenciesMeta": {
+    "shiki": {
+      "optional": true
+    }
   },
   "files": [
     "dist",
@@ -76,7 +82,9 @@
     "./runtime-sandbox": "./dist/runtime-sandbox/index.js",
     "./runtime-showcase": "./dist/runtime-showcase/index.js",
     "./runtime-showcase/styles.css": "./css/showcase.css",
-    "./showcase.css": "./css/showcase.css"
+    "./showcase.css": "./css/showcase.css",
+    "./integrations-shiki": "./dist/integrations/shiki/index.js",
+    "./integrations-shiki.css": "./css/integrations-shiki.css"
   },
   "sideEffects": [
     "*.css"

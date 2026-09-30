@@ -1,7 +1,7 @@
-import { type ReactNode, useEffect, useState } from 'react';
+import { type ReactNode, useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { type StoryModule } from '#core';
-import { CodeBlock } from '../code-block';
+import { ComponentRegistryContext } from '../../context/component-registry';
 import { Plate, PlateBody, PlateHeader } from '../plate';
 import styles from './story-sources.m.css';
 
@@ -11,8 +11,12 @@ export interface StorySourcesProps {
 }
 
 export function StorySources({ story, className }: StorySourcesProps): ReactNode {
+  const { CodeBlock } = useContext(ComponentRegistryContext);
+
   const [sourceIndex, setSourceIndex] = useState(-1);
   const [source, setSource] = useState(story.source);
+
+  const lang = sourceIndex === -1 ? story.ext : story.extraSources[sourceIndex]?.ext;
 
   useEffect(() => {
     setSource(story.source);
@@ -47,10 +51,7 @@ export function StorySources({ story, className }: StorySourcesProps): ReactNode
         </div>
       </PlateHeader>
       <PlateBody>
-        <CodeBlock
-          code={source}
-          lang={sourceIndex === -1 ? story.ext : story.extraSources[sourceIndex]?.ext}
-        />
+        <CodeBlock lang={lang}>{source}</CodeBlock>
       </PlateBody>
     </Plate>
   );

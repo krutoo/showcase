@@ -1,8 +1,9 @@
-import { type ComponentType, type Context, createContext } from 'react';
+import { type ComponentType, type Context, type ReactNode, createContext } from 'react';
 import { AppAside } from '../components/app-aside';
 import { AppHeader } from '../components/app-header';
 import { AppMain } from '../components/app-main';
 import { AppModals } from '../components/app-modals';
+import { CodeBlock } from '../components/code-block';
 import { HeaderLinks } from '../components/header-links';
 import { Logo } from '../components/logo';
 
@@ -13,6 +14,7 @@ export interface ShowcaseComponentMap {
   HeaderLogo: ComponentType;
   Main: ComponentType;
   Modals: ComponentType;
+  CodeBlock: ComponentType<{ lang?: string; children?: ReactNode }>;
 }
 
 export const DefaultComponents: ShowcaseComponentMap = {
@@ -22,6 +24,7 @@ export const DefaultComponents: ShowcaseComponentMap = {
   HeaderLogo: Logo,
   Main: AppMain,
   Modals: AppModals,
+  CodeBlock,
 };
 
 /**
