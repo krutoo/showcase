@@ -23,7 +23,8 @@ async function emitCssModuleExports(data: {
 
 const config: Configuration = {
   entry: {
-    bundle: './src/runtime-showcase/index.ts',
+    showcase: './src/runtime-showcase/index.ts',
+    'integrations-shiki': './src/integrations/shiki/index.ts',
   },
   output: {
     path: path.resolve(import.meta.dirname, 'temp'),
@@ -40,7 +41,7 @@ const config: Configuration = {
     utils.pluginTypeScript(),
     utils.pluginCSS({
       extract: {
-        filename: '../css/showcase.css',
+        filename: '../css/[name].css',
       },
       cssModules: {
         auto: /\.(module|m)\.css$/i,

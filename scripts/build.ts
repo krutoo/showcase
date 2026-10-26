@@ -6,6 +6,7 @@ const $ = promisify(exec);
 
 // clean
 await fs.rm('dist', { recursive: true, force: true });
+await fs.rm('css', { recursive: true, force: true });
 
 // compile ts
 await $('tsc -p tsconfig.build.json');
